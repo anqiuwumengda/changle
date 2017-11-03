@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>工作经营情况-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div id="jsix">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">客户性质：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="custTypeA">小微企业</span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label">所属行业：</label>
+					<div class="bs-sm-r">
+						<span class="form-control" id="SSHY"></span>
+						
+					</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">经营项目：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="businessProject"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">与下游客户的平均合作年限：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="cooperationYears"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">是否在固定日发放工资：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isWage"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">近三年实际控制人变更情况：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isPeopleChange"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">员工总数量：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="employeesNumber"name="employeesNumber"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="javascript:history.go(-1);">返回</button>
+	</div>
+</form>
+<script id="小微企业经营情况">
+var cust_id = getUrlParam("cust_id") || "";
+JYXM = $("#businessProject"), //经营项目
+SSHY = $("#SSHY"), //所属行业
+NCAY = $("#cooperationYears"), //与下游客户的平均合作年限
+GDRFGZ_FLAG = $("#isWage"), //是否在固定日发放工资
+ACT_JL_DESC = $("#isPeopleChange"), //近三年实际控制人变更情况
+EMPSUM = $("#employeesNumber");//员工总数量	
+function updata() {
+	var data1 = {
+		"CUST_ID" : cust_id
+	};
+	$.ajax({
+		type : "post",
+		url : baseurl + "custxwqy/query",
+		dataType : "json",
+		contentType : "application/json",
+		data : JSON.stringify(data1),
+		success : function(data) {
+			if (data.code == "00" && data.result != null&& data.result.length) {
+				var resultArr = data.result[0];
+				//console.log(resultArr);
+				//console.log(resultArr.JYXM)
+				JYXM.html(resultArr.JYXM);
+				NCAY.html(resultArr.NCAY);
+				GDRFGZ_FLAG.html(resultArr.GDRFGZ_FLAG);
+				ACT_JL_DESC.html(resultArr.ACT_JL_DESC);
+				EMPSUM.html(resultArr.EMPSUM);
+				SSHY.html(resultArr.SSHYC);
+			} else if (data.code == "88") {
+				eval(data.reLoad);
+			} else {
+				//alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},
+		error : function(data) {
+			alert("错误");
+		}
+	})
+}
+updata();
+</script>
+</body>
+</html>

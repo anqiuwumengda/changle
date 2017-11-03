@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户需求-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<style >
+	#BEIZHU{
+		height: auto;
+		width: 100%;
+		word-wrap: break-word;
+	}
+</style>
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">录入日期：</label>
+			<div class="bs-sm-r">
+				<span class="form-control" name="recordDate" id="CRT_DATE"></span>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">金融业务：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="BANK_CD" value="1"/>借记卡</label>
+				<label><input type="checkbox" id="DJ_DESC" value="1"/>贷记卡 </label>
+				<label><input type="checkbox" id="CK_DESC" value="1 "/>存款</label>
+				<label><input type="checkbox" id="LC_DESC" value="1 "/>理财</label>
+				<label><input type="checkbox" id="DZ_CD" value="1"/>电子银行</label>
+				<label><input type="checkbox" id="POS_DESC" value="1"/>POS机</label>
+				<label><input type="checkbox" id="WH_DESC" value="1"/>外汇</label>
+				<label><input type="checkbox" id="DFGZ_DESC" value="1"/>代发工资</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix" >
+		<div class="col-sm-6 clearfix bs-form-group" >
+			<label class="bs-sm-l control-label">智e购：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="SCYH_DESC" value="1"/>商城用户</label>
+				<label><input type="checkbox" id="SH_DESC" value="1"/>商户 </label>
+				<label><input type="checkbox" id="NZYH_DESC" value="1" ng-click="nongziClick()"/>农资用户</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">贷款需求额度（万元）：</label>
+			<div class="bs-sm-r">
+				<span class="form-control" name="loanAmount" id="XQED"></span>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">贷款用途：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="JF_DESC" value="1 "/>建房</label>
+				<label><input type="checkbox" id="ZZ_DESC" value="1"/>种植</label>
+				<label><input type="checkbox" id="yZ_DESC" value="1"/>养殖</label>
+				<label><input type="checkbox" id="JS_DESC" value="1"/>经商</label>
+				<label><input type="checkbox" id="GF_DESC" value="1"/>购房</label>
+				<label><input type="checkbox" id="GC_DESC" value="1"/>购车</label>
+				<label><input type="checkbox" id="ZX_DESC" value="1"/>装修</label>
+				<label><input type="checkbox" id="QT_DESC" value="1"/>其它消费</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">客户满意度：</label>
+			<div class="bs-sm-r">
+				<span class="form-control" name="iSatisfied" id="KHMYD"></span>
+			</div>
+		</div>
+	</div>
+	<!-- 增加备注栏 -->
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">备注：</label>
+			<div class="bs-sm-r">
+				<textarea id="BEIZHU"></textarea>
+			</div>
+		</div>
+		<!-- <div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">回访备注：</label>
+			<div class="bs-sm-r">
+				<textarea id="HUIFANGBEIZHU"></textarea>
+			</div>
+		</div> -->
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl()">返回</button>
+	</div>
+</form>
+<div class="col-xs-12">
+<table class="bs_table table_bg_blue">
+	<thead>
+		<tr>
+			<th width="130">录入日期</th>
+			<th>潜在需求</th>
+			<th>贷款需求额度（万元）</th>
+			<th>贷款用途</th>
+			<th>客户满意度</th>
+			<th width="70"></th>
+		</tr>
+	</thead>
+	<tbody id="tBody">		
+	</tbody>
+</table>
+</div>
+<div class="clearfix text-center tab-footer">
+	<button class="btn btn-md btn-danger" type="button" id="checkBFRecord" onclick="checkBFRecordFunc()">查看拜访记录</button>
+</div>
+<script>
+$("input[type=checkbox]").attr("disabled",true);
+$("textarea").attr("disabled",true);
+</script>
+<script id="客户需求">
+var cust_id=getUrlParam("cust_id")||"";
+var CRT_DATE=$("#CRT_DATE"),//录入日期
+	XQED=$("#XQED"),//需求额度
+	KHMYD=$("#KHMYD"),//客户满意度
+	BANK_CD=$("#BANK_CD"),//借记卡
+	DJ_DESC=$("#DJ_DESC"),//贷记卡
+	CK_DESC=$("#CK_DESC"),//存款
+	LC_DESC=$("#LC_DESC"),//理财
+	DZ_CD=$("#DZ_CD"),//电子银行
+	POS_DESC=$("#POS_DESC"),//POS机
+	WH_DESC=$("#WH_DESC"),//外汇
+	DFGZ_DESC=$("#DFGZ_DESC"),//代发工资
+	JF_DESC=$("#JF_DESC"),//建房
+	ZZ_DESC=$("#ZZ_DESC"),//种植
+	YZ_DESC=$("#YZ_DESC"),//养殖
+	JS_DESC=$("#JS_DESC"),//经商
+	GF_DESC=$("#GF_DESC"),//购房
+	GC_DESC=$("#GC_DESC"),//购车
+	ZX_DESC=$("#ZX_DESC"),//装修
+	QT_DESC=$("#QT_DESC"),//其他
+	SCYH_DESC=$("#SCYH_DESC"),//商城用户
+	SH_DESC=$("#SH_DESC"),//商户
+	NZYH_DESC=$("#NZYH_DESC"),//农资用户
+	BEIZHU = $("#BEIZHU");//备注
+var data0={
+			"CUST_ID":cust_id,
+			"STATE":"LR"
+	};
+$.ajax({
+	type:"post",
+	url:baseurl+"custfeedback/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var result=data.result[0];
+				CRT_DATE.html(result.CRT_DATE);
+				BANK_CD.prop('checked',result.BANK_CD=='1'?true:false);
+				DJ_DESC.prop('checked',result.DJ_DESC=='1'?true:false);
+				CK_DESC.prop('checked',result.CK_DESC=='1'?true:false);
+				LC_DESC.prop('checked',result.LC_DESC=='1'?true:false);
+				DZ_CD.prop('checked',result.DZ_CD=='1'?true:false);
+				POS_DESC.prop('checked',result.POS_DESC=='1'?true:false);
+				WH_DESC.prop('checked',result.WH_DESC=='1'?true:false);
+				DFGZ_DESC.prop('checked',result.DFGZ_DESC=='1'?true:false);
+				JF_DESC.prop('checked',result.JF_DESC=='1'?true:false);
+				ZZ_DESC.prop('checked',result.ZZ_DESC=='1'?true:false);
+				YZ_DESC.prop('checked',result.YZ_DESC=='1'?true:false);
+				JS_DESC.prop('checked',result.JS_DESC=='1'?true:false);
+				GF_DESC.prop('checked',result.GF_DESC=='1'?true:false);
+				GC_DESC.prop('checked',result.GC_DESC=='1'?true:false);
+				ZX_DESC.prop('checked',result.ZX_DESC=='1'?true:false);
+				QT_DESC.prop('checked',result.QT_DESC=='1'?true:false);
+				SCYH_DESC.prop('checked',result.SCYH_DESC=='1'?true:false);
+				SH_DESC.prop('checked',result.SH_DESC=='1'?true:false);
+				XQED.html(result.XQED);
+				KHMYD.html(result.KHMYDC);
+				BEIZHU.val(result.BEIZHU);
+			}
+		}else{
+			console.log(data.errMsg);
+		}
+	}
+});
+function xqList(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custfeedback/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var XQ = [];
+						var YT = [];						
+						if(result.BANK_CD==1)XQ.push('借记卡');
+						if(result.DJ_DESC==1)XQ.push('贷记卡');
+						if(result.CK_DESC==1)XQ.push('存款');
+						if(result.LC_DESC==1)XQ.push('理财');
+						if(result.DZ_CD==1)XQ.push('电子银行');
+						if(result.POS_DESC==1)XQ.push('POS机');
+						if(result.WH_DESC==1)XQ.push('外汇');
+						if(result.DFGZ_DESC==1)XQ.push('代发工资');
+						if(result.JF_DESC==1)YT.push('建房');
+						if(result.ZZ_DESC==1)YT.push('种植');
+						if(result.YZ_DESC==1)YT.push('养殖');
+						if(result.JS_DESC==1)YT.push('经商');
+						if(result.GF_DESC==1)YT.push('购房');
+						if(result.GC_DESC==1)YT.push('购车');
+						if(result.ZX_DESC==1)YT.push('装修');
+						if(result.QT_DESC==1)YT.push('其他');
+						html+='<tr>';
+						html+='<td>'+ result.CRT_DATE.replace(/-/g,'.') +'</td>';
+						html+='<td>'+ XQ.join('、') +'</td>';
+						html+='<td>'+ result.XQED +'</td>';
+						html+='<td>'+ YT.join('、') +'</td>';
+						html+='<td>'+ result.KHMYDC +'</td>';
+						html+='<td>';						
+						html+='<button class="btn btn-xs btn-danger" type="button" name="btnSee" zt='+ result.CRT_DATE +'><i class="glyphicon glyphicon-eye-open"></i>查看</button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tBody").html(html);
+				}else{
+					$("#tBody").html('');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})	
+}
+xqList();
+Io.on("[name='btnSee']", "click", function(){
+	var zt=$(this).attr("zt");
+	var data1={"CUST_ID":cust_id,"CRT_DATE":zt};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custfeedback/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				var result=data.result[0];
+				CRT_DATE.val(result.CRT_DATE.replace(/-/g,'/'));
+				BANK_CD.prop('checked',result.BANK_CD=='1'?true:false);
+				DJ_DESC.prop('checked',result.DJ_DESC=='1'?true:false);
+				CK_DESC.prop('checked',result.CK_DESC=='1'?true:false);
+				LC_DESC.prop('checked',result.LC_DESC=='1'?true:false);
+				DZ_CD.prop('checked',result.DZ_CD=='1'?true:false);
+				POS_DESC.prop('checked',result.POS_DESC=='1'?true:false);
+				WH_DESC.prop('checked',result.WH_DESC=='1'?true:false);
+				DFGZ_DESC.prop('checked',result.DFGZ_DESC=='1'?true:false);
+				JF_DESC.prop('checked',result.JF_DESC=='1'?true:false);
+				ZZ_DESC.prop('checked',result.ZZ_DESC=='1'?true:false);
+				YZ_DESC.prop('checked',result.YZ_DESC=='1'?true:false);
+				JS_DESC.prop('checked',result.JS_DESC=='1'?true:false);
+				GF_DESC.prop('checked',result.GF_DESC=='1'?true:false);
+				GC_DESC.prop('checked',result.GC_DESC=='1'?true:false);
+				ZX_DESC.prop('checked',result.ZX_DESC=='1'?true:false);
+				QT_DESC.prop('checked',result.QT_DESC=='1'?true:false);
+				XQED.html(result.XQED);
+				KHMYD.html(result.KHMYDC);	
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+});
+</script>
+<script >
+function checkBFRecordFunc(){
+	 location.href="khgl_bf_record.html?cust_id="+cust_id;
+}
+</script>
+</body>
+</html>

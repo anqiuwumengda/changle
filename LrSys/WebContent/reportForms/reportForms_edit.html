@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>修改报表模板</title>
+<script src="../pad/js/jquery.min.js"></script>
+<script src="../pad/js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../pad/js/myscript.js"></script>
+<link rel="stylesheet" href="../pad/css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../pad/css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix pt15">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 报表编号：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="BBID" disabled="disabled" />
+			</div>
+		</div>
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">报表类型：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" id="BBLX">
+					<option value="">--请选择--</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 报表名称：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="BBZWMC" />
+			</div>
+		</div>
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 报送频率：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="BSPL" maxLength="11" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 模板文件：</label>
+			<div class="bs-sm-r">
+				<button class="btn btn-md btn-primary" type="button" id="submitUP">　选择文件　</button>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">报表头可选标志：</label>
+			<div class="bs-sm-r checkbox">
+				<label><input type="checkbox" checked="checked" id="HASRPTHEAD"></label>
+			</div>
+		</div>
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">时间分段标志：</label>
+			<div class="bs-sm-r checkbox">
+				<label><input type="checkbox" id="DATEFLAG"></label>
+			</div>
+		</div>		
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">部门编号标志：</label>
+			<div class="bs-sm-r checkbox">
+				<label><input type="checkbox" id="DEPFLAG"></label>
+			</div>
+		</div>
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">客户经理标志：</label>
+			<div class="bs-sm-r checkbox">
+				<label><input type="checkbox" id="EMPFLAG"></label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"> 启用日期：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="STARTDATE" />
+			</div>
+		</div>
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"> 止用日期：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="ENDDATE" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"> 备　　注：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="BZ" />
+			</div>
+		</div>
+	</div>	
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" id="submitSave">保存</button>
+		<button class="btn btn-md btn-danger" type="button" id="btnBack">返回</button>
+	</div>
+	<p class="red text-center">（注：带 * 号的为必填项）</p>
+	<div class="clearfix"></div>
+</form>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<script src="../pad/js/plupload.full.min.js"></script>
+<script>
+var bID=getUrlParam("b");
+var BBID = $("#BBID"),
+	BBLX = $("#BBLX"),
+	BBZWMC = $("#BBZWMC"),
+	BSPL = $("#BSPL"),
+	HASRPTHEAD = $("#HASRPTHEAD"),
+	DEPFLAG = $("#DEPFLAG"),
+	DATEFLAG = $("#DATEFLAG"),
+	EMPFLAG = $("#EMPFLAG"),
+	STARTDATE = $("#STARTDATE"),BZ
+	ENDDATE = $("#ENDDATE"),
+	BZ = $("#BZ"),LJ="",WJM="";
+var data0 = {
+	"BBID":bID
+};
+$.ajax({
+	type:"post",
+	url:baseurl+"ReportManager/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var result=data.result[0];
+				BBID.val(result.BBID);
+				BBLX.val(result.BBLX);
+				BBZWMC.val(result.BBZWMC);
+				BSPL.val(result.BSPL);
+				STARTDATE.val(result.STARTDATE);
+				ENDDATE.val(result.ENDDATE);
+				BZ.val(result.BZ);
+				LJ=result.LJ;WJM=result.WJM;
+				HASRPTHEAD.prop('checked',result.HASRPTHEAD=='1'?true:false);
+				DEPFLAG.prop('checked',result.DEPFLAG=='1'?true:false);
+				DATEFLAG.prop('checked',result.DATEFLAG=='1'?true:false);
+				EMPFLAG.prop('checked',result.EMPFLAG=='1'?true:false);
+			}				
+		}else{
+			alert(data.errMsg);
+		}
+	}
+});
+Io.on("#btnBack","click",function(){
+	location.href="reportForms.jsp";
+});
+Io.on("#submitSave","click",function(){	
+	if(BBID.val()==""||BSPL.val()==""||BBZWMC.val()==""){
+		alert("带*的为必填项");
+		return false;
+	}
+	if(LJ==""||WJM==""){
+		alert("请上传模板文件");
+		return false;
+	}
+	if(STARTDATE.val()==""||ENDDATE.val()==""){
+		alert("请选择启止时间");
+		return false;
+	}
+	var data1={
+		"BBID":BBID.val(),
+		"BBLX":BBLX.val(),
+		"BBZWMC":BBZWMC.val(),
+		"BSPL":BSPL.val(),
+		"STARTDATE":STARTDATE.val(),
+		"ENDDATE":ENDDATE.val(),
+		"BZ":BZ.val(),
+		"LJ":LJ,
+		"WJM":WJM,
+		"HASRPTHEAD":HASRPTHEAD.is(':checked')?'1':'0',
+		"DEPFLAG":DEPFLAG.is(':checked')?'1':'0',
+		"DATEFLAG":DATEFLAG.is(':checked')?'1':'0',
+		"EMPFLAG":EMPFLAG.is(':checked')?'1':'0'
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"ReportManager/update",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){				
+				location.href="reportForms.jsp";
+			}else{
+				alert(data.errMsg);
+			}
+		}
+	});
+});
+/*上传*/
+var uploader = new plupload.Uploader({
+    runtimes: 'html5,flash,silverlight,html4',
+    browse_button: 'submitUP', 
+    url: baseurl+'ReportManager/upload',
+    flash_swf_url: '../js/Moxie.swf',
+    file_data_name: 'filedata',
+    silverlight_xap_url: '../js/Moxie.xap',
+    filters: {
+        max_file_size: '10mb',        
+    },
+    multi_selection: false, //多选对话框
+    init: {
+    	PostInit: function (up) {
+        	
+        },
+        FilesAdded: function (up, files) { 
+        	$("#loadgif").fadeIn(200);
+            uploader.start();            	
+        },
+        Error: function (up, err) {
+        	$("#loadgif").fadeOut(100);
+            alert("上传失败");
+        },
+        FileUploaded: function (uploader, file, responseObject) {
+        	$("#loadgif").fadeOut(100);
+            var json = $.parseJSON(responseObject.response);
+            if(json.code=="00"){            	
+            	WJM = json.FILENAME;
+            	LJ = json.path;            	
+            }
+        }
+    }
+});
+uploader.init();
+$("#STARTDATE,#ENDDATE").datepicker({format:"yyyymmdd"});
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.CustYjMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select JL.USER_ID,lrd_user.USER_NAME 'SQ_NAME',USER_ID_SQ,JL.USER_NAME 'JL_NAME',
+		cust_yj.CUST_ID,cust_base.CUST_NAME,STAT,cust_yj.CRT_DATE,cust_yj.UPD_DATE ,
+		cust_base.CUST_TYPE,cust_grade.JL_TYPE from cust_yj 
+		LEFT JOIN cust_base ON cust_base.CUST_ID=cust_yj.CUST_ID
+		LEFT JOIN lrd_user ON lrd_user.USER_ID=cust_yj.USER_ID_SQ
+		LEFT JOIN lrd_user JL ON JL.USER_ID=cust_yj.USER_ID
+		LEFT JOIN cust_grade ON cust_grade.CUST_ID=cust_yj.CUST_ID
+		<where>
+			<if test="USER_ID != null"> and cust_yj.USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="USER_ID_SQ != null"> and cust_yj.USER_ID_SQ=#{USER_ID_SQ,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null"> and cust_yj.CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="STAT != null"> and cust_yj.STAT=#{STAT,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryByStat" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT c.*,u.USER_NAME,o.ORG_NAME from cust_yj c
+		LEFT JOIN lrd_user u on c.USER_ID_SQ=u.USER_ID
+		LEFT JOIN lrd_org o on u.ORG_CD=o.ORG_CD 
+		<where>
+			<if test="CUST_ID != null"> and c.CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="STAT != null"> and c.STAT=#{STAT,jdbcType=VARCHAR}</if>
+			<if test="USER_ID_SQ != null"> and c.USER_ID_SQ=#{USER_ID_SQ,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and c.USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="CRT_DATE != null"> and c.CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryByStatNO" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT c.*,u.USER_NAME,o.ORG_NAME from cust_yj c
+		LEFT JOIN lrd_user u on c.USER_ID_SQ=u.USER_ID
+		LEFT JOIN lrd_org o on u.ORG_CD=o.ORG_CD where c.CUST_ID=#{CUST_ID,jdbcType=VARCHAR} and c.STAT=#{STAT,jdbcType=VARCHAR};
+		
+	</select>
+	
+	
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_yj
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null ">USER_ID,</if>
+			<if test="USER_ID_SQ != null ">USER_ID_SQ,</if>
+			<if test="CUST_ID != null ">CUST_ID,</if>
+			<if test="STAT != null ">STAT,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="UPD_DATE != null ">UPD_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="USER_ID_SQ != null">#{USER_ID_SQ,jdbcType=VARCHAR},</if>
+			<if test="CUST_ID != null">#{CUST_ID,jdbcType=VARCHAR},</if>
+			<if test="STAT != null">#{STAT,jdbcType=CHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="UPD_DATE != null">#{UPD_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_yj
+		<set>
+		
+			<if test="USER_ID_SQ != null ">USER_ID_SQ=#{USER_ID_SQ,jdbcType=VARCHAR},</if>
+			<if test="STAT != null ">STAT=#{STAT,jdbcType=CHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="UPD_DATE != null ">UPD_DATE=#{UPD_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=VARCHAR}
+	</update>
+	<update id="updateCustBaseGrpJl" parameterType="java.util.Map">
+		update cust_base
+		<set>
+			<if test="USER_ID != null ">CUST_GRP_JL=#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="UPD_DATE != null ">UPD_DATE=#{UPD_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where 
+		CUST_ID=#{CUST_ID,jdbcType=VARCHAR}
+	</update>
+<!-- 	<delete id="deleteByPk">delete from cust_yj where
+		USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from cust_yj
+		<where>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</delete> -->
+	
+	<update id="custYjByAllC" parameterType="java.util.Map">
+		update cust_base
+		<set>
+			<if test="JL_ID_YJ != null ">CUST_GRP_JL=#{JL_ID_YJ,jdbcType=VARCHAR},</if>
+		</set>
+		where 
+		CUST_GRP_JL=#{JL_ID,jdbcType=VARCHAR} and AREA_CD=#{AREA_CD,jdbcType=VARCHAR} and AREA_CD2=#{AREA_CD2,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="queryAreaByCustJl" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		<if test="id != null">
+			SELECT DISTINCT(lrd_dic.DIC_ID) id ,lrd_dic.DIC_NAME name,DIC_PARENTID pId,DIC_PARENTID sbid from cust_base,lrd_dic WHERE DIC_ID=AREA_CD2 AND CUST_GRP_JL=#{id,jdbcType=INTEGER}
+			union all
+			SELECT DISTINCT(lrd_dic.DIC_ID) id ,lrd_dic.DIC_NAME name,DIC_PARENTID pId,DIC_PARENTID sbid from cust_base,lrd_dic WHERE DIC_ID=AREA_CD  AND CUST_GRP_JL=#{id,jdbcType=INTEGER}
+		</if>
+	</select>
+</mapper>

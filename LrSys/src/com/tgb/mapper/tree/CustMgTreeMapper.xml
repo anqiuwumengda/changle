@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.tree.CustMgTreeMapper">
+	<select id="queryAreaByCustJl" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		<if test="id != null">
+			<!-- SELECT lrd_dic.DIC_ID 'id' ,lrd_dic.DIC_NAME 'name' FROM lrd_dic 
+				where lrd_dic.DIC_ID in (SELECT DISTINCT(lrd_dic.DIC_ID) from cust_base left 
+				JOIN lrd_dic on DIC_PARENTID=AREA_CD and DIC_ID=AREA_CD2 where CUST_GRP_JL=#{id,jdbcType=INTEGER}) -->
+			SELECT DISTINCT(lrd_dic.DIC_ID) id ,lrd_dic.DIC_NAME name from
+			cust_base
+			left JOIN lrd_dic on DIC_ID=AREA_CD2 where
+			cust_base.CUST_GRP_JL=#{id,jdbcType=INTEGER};
+		</if>
+	</select>
+
+	<select id="queryJL" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT lrd_user.USER_ID 'id',lrd_user.USER_NAME 'name' FROM `lrd_user`
+		where ORG_CD=#{id,jdbcType=INTEGER};
+	</select>
+
+	<select id="queryAllMenu" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT ORG_CD 'id',ORG_NAME 'name',ORG_PCD
+		'pId',ORG_RELA_TYPE
+		FROM lrd_org ;
+	</select>
+
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select cb.*,cg.JL_TYPE,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cs.CREALIMIT,cs.ED_LMT,cs.QQLIMIT from cust_base  cb
+		LEFT JOIN cust_grade  cg on cb.CUST_ID=cg.CUST_ID
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN scsp cs on cb.CUST_ID=cs.CUST_ID
+		<if test="BF != null and BF != ''">
+			LEFT JOIN cust_feedback cf on cb.CUST_ID = cf.CUST_ID 
+		</if>
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' ) 
+		<!-- <where> -->
+			<if test="ZH_ID != null and ZH_ID != ''"><![CDATA[ and  lrdu.ORG_CD = #{ZH_ID,jdbcType=INTEGER}]]></if>
+			<if test="JL_ID != null and JL_ID != ''"> <![CDATA[ and  cb.CUST_GRP_JL = #{JL_ID,jdbcType=INTEGER}]]></if>
+			<if test="C_ID != null and C_ID != ''"><![CDATA[ and AREA_CD2= #{C_ID,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_NAME != null and CUST_NAME != '' "><![CDATA[ and cb.cust_name = #{CUST_NAME,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL != null and CUST_GRP_JL != '' "><![CDATA[ and cb.cust_grp_jl = #{CUST_GRP_JL,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL1 != null and CUST_GRP_JL1 != '' "><![CDATA[ and cb.CUST_GRP_JL1 = #{CUST_GRP_JL1,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL2 != null and CUST_GRP_JL2 != '' "><![CDATA[ and cb.CUST_GRP_JL2 = #{CUST_GRP_JL2,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL3 != null and CUST_GRP_JL3 != ''"><![CDATA[ and cb.CUST_GRP_JL3 = #{CUST_GRP_JL3,jdbcType=VARCHAR}]]></if>
+			<if test="USER_NAME != null and USER_NAME != '' "><![CDATA[ and cb.user_name = #{USER_NAME,jdbcType=VARCHAR}]]></if>
+			<if test="TEL_NO != null and TEL_NO != '' "><![CDATA[ and cb.tel_no = #{TEL_NO,jdbcType=VARCHAR}]]></if>
+			<if test="TEL_NO_BY != null and TEL_NO_BY != '' "><![CDATA[ and cb.tel_no_by = #{TEL_NO_BY,jdbcType=VARCHAR}]]></if>
+			<if test="ID_NO != null and ID_NO != ''"><![CDATA[ and cb.id_no = #{ID_NO,jdbcType=VARCHAR}]]></if>
+			<if test="CRED_CODE != null and CRED_CODE != '' "><![CDATA[ and cb.cred_code = #{CRED_CODE,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_TYPE != null and CUST_TYPE != '' "><![CDATA[ and cb.CUST_TYPE = #{CUST_TYPE,jdbcType=VARCHAR}]]></if>
+			<if test="AREA_CD != null and AREA_CD != '' "><![CDATA[ and cb.AREA_CD = #{AREA_CD,jdbcType=VARCHAR}]]></if>
+			<if test="AREA_CD2 != null and AREA_CD2 != '' "><![CDATA[ and cb.AREA_CD2 = #{AREA_CD2,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP != null and CUST_GRP != ''"><![CDATA[ and cb.CUST_GRP = #{CUST_GRP,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP2 != null and CUST_GRP2 != '' "><![CDATA[ and cb.CUST_GRP2 = #{CUST_GRP2,jdbcType=VARCHAR}]]></if>
+			<if test="JL_TYPE != null and JL_TYPE!='' "><![CDATA[ and cg.JL_TYPE = #{JL_TYPE,jdbcType=VARCHAR}]]></if>
+			<if test="CREATE_TYPE != null and CREATE_TYPE!='' "><![CDATA[ and cb.CREATE_TYPE = #{CREATE_TYPE,jdbcType=VARCHAR}]]></if>
+			<if test="PJ_JB != null and PJ_JB !='' "><![CDATA[ and cs.PJ_JB = #{PJ_JB,jdbcType=VARCHAR}]]></if>
+			<if test="ED_LMT_START != null and ED_LMT_START !='' "><![CDATA[ and CONVERT(cs.ED_LMT,DECIMAL) >= #{ED_LMT_START,jdbcType=VARCHAR}]]></if>
+			<if test="ED_LMT_END != null and ED_LMT_END !='' "><![CDATA[ and CONVERT(cs.ED_LMT,DECIMAL) <= #{ED_LMT_END,jdbcType=VARCHAR}]]></if>
+			<if test="CRT_DATE_START != null and CRT_DATE_START !='' "><![CDATA[ and cb.CRT_DATE >= #{CRT_DATE_START,jdbcType=VARCHAR}]]></if>
+			<if test="CRT_DATE_END != null and CRT_DATE_END !='' "><![CDATA[ and cb.CRT_DATE <= #{CRT_DATE_END,jdbcType=VARCHAR}]]></if>
+			<if test="ORG_CD_SELECT != null and ORG_CD_SELECT != ''"><![CDATA[ and lrdu.ORG_CD = #{ORG_CD_SELECT,jdbcType=VARCHAR}]]></if>
+			<if test="USER_ID_SELECT != null and USER_ID_SELECT != ''"><![CDATA[ and cb.CUST_GRP_JL = #{USER_ID_SELECT,jdbcType=VARCHAR}]]></if>
+			<if test="BF_CRT_DATE_START != null and BF_CRT_DATE_START != ''"><![CDATA[  and cf.STATE = 'BF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='BF') and cf.CRT_DATE >= #{BF_CRT_DATE_START,jdbcType=VARCHAR}]]></if>
+			<if test="BF_CRT_DATE_END != null and BF_CRT_DATE_END != ''"><![CDATA[  and cf.STATE = 'BF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='BF') and cf.CRT_DATE <= #{BF_CRT_DATE_END,jdbcType=VARCHAR}]]></if>
+			
+			<if test="BF_COUNT != null and BF_COUNT != ''"><![CDATA[ and (select COUNT(*) from cust_feedback where cust_id=cb.cust_id and state='BF') = #{BF_COUNT,jdbcType=VARCHAR}]]></if>
+			<if test="ISHF != null and ISHF == '01'"><![CDATA[ and cf.state = 'hf' and cf.CRT_DATE = (select MAX(CRT_DATE) from cust_feedback where CUST_ID = cb.cust_id and state = 'hf') and (select COUNT(*) from cust_feedback where cust_id=cb.cust_id and state='HF') > #{HF_COUNT,jdbcType=VARCHAR}]]></if>
+			<if test="ISHF != null and ISHF == '02' "><![CDATA[ and cf.CRT_DATE = (select MAX(CRT_DATE) from cust_feedback where CUST_ID = cb.cust_id ) and (select COUNT(*) from cust_feedback where cust_id=cb.cust_id and state = 'hf') = #{HF_COUNT,jdbcType=VARCHAR}]]></if> 
+			<!-- 回访区间 -->
+			<if test="HF_DATE_START != null and HF_DATE_START != '' "><![CDATA[  and cf.STATE = 'HF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='HF') and cf.HF_DATE >= #{HF_DATE_START,jdbcType=VARCHAR}]]></if> 
+			<if test="HF_DATE_END != null and HF_DATE_END != '' "><![CDATA[  and cf.STATE = 'HF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='HF') and cf.HF_DATE <= #{HF_DATE_END,jdbcType=VARCHAR}]]></if> 
+			<!-- 回访结果 -->
+			<if test="HF_RESULT != null and HF_RESULT != '' "><![CDATA[ and cf.STATE = 'HF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='HF') and cf.HFRESULT = #{HF_RESULT,jdbcType=VARCHAR}]]></if>
+			<!-- 拜访次数为0，未拜访 -->
+			<if test="ISBF != null and ISBF == '0' "><![CDATA[ and (select COUNT(*) from cust_feedback where cust_id=cb.cust_id and state='BF') = #{ISBF,jdbcType=VARCHAR}]]></if>
+		<!-- </where> -->
+ 		<![CDATA[ order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+	</select>
+
+	<select id="queryByLike" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		<!-- select * from cust_base cb -->
+ 		<![CDATA[select cb.*,cg.JL_TYPE,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cs.CREALIMIT from cust_base  cb
+		LEFT JOIN cust_grade  cg on cb.CUST_ID=cg.CUST_ID 
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN scsp cs on cb.CUST_ID=cs.CUST_ID
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' )  
+		]]>
+		<!-- <where> -->
+			<if test="USER_ID != null"><![CDATA[ and  cb.CUST_GRP_JL = #{USER_ID,jdbcType=INTEGER}]]></if>
+			<if test="ZH_ID != null"><![CDATA[ and  lrdu.ORG_CD = #{ZH_ID,jdbcType=INTEGER}]]></if>
+			<if test="JL_ID != null"> <![CDATA[ and  cb.CUST_GRP_JL = #{JL_ID,jdbcType=INTEGER}]]></if>
+			<if test="C_ID != null "><![CDATA[ and AREA_CD2= #{C_ID,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_NAME!=null"> AND cb.CUST_NAME like CONCAT('%','${CUST_NAME}','%')
+			</if>
+			<if test="TEL_NO!=null"> AND cb.TEL_NO like CONCAT('%','${TEL_NO}','%' )  </if>
+			<if test="ID_NO!=null"> AND cb.ID_NO like CONCAT('%','${ID_NO}','%' )</if>
+			<!-- <if test="CUST_GRP_JL != null"><![CDATA[and cb.CUST_GRP_JL = #{CUST_GRP_JL,jdbcType=VARCHAR}]]></if> 
+				<if test="CUST_GRP_JL1 != null"><![CDATA[and cb.CUST_GRP_JL1 = #{CUST_GRP_JL1,jdbcType=VARCHAR}]]></if> 
+				<if test="CUST_GRP_JL2 != null"><![CDATA[and cb. CUST_GRP_JL2 = #{CUST_GRP_JL2,jdbcType=VARCHAR}]]></if> 
+				<if test="CUST_GRP_JL3 != null"><![CDATA[and cb.CUST_GRP_JL3 = #{CUST_GRP_JL3,jdbcType=VARCHAR}]]></if> -->
+		<!-- </where> -->
+ 		<![CDATA[ order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+	</select>
+	<select id="filterQuery" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select cb.*,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cf.XQED,cf.NZYH_DESC,cf.crt_date bf_date from cust_base  cb
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN cust_feedback cf on cb.CUST_ID = cf.CUST_ID 
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' ) 
+		<!-- <where> -->
+			<!-- OrgCD -->
+			<if test="ZH_ID != null and ZH_ID != ''"><![CDATA[ and  lrdu.ORG_CD = #{ZH_ID,jdbcType=INTEGER}]]></if>
+			<!-- User_id -->
+			<if test="JL_ID != null and JL_ID != ''"> <![CDATA[ and  cb.CUST_GRP_JL = #{JL_ID,jdbcType=INTEGER}]]></if>
+			<if test="XQED != null and XQED != ''"> <![CDATA[ and  cf.XQED is not null and cf.XQED != '' ]]></if>
+			<if test="SCYH_DESC != null and SCYH_DESC != ''"> <![CDATA[ and  cf.SCYH_DESC = #{SCYH_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="SH_DESC != null and SH_DESC != ''"> <![CDATA[ and  cf.SH_DESC = #{SH_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="NZYH_DESC != null and NZYH_DESC != ''"> <![CDATA[ and  cf.NZYH_DESC = #{NZYH_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="BANK_CD != null and BANK_CD != ''"> <![CDATA[ and  cf.BANK_CD = #{BANK_CD,jdbcType=VARCHAR}]]></if>
+			<if test="DJ_DESC != null and DJ_DESC != ''"> <![CDATA[ and  cf.DJ_DESC = #{DJ_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="CK_DESC != null and CK_DESC != ''"> <![CDATA[ and  cf.CK_DESC = #{CK_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="LC_DESC != null and LC_DESC != ''"> <![CDATA[ and  cf.LC_DESC = #{LC_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="DZ_CD != null and DZ_CD != ''"> <![CDATA[ and  cf.DZ_CD = #{DZ_CD,jdbcType=VARCHAR}]]></if>
+			<if test="POS_DESC != null and POS_DESC != ''"> <![CDATA[ and  cf.POS_DESC = #{POS_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="WH_DESC != null and WH_DESC != ''"> <![CDATA[ and  cf.WH_DESC = #{WH_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="DFGZ_DESC != null and DFGZ_DESC != ''"> <![CDATA[ and  cf.DFGZ_DESC = #{DFGZ_DESC,jdbcType=VARCHAR}]]></if>
+			<if test="TYPE != null and TYPE == 'LR' "> <![CDATA[ and cf.state = 'LR' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='LR') ]]></if>
+			<if test="TYPE != null and TYPE == 'BF' "> <![CDATA[ and cf.state = 'BF' and cf.CRT_DATE = (select MAX(crt_date) from cust_feedback where cust_id = cb.cust_id and state='BF') ]]></if>
+		<!-- </where> -->
+ 		<![CDATA[ order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+	</select>
+	
+	
+		
+	
+	 
+</mapper>

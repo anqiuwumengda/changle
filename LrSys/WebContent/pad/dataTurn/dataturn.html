@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>数据转移</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="white-bg mb50">
+<div class=" tab-header" style ="text-align:center;">
+	<button class="btn btn-info btn-sm ml10" type="button" id="loadData" style="padding:6px;">
+		<i class="glyphicon glyphicon-download-alt"></i> 数据转移
+	</button>
+	<div class="mt10">
+		<b class="red">*tip:此按钮下载sql文件，请谨慎操作。</b>
+	</div>
+	
+</div>
+<hr>
+<div class="tab-header text-center">
+	<div class="col-xs-3 col-md-4"></div>
+	<div class="input-group col-xs-4 col-md-3 pull-left mb0">
+		<input class="form-control" type="text" id="plDate">
+		<div class="input-group-btn">
+			<button class="btn btn-info" type="button" id="btnPL">审查审批批量</button>
+		</div>		
+	</div>	
+	<div class="col-xs-5 col-md-5 text-left"><button class="btn btn-danger" type="button" id="btnCL">日志清除</button></div>	
+	<!-- 
+	<button class="btn btn-info btn-sm ml10" type="button" id="btnAll" style="padding:6px;">
+		<i class="glyphicon glyphicon-calendar"></i> 审查审批全量
+	</button>	 
+	<button class="btn btn-info btn-sm ml10" type="button" id="btnInsert" style="padding:6px;">
+		<i class="glyphicon glyphicon-calendar"></i> 审查审批增量
+	</button>
+	<button class="btn btn-info btn-sm ml10" type="button" id="btnErr" style="padding:6px;">
+		<i class="glyphicon glyphicon-calendar"></i> 审查审批问题
+	</button>-->
+	<div class="mt10">
+		<b class="red">*tip:此行按钮为审查审批额度计算，请谨慎操作。</b>
+	</div>
+</div>
+<div class="table_wrapper">
+	<div class="pl15"><h4>审查审批操作记录</h4></div>
+	<table class="table table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th>批量日期</th>
+				<th>开始时间</th>
+				<th>结束时间</th>
+				<th>状　　态</th>
+			</tr>
+		</thead>
+		<tbody id="listbody">
+		</tbody>
+	</table>
+</div>
+	<ul class="pagination pagination-sm" id="pagination">
+	</ul>
+</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<script id="下载数据">
+Io.on("#loadData","click",function(){
+	Io.bs.alert("此按钮下载sql文件，请谨慎操作。",function(){
+		location.href=baseurl+"/batch/exportSql";
+	})
+});
+//审查审批批量
+$("#plDate").datepicker({format:"yyyymmdd"});
+Io.on("#btnPL","click",function(){
+	if($("#plDate").val()==""){
+		alert("请选择批量日期");
+		$("#plDate").focus();
+		return false;
+	}
+	var plDate = $("#plDate").val();
+	Io.bs.alert("审查审批批量额度计算",function(){		
+		var data1 = {"BATCH_DATE":plDate};
+		$.ajax({
+			beforeSend:function(){
+				$("#loadgif").fadeIn(200);
+			},
+			type:"post",
+			url:baseurl+"edjs/callbatchrule",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$("#loadgif").fadeOut();
+					pagerList(1,10)
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				$("#loadgif").fadeOut();
+				console.log("错误");
+			}
+		}) 
+	});
+})
+//清除日志
+Io.on("#btnCL","click",function(){
+	Io.bs.alert("确定要清除额度计算日志吗？",function(){		
+		$.ajax({
+			beforeSend:function(){
+				$("#loadgif").fadeIn(200);
+			},
+			type:"post",
+			url:baseurl+"edjs/clearLog",
+			dataType:"json",
+			contentType:"application/json",
+			success:function(data){
+				if(data.code=="00"){
+					$("#loadgif").fadeOut();
+					pagerList(1,10)
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				$("#loadgif").fadeOut();
+				console.log("错误");
+			}
+		}) 
+	});
+})
+//审查审批全量
+Io.on("#btnAll","click",function(){
+	Io.bs.alert("审查审批全量额度计算",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"edjs/callrule",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	});
+});
+//审查审批增量
+Io.on("#btnInsert","click",function(){
+	Io.bs.alert("审查审批增量额度计算",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	});
+});
+//审查审批问题
+Io.on("#btnErr","click",function(){
+	Io.bs.alert("审查审批问题额度计算",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	});
+});
+//列表
+function pagerList (currentPage,pageSize){
+	var data2 = {
+		"isPagination":"true",
+		"currentPage":currentPage,
+		"pageSize":pageSize
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"SCSP/queryBatch",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.code=="00"){
+					if(data.result!=null && data.result.length){
+						var resultArr=data.result;
+						var html="";
+						for(var i=0;i<resultArr.length;i++){
+							var result = resultArr[i];							
+							html+='<tr>';
+							html+='<td>' + result.BATCH_DATE + '</td>';
+							html+='<td>' + result.START_TIME + '</td>';
+							html+='<td>' + result.END_TIME + '</td>';
+							switch(result.STAT){
+							case "0":
+								html+='<td>运行中</td>';
+								break;
+							case "1":
+								html+='<td>失败</td>';
+								break;
+							case "2":
+								html+='<td>成功</td>';
+								break;
+							}
+							html+='</tr>';
+						}
+						$("#listbody").html(html);
+						$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+					}else{
+						$("#listbody").html('<tr><td align="center" height="200" colspan="4">暂时没有内容</td></tr>');
+					}
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+pagerList(1,10)
+</script>
+</body>
+</html>

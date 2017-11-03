@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>操作员修改</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/demo.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/common.js"></script>
+</head>
+<body class="pbody">
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">修改操作员</h3>
+		</div>
+		<form class="form-horizontal">
+			<div class="box-body pt-30">
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户编号:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="USER_ID" disabled/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">法人编号:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="CORP_CD" disabled/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户姓名:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="USER_NAME" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">所属机构:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="ORG_NAME" disabled/>
+						<span id="ssjg" class="form-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户角色:</label>
+					<div class="col-md-6">
+						<textarea class="form-control"  id="ROLE_NAME" style="max-width:100%;" disabled></textarea>
+						<span id="yhjs" class="form-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>				
+				
+			</div>
+			<div class="clearfix text-center btn-footr">
+				<button id="btnSave" class="btn btn-danger" type="button">保存</button>
+				<button id="btnBack" class="btn btn-primary" type="button">返回</button>
+			</div>
+		</form>
+	</div>
+	<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >所属机构</h5>
+			</div>
+			<div class="">
+				<ul id="tree1" class="ztree"></ul>
+			</div>
+				
+			<div class="modal-footer">
+			 	<button class="btn btn-default" id="btnSure0">选择带回</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModa2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >用户角色</h5>
+			</div>
+			<div>
+				<table class="table table-bordered table-hover no-margin">
+				<thead>
+					<tr>
+						<th><input type="checkbox"/></th>
+						<th>序号</th>
+						<th>角色代码</th>
+						<th>角色名称</th>
+						<th>角色说明</th>
+					</tr>
+				</thead>
+				<tbody id="tree2">
+				</tbody>
+				</table>
+			</div>
+				
+			<div class="modal-footer">
+			 	<button class="btn btn-default" id="btnSure">选择带回</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var uid =getUrlParam("s")||"";
+$("#ssjg").on("click",function(){
+	$("#myModal1").modal({
+		backdrop:false
+	});
+})
+$("#yhjs").on("click",function(){
+	$("#myModa2").modal({
+		backdrop:false
+	});
+})
+var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			beforeClick: function(treeId, treeNode) {
+				
+			}
+		}
+	};
+var CORP_CD = $("#CORP_CD"),
+USER_NAME = $("#USER_NAME"),
+USER_ID=$("#USER_ID"),
+ORG_NAME = $("#ORG_NAME"),
+ROLE_NAME = $("#ROLE_NAME");
+
+
+var data0 = {
+				"USER_ID":uid,
+				"ORG_RELA_TYPE":"00"
+			};
+
+$.ajax({
+	type:"post",
+	url:baseurl+"lrduser/queryupdate",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			var roleNameArr="",roleIds="",userRole=data.result.userRole;
+			if(userRole&&userRole.length){
+				for(var j=0;j<userRole.length;j++){
+					roleNameArr+=userRole[j].ROLE_NAME+",";
+					roleIds+=userRole[j].ROLE_ID+",";
+				}
+			}
+			var result=data.result.result[0];
+			CORP_CD.val(result.CORP_CD);
+			USER_NAME.val(result.USER_NAME);
+			ORG_NAME.val(data.result.userOrg.ORG_NAME);
+			USER_ID.val(result.USER_ID);
+			ROLE_NAME.val(roleNameArr).attr("role_id",roleIds);
+			var ORG=data.result.ORG;
+			var ROLE=data.result.ROLE;
+			$.fn.zTree.init($("#tree1"), setting, ORG);
+			var html="";
+			for(var i=0;i<ROLE.length;i++){
+				var result = ROLE[i];
+				html+='<tr>';
+				html+='<td><input type="checkbox" name="checkBox" role_id="'+result.ROLE_CD+'" role_name="'+result.name+'"/></td>';
+				html+='<td class="text-center">' + (i+1)+ '</td>';						
+				html+='<td>' + result.ROLE_CD + '</td>';						
+				html+='<td>' + result.name + '</td>';
+				html+='<td>' + result.DESC + '</td>';
+				html+='</tr>';
+			}
+			$("#tree2").html(html);
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		console.log("错误");
+	}
+})
+
+Io.on("#btnSave","click",function(){
+	var data0 = {
+		"CORP_CD":CORP_CD.val(),
+		"USER_NAME":USER_NAME.val(),
+		"ORG_CD":ORG_NAME.attr("org_id"),
+		"USER_ID":USER_ID.val(),
+		//"ROLE_NAME":ROLE_NAME.val(),
+		"role_id":ROLE_NAME.attr("role_id")
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"lrduser/update",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功")
+				CORP_CD.val("");
+				USER_NAME.val("");
+				ORG_NAME.val();
+				ROLE_NAME.val("");
+				location.href="./operator.jsp";
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+});
+Io.on("#btnBack","click",function(){
+	location.href="./operator.jsp";
+});
+Io.on("#btnSure","click",function(){
+	var checkboxs=$("[name=checkBox]:checked");
+	var roleStr="",roleNameStr="";
+	if(checkboxs.size()>0){
+		if(checkboxs.size()==1){
+			roleStr=checkboxs.attr("role_id");
+			roleNameStr=checkboxs.attr("role_name");
+			}else{
+				for(var i=0;i<checkboxs.size();i++){
+					if(i==checkboxs.size()-1){
+						roleStr+=checkboxs.eq(i).attr("role_id");
+						roleNameStr+=checkboxs.eq(i).attr("role_name");
+					}else{
+						roleStr+=checkboxs.eq(i).attr("role_id")+",";
+						roleNameStr+=checkboxs.eq(i).attr("role_name")+",";
+					}
+				}
+			}
+		
+		$("#ROLE_NAME").val(roleNameStr).attr("role_id",roleStr);
+		$("#myModa2").modal("hide");
+	}
+});
+Io.on("#btnSure0","click",function(){
+	var treeObj = $.fn.zTree.getZTreeObj("tree1");
+	var nodes = treeObj.getSelectedNodes();
+	if(nodes.length>0){
+		var nodesArr="";
+		for(var i=0;i<nodes.length;i++){
+			nodesArr=nodes[0].name;
+			nodesIds=nodes[0].id;
+		}
+		$("#ORG_NAME").val(nodesArr).attr("org_id",nodesIds);
+	}
+	$("#myModal1").modal("hide");
+});
+</script>
+</body>
+</html>

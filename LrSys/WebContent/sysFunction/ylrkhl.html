@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>已录入客户量</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../pad/js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../pad/css/pages.css">
+<style type="text/css">
+th{
+	font-size:15px; 
+	color:black;
+	background-color::#d1e9e9;
+	text-align:center;
+	height:5px;
+	width:30px;
+}
+td {
+	height: 40px;
+	font-size: 5px;
+	text-align:center;
+}
+</style>
+
+</head>
+<body>
+	<div class="bootstrap-admin-panel-content" style="text_align:center;margin-bottom: 20px" >
+		<div align = "center" style = "font-size:25px">已录入客户量</div>
+		<table style="width:95%;margin:0 auto; padding-top:20px" >
+			<tr >
+				
+				<td style="float: left">客户数据更新日期区间：<input type="text" id="CRT_DATE_START"  value=""
+				/>  <input type="text" id="CRT_DATE_END"  value=""/></td>
+				<td style="float: left;padding-left:10px;">
+					<button  type="button" id="OK" style="width: 60px" onclick="onClick()">OK</button>
+				</td>
+				<td style="float: right">单位：户</td>
+			</tr>
+		</table> 
+		<table style="width:95%;margin:0 auto" border="1" class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr >
+					<th rowspan="2" width="40">所属支行</th>
+					<th rowspan="2" width="40">客户经理</th>
+					<th rowspan="2" >预客户</th>
+					<th rowspan="2" >正式客户</th>
+					<th rowspan="2" >批量采集客户</th>
+					<th rowspan="1" colspan="10">按经营项目划分</th>
+					<th rowspan="1" colspan="3">按客户性质划分</th>
+				</tr>
+				<tr >
+					<th >种植蔬菜</th>
+					<th >种植其他</th>
+					<th >养殖猪</th>
+					<th >养殖其他</th>
+					<th >职工</th>
+					<th >制造</th>
+					<th >运输</th>
+					<th >批发零售</th>
+					<th >餐饮住宿</th>
+					<th >其他行业</th>
+					<th width="50px">白领客户</th>
+					<th width="50px">农户及其他</th>
+					<th width="50px">个体工商户</th>
+					
+				</tr>
+				</thead>
+			<tbody id="table" >	
+			</tbody>
+		
+		</table>
+		<div id="loadgif" class="none" style="">
+			<img alt="加载中..." src="../img/loading.gif" width="32" height="32">
+		</div>
+	</div>
+	<script type = "text/javascript">
+		var dateStart = $("#CRT_DATE_START");
+		var dateEnd = $("#CRT_DATE_END");
+		$(function(){
+			 
+			//初始化时间控件
+			$("#CRT_DATE_START").datepicker("update",newDate);
+			$("#CRT_DATE_END").datepicker("update",newDate);
+			
+			$.ajax({
+				beforeSend : function(){
+					$("#loadgif").fadeIn(200);
+				},
+				type : "POST",
+				url:baseurl+"statistic/inputedSum",
+				dataType : "json",
+				 /* contentType : "application/json", 
+				 data : JSON.stringify(data0),  */
+				  
+				success : function(data){
+					//alert(JSON.stringify(data));
+					if(data != null){
+						$("#loadgif").fadeOut(200);
+						var html = $("#table").html();
+						//alert(JSON.stringify(data[0]));
+						for(var i = 0;i < data.length ;i ++){
+							html += '<tr >';
+							html += '<td style="font-size:15px">' + data[i].ORG_NAME + '</td>';//所属支行
+							html += '<td style="font-size:15px;text_align:left;">' + data[i].KHJL + '</td>';//客户经理
+							html += '<td>' + data[i].YKH + '</td>';//预客户
+							html += '<td>' + data[i].ZSKH + '</td>';//正式客户
+							html += '<td>' + data[i].PLCJ + '</td>';//批量采集客户
+							html += '<td>' + data[i].ZZSC + '</td>';//种植蔬菜
+							html += '<td>' + data[i].ZZQT + '</td>';//种植其他
+							html += '<td>' + data[i].YZZ + '</td>';//养殖猪
+							html += '<td>' + data[i].YZQT + '</td>';//养殖其他
+							html += '<td>' + data[i].ZG + '</td>';//职工
+							html += '<td>' + data[i].ZZY + '</td>';//制造
+							html += '<td>' + data[i].YSY + '</td>';//运输
+							html += '<td>' + data[i].PFLSY + '</td>';//批发零售
+							html += '<td>' + data[i].CYJZSY + '</td>';//餐饮住宿
+							html += '<td>' + data[i].QTHY + '</td>';//其他行业
+							html += '<td>' + data[i].BLKH + '</td>';//白领客户
+							html += '<td>' + data[i].NHJQT + '</td>';//农户及其他
+							html += '<td>' + data[i].GTGS + '</td>';//个体工商户
+							html += '</tr>';
+						}
+						
+						$("#table").html(html);
+					}
+				},
+				error : function(){
+					alert("请求失败");
+				}
+			}); 
+		});
+		function onClick(){
+			var data0 = {
+					"MTN_DATE_START":dateStart.val().replace(/\//g,''),
+					"MTN_DATE_END":dateEnd.val().replace(/\//g,'')
+			};
+			$.ajax({
+				beforeSend : function(){
+					$("#loadgif").fadeIn(200);
+				},
+				type : "POST",
+				url:baseurl+"statistic/inputedSumNew",
+				dataType : "json",
+				 contentType : "application/json", 
+				 data : JSON.stringify(data0), 
+				
+				success : function(data){
+					if(data != null){
+						$("#loadgif").fadeOut(200); 
+						$("#table").html('');
+						//alert(JSON.stringify(data[0]));
+						var htmlNew = $("#table").html();
+						for(var i = 0;i < data.length ;i ++){
+							htmlNew += '<tr >';
+							htmlNew += '<td style="font-size:15px">' + data[i].ORG_NAME + '</td>';//所属支行
+							htmlNew += '<td style="font-size:15px;text_align:left;">' + data[i].KHJL + '</td>';//客户经理
+							htmlNew += '<td>' + data[i].YKH + '</td>';//预客户
+							htmlNew += '<td>' + data[i].ZSKH + '</td>';//正式客户
+							htmlNew += '<td>' + data[i].PLCJ + '</td>';//批量采集客户
+							htmlNew += '<td>' + data[i].ZZSC + '</td>';//种植蔬菜
+							htmlNew += '<td>' + data[i].ZZQT + '</td>';//种植其他 
+							htmlNew += '<td>' + data[i].YZZ + '</td>';//养殖猪
+							htmlNew += '<td>' + data[i].YZQT + '</td>';//养殖其他
+							htmlNew += '<td>' + data[i].ZG + '</td>';//职工
+							htmlNew += '<td>' + data[i].ZZY + '</td>';//制造
+							htmlNew += '<td>' + data[i].YSY + '</td>';//运输
+							htmlNew += '<td>' + data[i].PFLSY + '</td>';//批发零售
+							htmlNew += '<td>' + data[i].CYJZSY + '</td>';//餐饮住宿
+							htmlNew += '<td>' + data[i].QTHY + '</td>';//其他行业
+							htmlNew += '<td>' + data[i].BLKH + '</td>';//白领客户
+							htmlNew += '<td>' + data[i].NHJQT + '</td>';//农户及其他
+							htmlNew += '<td>' + data[i].GTGS + '</td>';//个体工商户
+							htmlNew += '</tr>';
+						}
+						
+						$("#table").html(htmlNew);
+					}
+				},
+				error : function(){
+					alert("请求失败");
+				}
+			}); 
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdFunctionMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		FUNC_CD,SYS_CD,FUNC_NAME,FUNC_TYPE,FUNC_PCD,FUNC_URL,FUNC_NUM,CRT_DATE,MTN_DATE
+		from lrd_function
+		<where>
+			<if test="FUNC_CD != null"> and FUNC_CD=#{FUNC_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_function
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="FUNC_CD != null ">FUNC_CD,</if>
+			<if test="SYS_CD != null ">SYS_CD,</if>
+			<if test="FUNC_NAME != null ">FUNC_NAME,</if>
+			<if test="FUNC_TYPE != null ">FUNC_TYPE,</if>
+			<if test="FUNC_PCD != null ">FUNC_PCD,</if>
+			<if test="FUNC_URL != null ">FUNC_URL,</if>
+			<if test="FUNC_NUM != null and FUNC_NUM!='' ">FUNC_NUM,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="FUNC_CD != null">#{FUNC_CD,jdbcType=VARCHAR},</if>
+			<if test="SYS_CD != null">#{SYS_CD,jdbcType=VARCHAR},</if>
+			<if test="FUNC_NAME != null">#{FUNC_NAME,jdbcType=VARCHAR},</if>
+			<if test="FUNC_TYPE != null">#{FUNC_TYPE,jdbcType=CHAR},</if>
+			<if test="FUNC_PCD != null">#{FUNC_PCD,jdbcType=VARCHAR},</if>
+			<if test="FUNC_URL != null">#{FUNC_URL,jdbcType=VARCHAR},</if>
+			<if test="FUNC_NUM != null and FUNC_NUM!=''">#{FUNC_NUM,jdbcType=INTEGER},
+			</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_function
+		<set>
+			<if test="SYS_CD != null ">SYS_CD=#{SYS_CD,jdbcType=VARCHAR},</if>
+			<if test="FUNC_NAME != null ">FUNC_NAME=#{FUNC_NAME,jdbcType=VARCHAR},</if>
+			<if test="FUNC_TYPE != null ">FUNC_TYPE=#{FUNC_TYPE,jdbcType=CHAR},</if>
+			<if test="FUNC_PCD != null ">FUNC_PCD=#{FUNC_PCD,jdbcType=VARCHAR},</if>
+			<if test="FUNC_URL != null ">FUNC_URL=#{FUNC_URL,jdbcType=VARCHAR},</if>
+			<if test="FUNC_NUM != null and FUNC_NUM!='' ">FUNC_NUM=#{FUNC_NUM,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where FUNC_CD=#{FUNC_CD,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_function where
+		FUNC_CD=#{FUNC_CD,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_function
+		<where>
+			<if test="FUNC_CD != null"> and FUNC_CD=#{FUNC_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+	<select id="queryByPK" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		FUNC_CD,FUNC_NAME
+		from lrd_function
+		<where>
+			<if test="SYS_CD != null"> and SYS_CD=#{SYS_CD,jdbcType=VARCHAR}</if>
+			<if test="FUNC_PCD != null"> and FUNC_PCD=#{FUNC_PCD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryTree" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT FUNC_CD 'id',FUNC_PCD 'pId',FUNC_NAME 'name' 
+		FROM `lrd_function` 
+		<where>
+			<if test="SYS_CD!=''"> and SYS_CD=#{SYS_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户管理——批量移交</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<script src="../../js/jquery.ztree.excheck-3.5.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="col-xs-4 no-padding">
+	<div class="box" id="left" style="overflow-y:auto;">		
+		<div class="box-body">
+			<ul id="tree" class="ztree"></ul>
+		</div>
+	</div>
+</div>
+<div class="col-xs-4 no-padding" id="center" style="display:none">
+	<table width="100%">
+		<tbody>
+			<tr>
+				<td width="20%" class="text-center"><span id="Cl" class="glyphicon glyphicon-share-alt" style="font-size:40px;"></span></td>
+				<td>
+				<div class="box box-solid" id="CC" style="overflow-y:auto;">		
+					<div class="box-body">
+						<ul id="tree1" class="ztree"></ul>
+					</div>
+				</div>
+				</td>
+				<td width="20%" class="text-center"><span id="Cr" class="glyphicon glyphicon-random" style="font-size:40px;display:none"></span></td>
+			</tr>
+		</tbody>		
+	</table>	
+</div>
+<div class="col-xs-4 no-padding" id="right" style="display:none">
+	<div class="box" id="rcen" style="overflow-y:auto;">		
+		<div class="box-body">
+			<ul id="tree3" class="ztree"></ul>
+		</div>
+	</div>
+</div>
+<script>
+var JSONdata={"JL_ID":"","ZT":[],"JL_ID_YJ":""};
+var setting = {//left
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree");
+			if (treeNode.isParent) {
+				zTree.expandNode(treeNode);
+				return false;
+			} else {
+				center(treeNode.id);
+				JSONdata.JL_ID = treeNode.id;
+				return true;
+			}		
+		}
+	}
+};
+var setting1 = {//center
+	view: {
+		selectedMulti: true
+	},
+	check: {
+		enable: true
+	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree1");
+			if(treeNode.isParent){
+				zTree.expandNode(treeNode);
+				return false;
+			}else if(treeNode.checked){
+				zTree.checkNode(treeNode, false);
+			}else{
+				console.log(treeNode.JL_ID);
+				console.log(treeNode.id);
+				zTree.checkNode(treeNode, true);
+			}
+			if($("#Cr").is(":visible")){
+				return;
+			}else{
+				$("#Cr").show();
+				$("#right").show();				
+			}
+			return false;
+		},
+		onCheck: function(){
+			if($("#Cr").is(":visible")){
+				return;
+			}else{
+				$("#Cr").show();
+				$("#right").show();				
+			}
+		}
+	}
+};
+var setting2 = {//right
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree3");
+			if (treeNode.isParent) {
+				zTree.expandNode(treeNode);
+				return false;
+			} else {
+				
+				if(treeNode.JL_ID){
+					right(treeNode.id,treeNode.name);
+					//JSONdata.jsji=treeNode.JL_ID;
+				}				
+				return true;
+			}		
+		}
+	}
+};
+$.ajax({//left
+	type:"post",
+	url:baseurl+"custyj/custYjTree2",
+	dataType:"json",
+	contentType:"application/json",
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				$.fn.zTree.init($("#tree"), setting, data.result);
+			}else{
+				alert(data.errMsg);
+			}		
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			}
+	},error:function(data){
+		alert("错误");
+		console.log(data);
+	}
+});
+$.ajax({//right
+	type:"post",
+	url:baseurl+"custyj/queryAllJl",
+	dataType:"json",
+	contentType:"application/json",
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				$.fn.zTree.init($("#tree3"), setting2, data.result);
+			}else{
+				$("#tree1").html("");
+			}		
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			}
+	},error:function(data){
+		alert("错误");
+		console.log(data);
+	}
+});
+function center(id){	
+	var data = {"id":id};//客户经理id
+	$.ajax({
+		type:"post",
+		url:baseurl+"custyj/queryCByJl",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					data.result.unshift({"id":"Area_CD1","pId":"xxx","sbid":"Area_CD0","name":"全选"});
+					$.fn.zTree.init($("#tree1"), setting1, data.result);
+				}else{
+					$("#tree1").html("<p style='text-align:center;'>暂无管辖村</p>");
+				}		
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				}
+		},error:function(data){
+			alert("错误");
+			console.log(data);
+		}
+	});
+	$("#center").show();
+}
+function right(id,name){
+	var txt = "您确定移交给（"+ name +"）吗？";
+	JSONdata.JL_ID_YJ=id;
+	Io.bs.alert(txt, function(){
+		var treeObj = $.fn.zTree.getZTreeObj("tree1");
+		if(treeObj!=null){
+			var nodes = treeObj.getCheckedNodes(true);			
+			for(var i=0;i<nodes.length;i++){
+				if(nodes[i].sbid!="Area_CD1"&&nodes[i].sbid!="Area_CD0"){
+					JSONdata.ZT.push({"z_id":nodes[i].sbid,"c_id":nodes[i].id});
+				}				
+			}
+		}
+		$.ajax({
+			type:"post",
+			url:baseurl+"custyj/custYjByAllC",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(JSONdata),
+			success:function(data){
+				if(data.code=="00"){					
+					center(JSONdata.JL_ID);
+					JSONdata.ZT=[];
+					$("#myModal").modal("hide");			
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					}
+			},error:function(data){
+				alert("错误");
+				console.log(data);
+			}
+		});
+	});
+}
+
+function getHl(){
+	var bHeight = $("body").height();
+	var ht = bHeight;
+	$("#left").height(ht);
+	$("#CC").height(ht);
+	$("#rcen").height(ht);
+}
+$(getHl);
+window.addEventListener("orientationchange",getHl, false);
+
+</script>
+</body>
+</html>

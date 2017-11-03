@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>修改密码-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../pad/js/bootstrapValidator.js"></script>
+<script src="../js/common.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../pad/css/bootstrapValidator.css">
+<link rel="stylesheet" href="../pad/css/pages.css">
+</head>
+<style>
+.help-block{padding:0 0 0 32%;line-height:20px;color:#f00;}
+#login{
+	padding:20px;
+	font-size:25px;
+	margin:0 auto;
+	text-align:center;
+	color:red;
+}
+</style>
+<body class="page-bg"><div class="white-bg pc30">
+<form class="form-horizontal" id="form">
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">原密码：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" type="password" id="yPwd" name="yPwd" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">新密码：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" type="password" name="nPwd" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">确认密码：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" type="password" id="pwd" name="pwd" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="reset">重置</button>
+		<button class="btn btn-md btn-danger" type="button" id="submitSave">确认</button>
+		<button class="btn btn-md btn-danger" type="button" onclick="backstart();">返回</button>
+	</div>
+</form>
+<form class="form-horizontal" id="form_1">
+<div id="login">信贷系统密码</div>
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">信贷密码：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" type="password" id="yPwd_1" name="yPwd_1" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="reset">重置</button>
+		<button class="btn btn-md btn-danger" type="button" id="submitSave_1">确认</button>
+		<button class="btn btn-md btn-danger" type="button" onclick="backstart();">返回</button>
+	</div>
+</form>
+<script>
+function backstart(){
+	window.top.frames["tabFrame"].location.href="/LrSys/start.html";
+}
+var OLD_PASSWORD = $("#yPwd"),
+	NEW_PASSWORD = $("#pwd");
+$("#submitSave").on("click",function(){
+	$('#form').bootstrapValidator('validate',"fields");
+	if($('#form').data('bootstrapValidator').isValid()){//验证
+		var data={
+				"OLD_PASSWORD":OLD_PASSWORD.val(),
+				"NEW_PASSWORD":NEW_PASSWORD.val()
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"Login/resetPwd",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data),
+			success:function(data){
+				if(data.code=="00"){
+					$("#form input").val("");
+					alert("修改成功");
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	}
+});
+$("#form").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		yPwd:{
+			validators:{
+				notEmpty:{
+					message:'原密码不能为空'
+				}
+			}
+		},	
+		nPwd:{
+			validators:{
+				notEmpty:{
+					message:'新密码不能为空'
+				}
+			}
+		},	
+		pwd:{
+			validators:{
+				notEmpty:{
+					message:'确认密码不能为空'
+				},
+				identical: {
+					field: 'nPwd',
+					message: '两次输入密码不一致'
+				}
+			}
+		}
+	}
+})
+</script>
+<script>
+var xinPass = $("#yPwd_1");
+$("#submitSave_1").on("click",function(){
+	$('#form_1').bootstrapValidator('validate',"fields");
+	if($('#form_1').data('bootstrapValidator').isValid()){//验证
+		var data1={
+				"xinPass":xinPass.val()
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"Login/updateXinPas",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$("#form_1 input").val("");
+					Io.bs.alert("发送成功",function(){
+						//location.href="../start.html";
+						});
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	}
+});
+$("#form_1").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		yPwd_1:{
+			validators:{
+				notEmpty:{
+					message:'密码不能为空'
+				}
+			}
+		}
+	}
+})
+</script>
+</div></body>
+</html>

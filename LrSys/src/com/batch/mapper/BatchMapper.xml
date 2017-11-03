@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.batch.mapper.BatchMapper">
+	<select id="queryAmount" resultType="java.util.HashMap">
+		select s.*,c.cust_name from (
+			select id_no as cust_id_number,cast(ED_LMT as DECIMAL) / 10000 as total_amount,cust_id,
+			CREALIMIT as credit_amount,QQLIMIT as family_amount, max(DATE) as crt_time
+			from scsp 
+			group by cust_id	
+		) s
+		left join cust_base c on s.cust_id = c.cust_id
+	</select>
+	
+	<select id="queryAdmit" resultType="java.util.HashMap">
+		select s.*,c.cust_name from (
+			select id_no as cust_id_number,ZR1_RESULT,ZR1_DESC,ZR2_RESULT,ZR2_DESC,CS_RESULT,CS_DESC, max(date) as crt_time,cust_id
+			from scsp 
+			group by cust_id	
+		) s
+		left join cust_base c on s.cust_id = c.cust_id
+	</select>
+	
+	<select id="queryRelation" resultType="java.util.HashMap">
+		<![CDATA[select DISTINCT  c.id_no as cust_id_number,c.cust_name,c.tel_no as cust_mobile, 
+		c.cust_grp_jl as manager_login_id,u.user_name as manager_name,u.org_cd
+		from cust_base c
+		left join lrd_user u on c.cust_grp_jl = u.user_id where c.id_no is not null and c.id_no<>''  GROUP BY c.id_no]]>
+	</select>
+	<select id="queryInternal" parameterType="java.util.Map" resultType="java.util.HashMap">
+		
+			select lur.USER_ID,lur.ROLE_ID,lu.ORG_CD,lu.USER_NAME from lrd_user lu LEFT JOIN 
+			lrd_userrole lur on lu.USER_ID = lur.USER_ID where lu.ORG_CD=
+			(select ORG_CD from lrd_user where user_id=#{USER_ID,jdbcType=VARCHAR}) and lur.ROLE_ID='0004' limit 0,1
+	
+	</select>
+</mapper>

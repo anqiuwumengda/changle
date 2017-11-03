@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.SeleniumMgMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT 	a.CUST_ID, 
+				a.CUST_NAME, 
+				a.USER_NAME, 
+				a.USER_AGE, 
+				a.BIRTH_DATE, 
+				a.ID_TYPE, 
+				a.ID_NO, 
+				a.SEX, 
+				a.CUST_TYPE, 
+				a.EDU_LEVEL, 
+				a.VOCATION, 
+				a.TEL_NO, 
+				a.TEL_NO_BY, 
+				a.DP_NAME, 
+				a.LICENCE_NO, 
+				a.LICENCE_NAME, 
+				a.ADDRESS, 
+				a.SHXY, 
+				a.HEALTHY, 
+				a.CUST_GRP_JL, 
+				a.CUST_GRP, 
+				a.CUST_GRP2, 
+				a.AREA_CD, 
+				a.AREA_CD2, 
+				a.WFWJ_FLAG, 
+				a.JH_FLAG, 
+				a.JH_DATE, 
+				a.CHILD_FLAG, 
+				a.CAPITAL_AMT, 
+				a.CRED_CODE, 
+				a.FR_NAME, 
+				a.FR_ID_TYPE, 
+				a.FR_ID_NO, 
+				a.ACT_JL, 
+				a.ACT_ID_TYPE, 
+				a.ACT_ID_NO, 
+				a.LXR, 
+				a.LXR_TEL, 
+				a.BANK_NAME, 
+				a.CRT_DATE, 
+				a.MTN_DATE, 
+				a.JK_JT_STATUS, 
+				a.CREATE_TYPE, 
+				a.CUST_GRP_JL1, 
+				a.CUST_GRP_JL2, 
+				a.CUST_GRP_JL3, 
+				a.JTZYXM, 
+				a.ISDEL,
+				b.CUST_XZ, 
+				b.WORK_NAME, 
+				b.DEPT, 
+				b.DUTY, 
+				b.WORK_DATE, 
+				b.WORK_YEARS, 
+				b.ZB_FLAG, 
+				b.BX_CNT, 
+				b.CRT_DATE, 
+				b.MTN_DATE, 
+				b.YLBXAMT, 
+				b.YEARAMT
+				FROM cust_base a LEFT JOIN cust_zg b ON a.CUST_ID = b.CUST_ID WHERE a.CUST_ID=#{CUST_ID,jdbcType=VARCHAR}
+	</select>
+	<select id="queryRela" parameterType="java.util.Map" resultType="java.util.HashMap">
+		
+				SELECT 	CUST_ID, 
+						SEQ_NO, 
+						VS_NAME, 
+						RELA_TYPE, 
+						ID_TYPE, 
+						ID_NO, 
+						TEL_NO, 
+						VOCATION, 
+						WORK_INFO, 
+						OTH_DESC, 
+						JH_FLAG, 
+						INCOME_Y, 
+						CRT_DATE, 
+						MTN_DATE
+						FROM cust_rela 
+					WHERE CUST_ID = #{CUST_ID,jdbcType=VARCHAR} AND RELA_TYPE='01' limit 1
+	</select>
+	
+	<select id="queryPass" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT XD_PASS FROM lrd_user where  USER_ID =#{USER_ID,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="sumFamily" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT COUNT(*)+1 sumFamily FROM  cust_rela WHERE CUST_ID= #{CUST_ID,jdbcType=VARCHAR}
+	</select>
+	<select id="famMoney" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT ZZC*10000 ZZC,ZFZ*10000 ZFZ,SR_1Y*10000 SR_1Y,ZC_1Y*10000 ZC_1Y FROM fin_rpt WHERE CUST_ID= #{CUST_ID,jdbcType=VARCHAR}		
+	</select>
+	
+</mapper>

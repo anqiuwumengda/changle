@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 1. 数据源 : DriverManagerDataSource -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url" value="jdbc:mysql://10.9.100.73:3306/mybatis" /> <property name="username" 
+		value="root" /> <property name="password" value="iss123456" /> </bean> -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /><!-- 
+			driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+			<!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/lrd?characterEncoding=utf-8" /> -->
+		<!-- <property name="url" value="jdbc:mysql://67.39.0.125:3306/lrd?characterEncoding=utf-8" /> --><!-- 
+			jdbc:db2://192.168.0.2:50000/zfvims -->
+			<!-- //10.16.141.97 -->
+			<property name="url" value="jdbc:mysql://localhost:3306/lrd?characterEncoding=utf-8" />
+		<property name="username" value="root" />
+		<property name="password" value="123456" />
+		<!-- 连接初始值，连接池启动时创建的连接数量的初始值 -->
+		<property name="initialSize" value="10" />
+		<!-- 连接池的最大值，同一时间可以从池分配的最多连接数量，0时无限制 -->
+		<property name="maxActive" value="255" />
+		<!-- 最大空闲值.当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 ，0时无限制 -->
+		<property name="maxIdle" value="10" />
+		<!-- 最小空闲值.当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+		<property name="minIdle" value="5" />
+		<!-- 是否对已备语句进行池管理（布尔值），是否对PreparedStatement进行缓存 -->
+		<property name="poolPreparedStatements" value="true" />
+		<!-- 是否对sql进行自动提交 -->
+		<property name="defaultAutoCommit" value="true" />
+		<property name="validationQuery" value="SELECT 1 FROM DUAL"></property>
+	</bean>
+
+	<!-- 2. mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 MyBatis定义数据源,同意加载配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml" />
+		<property name="plugins">
+			<bean class="com.tgb.interceptor.PaginationInterceptor">
+			</bean>
+			
+		</property>
+		<!-- <property name="plugins">
+			<bean class="com.tgb.interceptor.UpdateInterceptor">
+			</bean>
+		</property> -->
+		
+	</bean>
+
+	<!-- 3. mybatis自动扫描加载Sql映射文件/接口 : MapperScannerConfigurer sqlSessionFactory 
+		basePackage:指定sql映射文件/接口所在的包（自动扫描） -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.**.mapper"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 4. 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 5. 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+</beans>

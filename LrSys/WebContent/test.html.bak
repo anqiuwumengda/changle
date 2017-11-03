@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/AdminLTE.min.css">
+<link rel="stylesheet" href="./css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="./css/font-awesome.min.css">
+<link rel="stylesheet" href="./css/demo.css">
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/app.min.js"></script>
+<script src="./js/jquery.slimscroll.min.js"></script>
+<script src="./js/common.js"></script>
+	<script>
+$(document).ready(function() {
+	 $.ajax({
+         type: "POST",
+         url: "http://127.0.0.1:8000/",
+         data: {username:1, content:2},
+         success: function(data){
+                    //alert(data);
+                     }});
+                    // $('#resText').html(html);
+                      
+         });
+
+ 
+	</script>
+	</head>
+
+	<body class="nav-md">
+	
+
+	</body>
+
+</html>

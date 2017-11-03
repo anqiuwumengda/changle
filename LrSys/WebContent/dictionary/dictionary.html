@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>标准字典</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/demo.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="pbody">
+	<div class="col-md-4 col-xs-4" style="max-height:500px;overflow-y:scroll">
+		<div class="btn-group btn-tree" id="treeBtn">
+				<button id="btnAdd" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加</button>
+				<button id="btnEdit" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> 修改</button>
+				<button id="btnDel" class="btn btn-primary btn-sm"><i class="fa fa-trash"></i> 删除</button>
+			</div>	
+		<div class="box">
+			<ul id="tree" class="ztree"></ul>
+		</div>
+	</div>
+	<div class="col-md-8 col-xs-8">
+		<div class="box">
+			<div class="box-header with-border">
+				<h4 class="box-title"></h4>
+			</div>
+			<div class="box-body no-padding">
+				<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>Code ID</th>
+						<th>代码名</th>
+						<th>Sort</th>
+						<th>中文备注</th>
+					</tr>
+				</thead>
+				<tbody id="dictionary">
+					
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+	<div id="Modal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">修改字典</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">Code ID：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" id="DIC_ID">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">代码名：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" id="name">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">Sort：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" id="DIC_SORT">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">中文备注：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" id="DIC_DESC">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave1">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+Io.on("#btnAdd","click",function(){	
+	location.href="./dictionary_add.html";
+})
+var setting = {
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			$(".box-title").html(treeNode.name);			
+			tablelist(treeNode.id);	
+			if($("#btnAdd").is(":visible")){
+				$("#btnAdd").attr("zt",treeNode.id);
+			}
+		},
+		onRightClick: function(treeId, treeNode) {
+			$("#tree a").removeClass("curSelectedNode");
+			$("#btnAdd").attr("zt","");
+			$("#dictionary").html("");
+		}
+	}
+};
+function list(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"slrddic/queryTree",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){	
+				var resultArr=data.result;				
+				$.fn.zTree.init($("#tree"), setting, resultArr);
+			}else{
+				alert(data.errMsg);
+			}
+		}
+	})
+}
+list();
+function tablelist(id){
+	var data1 = {"pId":id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"slrddic/queryByPK",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td class="text-center">' + (i+1)+ '</td>';						
+						html+='<td>' + result.DIC_ID + '</td>';						
+						html+='<td>' + result.name + '</td>';
+						html+='<td>' + result.DIC_SORT + '</td>';
+						html+='<td>' + result.DIC_DESC + '</td>';
+						html+='</tr>';
+					}
+					$("#dictionary").html(html);
+				}else{
+					$("#dictionary").html("");
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+//选择
+Io.on("#dictionary tr","click",function(){
+	$(this).addClass("on").siblings().removeClass("on");
+})
+//修改
+Io.on("#btnEdit","click",function(){
+	var tds=$("#dictionary").find("tr.on").find("td");
+	
+	var s=tds.eq(1).html();
+	console.log(s)
+	if(s){
+		alert('修改一行');
+		//var tds=trs.;
+		$("#DIC_ID").val(tds.eq(1).html());
+		$("#name").val(tds.eq(2).html());
+		$("#DIC_SORT").val(tds.eq(3).html());
+		$("#DIC_DESC").val(tds.eq(4).html());
+		$("#Modal1").modal({
+			backdrop:false
+		});
+	}else{
+		alert('修改整个字典');
+		location.href="./dictionary _edit.html";
+	}
+	
+});
+//一行修改提交
+Io.on("#btnsave1","click",function(){
+	var data0 = {
+			"DIC_ID":$("#DIC_ID").val(),
+			"name":$("#name").val(),
+			"DIC_SORT":$("#DIC_SORT").val(),
+			"DIC_DESC":$("#DIC_DESC").val()
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data0),
+			success:function(data){
+				if(data.code=="00"){
+					alert("成功");
+					$("#Modal1").find("input").val("");
+					$("#Modal1").modal("hide").on("hidden.bs.modal");
+					list();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		})
+});
+//删除
+Io.on("#btnDel","click",function(){
+	var cid=$("#dictionary").find("tr.on").attr("USER_ID");
+	if(cid){
+		alert("删除一行");
+	}else{
+		alert("您要删除整个字典 ");
+	}
+	
+});
+</script>
+</body>
+</html>

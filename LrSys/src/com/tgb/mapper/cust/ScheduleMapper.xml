@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.ScheduleMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		SCHEDULE_ID,USER_ID,USER_NAME,WORK_DATE,BGN_TIME,END_TIME,WORK_TITLE,WORK_CONT,WARN_RULE,WARN_CNT,FINISH_FLAG,WORK_DESC
+		from SCHEDULE
+		<where>
+			<if test="SCHEDULE_ID != null"> and SCHEDULE_ID=#{SCHEDULE_ID,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="WORK_DATE != null"> and WORK_DATE=#{WORK_DATE,jdbcType=CHAR}</if>
+			<if test="BGN_TIME != null"> and BGN_TIME=#{BGN_TIME,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryNum" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select substring(WORK_DATE,9,10) DATE, WORK_DATE  ,count(WORK_DATE) NUM from `SCHEDULE` where WORK_DATE like '%${DATE}%' and FINISH_FLAG='0' and USER_ID='${USER_ID}' GROUP BY work_date
+	</select>
+	<select id="queryByPk" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		SCHEDULE_ID,USER_ID,USER_NAME,WORK_DATE,BGN_TIME,END_TIME,WORK_TITLE,WORK_CONT,WARN_RULE,WARN_CNT,FINISH_FLAG,WORK_DESC
+		from SCHEDULE
+		<where>
+			<if test="SCHEDULE_ID != null"> and SCHEDULE_ID=#{SCHEDULE_ID,jdbcType=VARCHAR}</if>
+			
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into SCHEDULE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="SCHEDULE_ID != null ">SCHEDULE_ID,</if>
+			<if test="USER_ID != null ">USER_ID,</if>
+			<if test="USER_NAME != null ">USER_NAME,</if>
+			<if test="WORK_DATE != null ">WORK_DATE,</if>
+			<if test="BGN_TIME != null ">BGN_TIME,</if>
+			<if test="END_TIME != null ">END_TIME,</if>
+			<if test="WORK_TITLE != null ">WORK_TITLE,</if>
+			<if test="WORK_CONT != null ">WORK_CONT,</if>
+			<if test="WARN_RULE != null ">WARN_RULE,</if>
+			<if test="WARN_CNT != null ">WARN_CNT,</if>
+			<if test="FINISH_FLAG != null ">FINISH_FLAG,</if>
+			<if test="WORK_DESC != null ">WORK_DESC,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="SCHEDULE_ID != null">#{SCHEDULE_ID,jdbcType=VARCHAR},</if>
+			<if test="USER_ID != null">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null">#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="WORK_DATE != null">#{WORK_DATE,jdbcType=CHAR},</if>
+			<if test="BGN_TIME != null">#{BGN_TIME,jdbcType=VARCHAR},</if>
+			<if test="END_TIME != null">#{END_TIME,jdbcType=VARCHAR},</if>
+			<if test="WORK_TITLE != null">#{WORK_TITLE,jdbcType=VARCHAR},</if>
+			<if test="WORK_CONT != null">#{WORK_CONT,jdbcType=VARCHAR},</if>
+			<if test="WARN_RULE != null">#{WARN_RULE,jdbcType=CHAR},</if>
+			<if test="WARN_CNT != null">#{WARN_CNT,jdbcType=CHAR},</if>
+			<if test="FINISH_FLAG != null">#{FINISH_FLAG,jdbcType=CHAR},</if>
+			<if test="WORK_DESC != null">#{WORK_DESC,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update SCHEDULE
+		<set>
+			<if test="USER_NAME != null ">USER_NAME=#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="END_TIME != null ">END_TIME=#{END_TIME,jdbcType=VARCHAR},</if>
+			<if test="WORK_TITLE != null ">WORK_TITLE=#{WORK_TITLE,jdbcType=VARCHAR},</if>
+			<if test="WORK_CONT != null ">WORK_CONT=#{WORK_CONT,jdbcType=VARCHAR},</if>
+			<if test="WARN_RULE != null ">WARN_RULE=#{WARN_RULE,jdbcType=CHAR},</if>
+			<if test="WARN_CNT != null ">WARN_CNT=#{WARN_CNT,jdbcType=CHAR},</if>
+			<if test="FINISH_FLAG != null ">FINISH_FLAG=#{FINISH_FLAG,jdbcType=CHAR},</if>
+			<if test="WORK_DESC != null ">WORK_DESC=#{WORK_DESC,jdbcType=VARCHAR},</if>
+			<if test="WORK_DATE != null ">WORK_DATE=#{WORK_DATE,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where SCHEDULE_ID=#{SCHEDULE_ID,jdbcType=VARCHAR} 
+	</update>
+	<delete id="deleteByPk">delete from SCHEDULE where
+		SCHEDULE_ID=#{SCHEDULE_ID,jdbcType=VARCHAR} </delete>
+	<delete id="delete">
+		delete from SCHEDULE
+		<where>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="WORK_DATE != null"> and WORK_DATE=#{WORK_DATE,jdbcType=CHAR}</if>
+			<if test="BGN_TIME != null"> and BGN_TIME=#{BGN_TIME,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+</mapper>

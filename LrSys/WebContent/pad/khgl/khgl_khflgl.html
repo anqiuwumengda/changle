@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户分类管理-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div style="border: 1px dotted #ddd; overflow: hidden; margin: 0 15px 5px 15px;border-radius: 3px;">
+		<div style="margin:auto;">
+		<div class="col-sm-4 clearfix bs-form-group">
+			<label class="bs-sm-l control-label " style="width:36%;">评级结果:</label>
+			<div class="bs-sm-r" style="width:64%;">
+				<span class="form-control" name="PJ_JB" id="PJ_JB" style="border:none;box-shadow:none;">优质</span>
+			</div>
+		</div>
+		<div class="col-sm-4 clearfix bs-form-group" >
+			<label class="bs-sm-l col-md-8 control-label  "style="width:36%;">预授信信用额度:</label>
+			<div class="bs-sm-r col-md-4 "style="width:64%;">
+				<span class="form-control" name="CREALIMIT" id="CREALIMIT" style="border:none;box-shadow:none;">优质</span>
+			</div>
+		</div>
+		<div class="col-sm-4 clearfix bs-form-group" >
+			<label class="bs-sm-l control-label" style="width:36%;">预授信亲情额度:</label>
+			<div class="bs-sm-r" style="width:64%;">
+				<span class="form-control" name="QQLIMIT" id="QQLIMIT" style="border:none;box-shadow:none;">优质</span>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">系统分类</label>
+			<div class="bs-sm-r">
+				<span class="form-control" name="systemCate" id="SYS_TYPE">优质</span>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">管户经理分类</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="customerCate" id="JL_TYPE">					
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 table_wrapper">
+		<table class="bs_table table_bg_blue">
+			<thead>
+				<tr>
+					<th width="130">提醒日期</th>
+					<th>内容说明</th>
+					<th width="80">是否提醒</th>
+					<th width="80">提醒类型</th>
+					<th width="80">
+						<button class="btn btn-xs" type="button" name="adddate" id="btnAdd1">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyjnr">
+			
+			</tbody>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-danger" type="reset">重置</button>
+		<button class="btn btn-danger" type="button" id="submitSave">保存</button>
+		<button class="btn btn-danger" type="button" onclick="backkhgl()">返回</button>
+	</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<!-- 弹窗modal 1-->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">纪念日&日程——提醒</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">日程日期：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control date-readonly" readonly="readonly"  id="DATE_YM">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">内容说明：</label>
+					<div class="bs-sm-r">
+						<textarea class="form-control" cols="53" id="WARN_DESC"></textarea>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="clearfix bs-form-group">
+						<label class="bs-sm-l control-label">提醒类型：</label>
+						<div class="bs-sm-r">
+							<select id="WARN_num" class="form-control" name="type" >
+								<option value="0" >-请选择-</option>
+								<option value="1" >重复提醒</option>
+								<option value="2" selected>提醒一次</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">提醒要求：</label>
+					<div class="bs-sm-r">
+						<input placeholder="提前几天提醒"type="number"max="10"min="0"step="1" class="form-control" id="WARN_TYPE">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label"></label>
+					<div class="bs-sm-r">
+						<input type="hidden" class="form-control" id="SEQ_NO">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">是否提醒：</label>
+					<div class="bs-sm-r radio checkbox">
+						<label><input type="radio" name="iswarn" value="1" checked>是</label>
+						<label><input type="radio" name="iswarn" value="0">否</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="button" id="btnsave1">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+
+<script>
+$("#DATE_YM").datepicker({
+	language:"cn"
+});
+//增加按钮
+$("#btnAdd1.btn.btn-xs").on("click",function(){
+	$("#myModal1").modal({
+		backdrop:false
+	})
+});
+$("#btnAdd2").on("click",function(){
+	$("#myModal2").modal({
+		backdrop:false
+	})
+});
+</script>
+<script id="客户分类管理">
+function all(){
+var cust_id=getUrlParam("cust_id")||"";
+var submitSave=$("#submitSave");//保存按钮
+var JL_TYPE=$("#JL_TYPE"),//经理分类
+	SYS_TYPE=$("#SYS_TYPE");//系统分类
+var data0={"CUST_ID":cust_id};
+$.ajax({
+	type:"post",
+	url:baseurl+"custgrade/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(null!=data.result && data.result.length){				
+				var result=data.result[0];
+				SYS_TYPE.val(result.SYS_TYPE);
+				JL_TYPE.val(result.JL_TYPE);	
+			}
+			submitSave.on("click",function(){
+				var data1={
+						"CUST_ID":cust_id,
+						"SYS_TYPE":SYS_TYPE.html(),
+						"JL_TYPE":JL_TYPE.val()		
+				};
+				$.ajax({
+					beforeSend:function(){
+						if(true){$("#loadgif").fadeIn(200);};
+					},
+					type:"post",
+					url:baseurl+"custgrade/save",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						$("#loadgif").fadeOut(100);
+						if(data.code=="00"){
+							alert("保存成功");
+						}else if (data.code=="88"){
+							eval(data.reLoad);
+						}else{
+							alert(data.errMsg);
+							$("#loadgif").fadeOut(100);
+							console.log(data.errMsg);
+						}
+					},error:function(data){
+						$("#loadgif").fadeOut(100);
+						console.log("错误");
+					}
+				}) 
+			})
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+				console.log(data.errMsg);
+		}
+	},error:function(data){
+		console.log("错误");
+	}
+}) 
+
+var btnsave1=$("#btnsave1"); //保存
+var DATE_YM=$("#DATE_YM"),//提醒日期
+	WARN_DESC=$("#WARN_DESC"),//提醒内容
+	SEQ_NO = $("#SEQ_NO"),
+	WARN_TYPE = $("#WARN_TYPE")//提醒要求提前几天
+	JNR_TYPE = $("#WARN_num")//提醒类型
+	WARN_FLAG=$("[name=iswarn]:checked");//是否提醒
+function List(){
+	var data1={"CUST_ID":cust_id,"SEQ_NO":""};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custimpdate/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var type="",warn='';
+						if(result.WARN_FLAG==1){
+							warn='是';
+							type=result.JNR_TYPE==1?"重复提醒":"提醒一次";
+						}else{warn='否'; type="不提醒";}
+						html+='<tr>';
+						html+='<td>'+ result.DATE_YM+'</td>';
+						html+='<td>'+ result.WARN_DESC +'</td>';
+						html+='<td>'+warn+'</td>';
+						html+='<td>'+type+'</td>';
+						html+='<td>';
+						html+='<button class="btn btn-xs btn-danger" type="button"" zt="'+ result.SEQ_NO +'" name="btnEdit"><i class="glyphicon glyphicon-pencil"></i></button>';
+						html+='  <button class="btn btn-xs btn-danger" type="button"" zt="'+ result.SEQ_NO +'" name="btnDel"><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tbodyjnr").html(html);
+				}else{
+					$("#tbodyjnr").html('');
+				}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	Io.on("[name=btnDel]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"SEQ_NO":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custimpdate/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					List();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	})
+})
+Io.on("[name='btnEdit']", "click", function(){
+	$("#myModal1").modal({backdrop:false});
+		var zt=$(this).attr("zt");
+		SEQ_NO.val(zt);
+		var data1={"CUST_ID":cust_id,"SEQ_NO":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custimpdate/query",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result=data.result[0];
+					DATE_YM.val(result.DATE_YM);
+					WARN_DESC.val(result.WARN_DESC);
+					WARN_TYPE.val(result.WARN_TYPE);
+					WARN_FLAG.val(result.WARN_FLAG);
+					JNR_TYPE.val(result.JNR_TYPE);				
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+		SEQ_NO.val(zt);
+	})
+
+}
+List();
+function add1(){
+	var data1={
+			"CUST_ID":cust_id,
+			"DATE_YM":DATE_YM.val(),
+			"WARN_DESC":WARN_DESC.val(),
+			"SEQ_NO":SEQ_NO.val(),
+			"JNR_TYPE":JNR_TYPE.val(),
+			"WARN_TYPE":WARN_TYPE.val(),
+			"WARN_FLAG":$("[name=iswarn]:checked").val()
+	        };
+	$.ajax({
+		type:"post",
+		url:baseurl+"custimpdate/save",
+		dataType:"json",
+		async: false,
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal1").modal("hide").on("hidden.bs.modal",function(){
+					$("#WARN_DESC").val("");
+					$("#WARN_TYPE").val("");
+					$("#DATE_YM").val('');
+					$("#SEQ_NO").val('');
+				});
+				List();
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+btnsave1.on("click",function(){//新增
+	add1();
+})
+function newLoad(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"SCSP/query",
+		dataType:"json",
+		async: false,
+		contentType:"application/json",
+		data:JSON.stringify({"CUST_ID":cust_id}),
+		success:function(data){
+			if(data.code=="00"){
+				console.log(data);
+				var result=data.result;
+				$("#PJ_JB").html((result.PJ_JB==""?"暂无":result.PJ_JB));
+				$("#QQLIMIT").html((result.QQLIMIT==""?"暂无":(result.QQLIMIT)+"万"));
+				$("#CREALIMIT").html((result.CREALIMIT==""?"暂无":(result.CREALIMIT)+"万"));
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+newLoad();
+}
+var json={"JL_TYPE":"JL_TYPE"}//客户经理分类(字典枚举)
+selectOnload({"json":json,"func":all,"length":1,"isDefault":false});
+</script>
+</body>
+</html>

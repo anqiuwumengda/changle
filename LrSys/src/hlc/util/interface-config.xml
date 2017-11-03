@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="ISO-8859-1"?>
+<interface>
+	<DepReference>
+          <!--从审计机构表中删除审计机构时应连同下级审计机构，以及它们在审计机构
+          管辖被审计机构关系表和审计机构授权信息表中对应的记录一起删除 -->
+	  <class
+       name="hlc.common.sa.organization.DAOOrganization"
+	    influence="false"
+	    title="审计机构">
+	  </class>
+	  <class
+  	  	 name="hlc.common.sa.operator.DAOOperator"
+	    influence="false"
+	    title="审计人员">
+	  </class>
+	</DepReference>
+	<RoleReference>
+	  <class
+	  	name="hlc.common.sa.operator.DAOOperatorRole"
+	    influence="true"
+	    title="审计人员">
+	  </class>
+	</RoleReference>
+
+	<DicReference>
+	  <!-- 审计人员中职务、职称、政治面貌、学历、学位、社会执业资格字段，审计
+	  人员专业特长信息中专业特长代码字段使用标准字典 -->
+      <class
+	  	name="hlc.common.sa.operator.DAOOperatorRole"
+	    influence="true"
+	    title="审计人员">
+	  </class>
+	  <class
+	  	name="hlc.common.sa.dictionary.DAODictionary"
+	    influence="false"
+	    title="标准字典">
+	  </class>
+   </DicReference>
+</interface>

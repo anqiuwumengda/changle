@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>新增-客户管理-乐融易贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 客户类型：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="custType" id="custType">
+				 	<option value="" selected>--请选择--</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div id="jvalid">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label" id="labelName"><b class="red">*</b> 姓名：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="nameA">
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 联系电话：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="telephoneA" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 所属区域：</label>
+				<div class="bs-sm-r">
+					<select id="isArea1" class="form-control" style="width:48%;float:left;">
+						
+					</select> 
+					<select id="isArea2" class="form-control" style="width:48%;float:right;">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="none" id="jone">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 姓名：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="isName" />
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">年龄：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="age" onkeyup="value=value.replace(/[^\d.]/g,'')" />
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">性别：</label>
+				<div class="bs-sm-r radio">
+					<label><input type="radio" name="sex" value="01" checked>男</label>
+					<label><input type="radio" name="sex" value="02">女</label>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 联系电话：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="telephone" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">备用联系电话：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="telNoBy" maxlength="11" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="cartType">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件号码：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="cartNumber"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">学历：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="eduLevel">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职业：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="vocation">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">健康状况：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="healthy">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 所属区域：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isArea1A" style="width:48%;float:left;"></span>
+					<span class="form-control" id="isArea2A" style="width:48%;float:right;"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">所属客户群：</label>
+				<div class="bs-sm-r pt7">
+					<select id="custGrp" class="form-control" style="width:48%;float:left;">
+						<option value="" selected>--请选择--</option>
+					</select> 
+					<select id="custGrp2" class="form-control" style="width:48%;float:right;">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<!--  <div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">管户经理：</label>
+				<div class="bs-sm-r">
+					<input class="form-control"  id="custGrpJl"/>
+				</div>
+			</div>-->
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">家庭地址：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="myAdress" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="none" id="jtwo">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 企业名称：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="storeName" />
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">注册资本：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="registCapital" />
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">统一社会信用代码：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="credCode"/>
+				</div>
+			</div>
+		</div>
+		<div id="myBorder" >
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">法定代表人：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="legalReprese" />
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="legalRepreseCertType">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件号码：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="legalRepreseCerdNumber" />
+				</div>
+			</div>
+		</div>
+		</div>
+		<div id="myBorder" >
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">实际控制人：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="acturlController" />
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="acturlControllerCertType">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件号码：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="acturlControllerCertNumber" />
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">联系人：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="contactName"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">联系电话：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" id="telephoneB" style="width:48%;float:left;" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					<input class="form-control" id="telephoneC" style="width:48%;float:right;" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">基本户开户行：</label>
+				<div class="bs-sm-r">
+					<select id="openBank" class="form-control">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label"><b class="red">*</b> 所属区域：</label>
+			<div class="bs-sm-r">
+				<span class="form-control" id="isArea1B" style="width:48%;float:left;"></span>
+				<span class="form-control" id="isArea2B" style="width:48%;float:right;"></span>
+			</div>
+		</div>
+		</div>
+		 <!-- <div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">管户经理：</label>
+				<div class="bs-sm-r">
+					<input class="form-control"  id="custGrpJlA" />
+				</div>
+			</div>
+		</div> -->
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" id="reset" type="button">重置</button>
+		<button class="btn btn-md btn-danger" type="button" id="submitAdd">下一步</button>
+		<button class="btn btn-md btn-danger" type="button" id="goBack" onclick="javascript:history.go(-1);">返回</button>
+		<p class="red text-center">（注：带 * 号的为必填项）</p>
+	</div>
+	<div class="clearfix"></div>  
+</form>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<script>
+Io.on("#reset","click",function(){
+	$("input:not(:disabled)").val("");
+	$("select:not(:disabled)").val("");
+});
+var custType=$("#custType"); //客户类型
+var isName=$("#isName"); //客户姓名
+var telephone=$("#telephone"); //电话
+var age=$("#age"); //年龄
+var cartType=$("#cartType"), //证件类型
+	cartNumber=$("#cartNumber"), //证件号码
+	telNoBy=$("#telNoBy"),//备用联系电话
+	eduLevel=$("#eduLevel"),//学历
+	vocation=$("#vocation"),//职业
+	healthy=$("#healthy"),//健康状况
+	//isArea=$("#isArea"),//所属区域
+	custGrp=$("#custGrp"),//所属客户群1
+	custGrp2=$("#custGrp2"),//所属客户群2
+	custGrpJl=$("#custGrpJl"),//所属客户经理
+	myAdress=$("#myAdress");//家庭或经营地址
+
+//小微企业数据
+var contactName=$("#contactName"),//联系人姓名
+	credCode=$("#credCode"),//统一社会信用代码
+	telephoneB=$("#telephoneB"), //联系电话
+	telephoneC=$("#telephoneC"), //备用联系人电话
+	storeName=$("#storeName"), //企业名称
+	custGrpJlA=$("#custGrpJlA"),//所属客户经理
+	isArea1B=$("#isArea1B"),//所属区域
+	isArea2B=$("#isArea2B"),//所属区域2
+	registCapital=$("#registCapital"),//注册资本
+	legalReprese=$("#legalReprese"), //法定代表人
+	legalRepreseCertType=$("#legalRepreseCertType"), //法人证件类型
+	legalRepreseCerdNumber=$("#legalRepreseCerdNumber") ,//法人证件代码
+	acturlController=$("#acturlController"), //实际控制人
+	acturlControllerCertType=$("#acturlControllerCertType"), //实际控制人证件类型
+	acturlControllerCertNumber=$("#acturlControllerCertNumber"), //实际控制人证件号码
+	openBank=$("#openBank"); //基本户开户行
+
+custType.on("change",function(){
+	if(custType.val()=="XWQY"){
+		$("#labelName").html('<b class="red">*</b> 企业名称：');
+		$("#telephoneA").parent().parent().hide();
+	}else{
+		$("#labelName").html('<b class="red">*</b> 姓名：');
+		$("#telephoneA").parent().parent().show();
+	}
+});
+
+Io.on("#submitAdd","click",function(){
+	var namea=$("#nameA").val();
+	var telephonea=$("#telephoneA").val();
+	var isArea1=$("#isArea1").val();
+	var isArea2=$("#isArea2").val();
+	var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
+	if(namea&&custType.val()&&isArea1&&isArea2){
+		$("#isName,#telephone,#storeName").attr("disabled","true");
+		var data1,data2;
+		var isValid=true;
+		if(custType.val()=="XWQY"){
+			data2={"CUST_TYPE":custType.val(),"CUST_NAME":namea};
+		}else{
+			if(reg.test(telephonea)==false){
+				alert("手机号不正确");
+				isValid=false;
+			}
+			data2={
+					"CUST_TYPE":custType.val(),
+					"CUST_NAME":namea,
+					"TEL_NO":telephonea
+			};
+		}		
+		if(isValid){
+			$.ajax({
+				type:"post",
+				url:baseurl+"custbase/isExistCust",
+				dataType:"json",
+				contentType:"application/json",
+				data:JSON.stringify(data2),
+				success:function(data){
+					if(data.code=="00"){
+						if(data.result!=null){
+							var result=data.result;
+							var isExist=result.isExist;
+							var jingL = result.CUST_GRP_JL;
+							var cid = result.CUST_ID;
+							if(isExist=="1"){
+								custType.attr("disabled","true");
+								if(custType.val()=="XWQY"){
+									$("#jtwo").show();
+									$("#jone").hide();
+									$("#jvalid").hide();
+									$("#isArea1B").text($("#isArea1 :selected").text());
+									$("#isArea2B").text($("#isArea2 :selected").text());
+									$("#storeName").val(namea);
+								}else{
+									$("#jone").show();
+									$("#jtwo").hide();
+									$("#jvalid").hide();
+									$("#isName").val(namea);
+									$("#telephone").val(telephonea);
+									$("#isArea1A").text($("#isArea1 :selected").text());
+									$("#isArea2A").text($("#isArea2 :selected").text());
+								}
+								$("#submitAdd").text("保存");
+								$("#goBack").attr('onclick','goB()');
+								$("#submitAdd").attr('on-off','on');
+								Io.on("#submitAdd[on-off=on]","click",function(){
+									//身份验证 
+									var reg00 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+									var reg01 = /^[1-9]\d{5}[1-2]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+									var reg02 = /^[a-zA-Z0-9]{7,21}$/;
+									var reg03 = /^[a-zA-Z0-9]{3,21}$/;
+									var reg04 = /^[a-zA-Z0-9]{5,21}$/;
+									if(custType.val()=="XWQY"){
+										data1={
+												"CUST_TYPE":"XWQY",
+												"CUST_NAME":namea,
+												"CRED_CODE":credCode.val(),
+												"TEL_NO":telephonea,
+												"ID_TYPE":cartType.val(),
+												"ID_NO":cartNumber.val(),
+												"CAPITAL_AMT":registCapital.val(),
+												"FR_NAME":legalReprese.val(),
+												"FR_ID_TYPE":legalRepreseCertType.val(),
+												"FR_ID_NO":legalRepreseCerdNumber.val(),
+												"ACT_JL":acturlController.val(),
+												"ACT_ID_TYPE":acturlControllerCertType.val(),
+												"ACT_ID_NO":acturlControllerCertNumber.val(),
+												"LXR":contactName.val(),
+												"LXR_TEL":telephoneB.val(),
+												"TEL_NO_BY":telephoneC.val(),
+												"BANK_NAME":openBank.val(),
+												"CUST_GRP_JL":custGrpJlA.val(),
+												"AREA_CD":isArea1,
+												"AREA_CD2":isArea2
+										};
+										//身份验证 
+										if(legalRepreseCertType.val()=="01"&&legalRepreseCerdNumber.val()!=""){
+											if(legalRepreseCerdNumber.val().length=="15"){
+												if(reg00.test(legalRepreseCerdNumber.val())==false){
+													alert("法人身份证号码不正确");
+													return false;
+												}
+											}else if(legalRepreseCerdNumber.val().length=="18"){
+												if(reg01.test(legalRepreseCerdNumber.val())==false){
+													alert("法人身份证号码不正确");
+													return false;
+												}
+											}else{
+												alert("法人身份证号码不正确");
+												return false;
+											}
+										}/*else if(legalRepreseCertType.val()=="02"&&legalRepreseCerdNumber.val()!=""){			
+											if(reg02.test(legalRepreseCerdNumber.val())==false){
+												alert("法人军官证号码不正确");
+												return false;
+											}								
+										}else if(legalRepreseCertType.val()=="03"&&legalRepreseCerdNumber.val()!=""){			
+											if(reg03.test(legalRepreseCerdNumber.val())==false){
+												alert("法人护照号码不正确");
+												return false;
+											}								
+										}else if(legalRepreseCertType.val()=="04"&&legalRepreseCerdNumber.val()!=""){			
+											if(reg04.test(legalRepreseCerdNumber.val())==false){
+												alert("法人通行证号码不正确");
+												return false;
+											}									
+										}*/
+										if(acturlControllerCertType.val()=="01"&&acturlControllerCertNumber.val()!=""){
+											if(acturlControllerCertNumber.val().length=="15"){
+												if(reg00.test(acturlControllerCertNumber.val())==false){
+													alert("控制人身份证号码不正确");
+													return false;
+												}
+											}else if(acturlControllerCertNumber.val().length=="18"){
+												if(reg01.test(acturlControllerCertNumber.val())==false){
+													alert("控制人身份证号码不正确");
+													return false;
+												}
+											}else{
+												alert("控制人身份证号码不正确");
+												return false;
+											}
+										}/*else if(acturlControllerCertType.val()=="02"&&acturlControllerCertNumber.val()!=""){			
+											if(reg02.test(acturlControllerCertNumber.val())==false){
+												alert("控制人军官证号码不正确");
+												return false;
+											}								
+										}else if(acturlControllerCertType.val()=="03"&&acturlControllerCertNumber.val()!=""){			
+											if(reg03.test(acturlControllerCertNumber.val())==false){
+												alert("控制人护照号码不正确");
+												return false;
+											}							
+										}else if(acturlControllerCertType.val()=="04"&&acturlControllerCertNumber.val()!=""){			
+											if(reg04.test(acturlControllerCertNumber.val())==false){
+												alert("控制人通行证号码不正确");
+												return false;
+											}					
+										}*///。。。。。。。。。。。。。。。。。。。。。。。
+									}else{
+										data1={
+												"CUST_TYPE":custType.val(),
+												"CUST_NAME":namea,
+												"TEL_NO":telephonea,
+												"TEL_NO_BY":telNoBy.val(),
+												"USER_AGE":age.val(),
+												"ID_TYPE":cartType.val(),
+												"ID_NO":cartNumber.val(),
+												"SEX":$("[name=sex]:checked").val(),
+												"EDU_LEVEL":eduLevel.val(),
+												"VOCATION":vocation.val(),
+												"HEALTHY":healthy.val(),
+												"AREA_CD":isArea1,
+												"AREA_CD2":isArea2,
+												"CUST_GRP":custGrp.val(),
+												"CUST_GRP2":custGrp2.val(),
+												"CUST_GRP_JL":custGrpJl.val(),
+												"ADDRESS":myAdress.val()
+										};
+										//身份验证 										
+										if(cartType.val()=="01"&&cartNumber.val()!=""){
+											if(cartNumber.val().length=="15"){
+												if(reg00.test(cartNumber.val())==false){
+													alert("身份证号码不正确");
+													return false;
+												}
+											}else if(cartNumber.val().length=="18"){
+												if(reg01.test(cartNumber.val())==false){
+													alert("身份证号码不正确");
+													return false;
+												}
+											}else{
+												alert("身份证号码不正确");
+												return false;
+											}
+										}/*else if(cartType.val()=="02"&&cartNumber.val()!=""){			
+											if(reg02.test(cartNumber.val())==false){
+												alert("军官证号码不正确");
+												return false;
+											}									
+										}else if(cartType.val()=="03"&&cartNumber.val()!=""){			
+											if(reg03.test(cartNumber.val())==false){
+												alert("护照号码不正确");
+												return false;
+											}							
+										}else if(cartType.val()=="04"&&cartNumber.val()!=""){			
+											if(reg04.test(cartNumber.val())==false){
+												alert("通行证号码不正确");
+												return false;
+											}							
+										}*/
+										var CID = cartNumber.val();
+										if(CID!=""){
+											var ageStr=CID.substring(6,10);
+											var date=new Date();
+											var isYear=date.getFullYear();
+											age.val(isYear-parseInt(ageStr));
+											data2.USER_AGE=isYear-parseInt(ageStr);
+										}
+									}
+									$.ajax({
+										beforeSend:function(){
+											$("#loadgif").fadeIn(200);
+										},
+										type:"post",
+										url:baseurl+"custbase/YzSFZHSave",
+										dataType:"json",
+										contentType:"application/json",
+										data:JSON.stringify({"ID_NO":cartNumber.val()}),
+										success:function(data){
+											if(data.code=="00"){
+												$.ajax({
+													type:"post",
+													url:baseurl+"custbase/saveCust",
+													dataType:"json",
+													contentType:"application/json",
+													data:JSON.stringify(data1),
+													success:function(data){
+														$("#loadgif").fadeOut(100);
+														if(data.code=="00"){
+															$("#loadgif").fadeOut(100);
+															var result=data.result;
+															var cust_id=result.CUST_ID;
+															window.parent.location.href="kehuguanli_edit.html?cust_id="+cust_id;
+														}else if (data.code=="88"){
+															eval(data.reLoad);
+														}else{
+															console.log(data.errMsg);
+														}
+													},error:function(data){
+														$("#loadgif").fadeOut(100);
+														alert("错误");
+													}
+												})
+											}else{
+												alert(data.errMsg);
+												$("#loadgif").fadeOut(100);
+											}
+										},error:function(data){
+											$("#loadgif").fadeOut(100);
+											alert("错误");
+										}
+									})
+									
+								})
+							}else if(isExist=="2"){								
+								Io.bs.alert("客户已存在，管户经理：<b class='red'>"+jingL+"</b>，是否进行编辑？", function(){
+									window.parent.location.href="kehuguanli_edit.html?cust_id="+cid;
+								})
+								return;
+							}else{
+								Io.bs.alert("客户已存在，管户经理：<b class='red'>"+jingL+"</b>，是否申请查看？", function(){
+									var data1={
+											"USER_ID_SQ":jingL,//授权人
+											"CUST_ID":cid,//客户编号
+											"VALID_DAY":3,//查看时效
+											"STAT":0//状态
+									};
+									$.ajax({
+										type:"post",
+										url:baseurl+"custapply/save",
+										dataType:"json",
+										async:false,
+										contentType:"application/json",
+										data:JSON.stringify(data1),
+										success:function(data){
+											if(data.code=="00"){
+												alert("申请成功")
+												$("#Modal1").modal("hide").on("hidden.bs.modal",function(){});					
+											}else if(data.code=="01"){
+												alert('正在审核中');
+											}else if (data.code=="88"){
+												eval(data.reLoad);
+											}else{
+												alert(data);
+												}
+										},error:function(data){
+											alert(data);
+										}
+									})
+								})
+								return;
+							}
+						}
+					}else{
+						alert(data.errMsg);
+					}
+				}
+			})
+		}
+	}else{
+		alert("带 * 号的为必填项");
+	}
+})
+function goB(){	
+	$("#goBack").attr('onclick','javascript:history.go(-1);');
+	$(".none").hide();
+	$("#jvalid").show();
+	$("#submitAdd").text("下一步");
+	$("#submitAdd").attr('on-off','off');
+}
+</script>
+<script id="字典枚举值">
+var json ={
+		"acturlControllerCertType":"ID_TYPE",//实际控制人证件 类型
+		"legalRepreseCertType":"ID_TYPE",//法人代表证件类型
+		"cartType":"ID_TYPE",//非小微企业证件类型
+		"custType":"Cust_Type",//客户类型
+		"isArea1":"Area_CD1",//所属区域
+		"isArea2":"370725001000",//所属区域2
+		"eduLevel":"EDU_LEVEL",//学历
+		"vocation":"VOCATION",//职业
+		"healthy":"HEALTHY",//健康状况
+		"custGrp":"CUST_GRP1",//所属客户群
+		"openBank":"OPEN_BANK"//基本户开户行	
+}
+var CD1="",
+	CD2="";
+$.ajax({//所属区域临时表
+	type:"post",
+	url:baseurl+"custbase/queryAreaTmp",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify({"CUST_JL_ID":""}),
+	success:function(data){
+		if(data.code=="00"){
+			console.log(data);
+			if(data.result!=null){
+				var result=data.result;
+				if(!result.AREA_CD==""){
+					json['isArea2']=result.AREA_CD;
+				}
+				CD1=result.AREA_CD;
+				CD2=result.AREA_CD2;
+				selectOnload({"json":json,"func":callback,"length":11});							
+			}else{
+				selectOnload({"json":json,"func":callback,"length":11});
+			}
+		}else{
+			selectOnload({"json":json,"func":callback,"length":11});
+		}
+	},error:function(){
+		selectOnload({"json":json,"func":callback,"length":11});
+	}
+})
+var num = 1;
+function callback(){
+	if(num==1){
+		$("#isArea1").bind("DOMNodeInserted",function(){
+			if(CD1!="") $("#isArea1").val(CD1);
+		});
+		$("#isArea2").bind("DOMNodeInserted",function(){
+			if(CD2!="") $("#isArea2").val(CD2);
+		});		
+		$("#custGrp").change();	
+	}
+	num++;
+}
+
+</script>
+</body>
+</html>

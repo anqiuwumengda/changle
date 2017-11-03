@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>规章制度-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<div class="widget-content">
+	 <div class="text-center mb15">
+		<h4 id="ruleName"></h4>
+		<h6>发布单位：<span id="pubDept"></span>&nbsp; 日期：<span id="pubDate"></span></h6>
+	</div>
+	<div id="ruleContent"></div>
+</div>
+<script>
+var no=getUrlParam("no")||"";
+var data1={"RULE_NO":no};
+$.ajax({
+	type:"post",
+	url:baseurl+"lrdrule/queryById",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			var result=data.result;
+			$("#ruleName").text(result.RULE_NAME);
+			$("#pubDept").text(result.PUB_DEPT);
+			$("#pubDate").text(result.PUB_DATE);
+			$("#ruleContent").html(result.RULE_DESC);
+		}else{
+			alert(data.errMsg);
+		}
+	}
+})
+</script>
+</body>
+</html>

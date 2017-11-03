@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>新增-贷款申请-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="table_wrapper">
+<table class="table table-bordered table-striped table-hover white-bg" id="example">
+<thead>
+	<tr>
+		<th>客户编号</th>
+		<th>客户名称</th>
+		<th>申请产品</th>
+		<th>申请金额</th>
+		<th>申请期限</th>
+		<th width="95">操作</th>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>12345</td>
+		<td>张三</td>
+		<td>住房按揭</td>
+		<td>100000</td>
+		<td>5年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+	<tr>
+		<td>67890</td>
+		<td>李四</td>
+		<td>白领通</td>
+		<td>50000</td>
+		<td>3年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+	<tr>
+		<td>33333</td>
+		<td>王二</td>
+		<td>白领通</td>
+		<td>50000</td>
+		<td>3年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+	<tr>
+		<td>12345</td>
+		<td>张三</td>
+		<td>住房按揭</td>
+		<td>100000</td>
+		<td>5年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+	<tr>
+		<td>67890</td>
+		<td>李四</td>
+		<td>白领通</td>
+		<td>50000</td>
+		<td>3年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+	<tr>
+		<td>33333</td>
+		<td>王二</td>
+		<td>住房按揭</td>
+		<td>100000</td>
+		<td>5年</td>
+		<td>
+			<button class="btn btn-danger btn-xs" type="button" name="btnAdd">新增</button>
+			<button class="btn btn-danger btn-xs" type="button" name="btnSee">查看</button>
+		</td>
+	</tr>
+</tbody>
+</table>
+</div>
+<ul class="pagination pagination-sm" id="pagination">
+	<li class="prev"><a href="#">← 上一页</a></li>
+	<li class="active"><a href="#">1</a></li>
+	<li><a href="#">2</a></li>
+	<li><a href="#">3</a></li>
+	<li><a href="#">4</a></li>
+	<li><a href="#">5</a></li>
+	<li class="next"><a href="#">下一页 →</a></li>
+</ul>
+<script>
+//查看&编辑
+$("#example").find("tbody>tr").on("click",function(){
+	location.href="../dksq/daikuanshenqing_see.html";
+})
+$("[name=btnSee]").on("click",function(){
+	$("#example").find("tbody>tr").unbind("click");
+	location.href="../dksq/daikuanshenqing_see.html";
+})
+//新增按钮
+$("[name=btnAdd]").on("click",function(){
+	$("#example").find("tbody>tr").unbind("click");
+	location.href="../dksq/daikuanshenqing_add.html";
+})
+</script>
+</body>
+</html>

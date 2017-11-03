@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>工作经营情况-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+	<form class="form-horizontal">
+		<div id="jsix">
+			<div class="clearfix">
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label">客户性质：</label>
+					<div class="bs-sm-r">
+						<span class="form-control" id="smEnterprise">小微企业</span>
+					</div>
+				</div>
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label">所属行业：</label>
+					<div class="bs-sm-r">
+						<select class="form-control" id="SSHY"></select>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label">经营项目：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" name="businessProject" />
+					</div>
+				</div>
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label small">与下游客户的平均合作年限：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" name="cooperationYears" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label small">是否在固定日发放工资：</label>
+					<div class="bs-sm-r">
+						<select class="form-control" name="isWage" id="GDRFGZ_FLAG">
+							<option value="" selected>--请选择--</option>
+							<option value="是">是</option>
+							<option value="否">否</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label small">近三年实际控制人是否变更：</label>
+					<div class="bs-sm-r">
+						<select class="form-control" name="isPeopleChange"
+							id="ACT_JL_DESC">
+							<option value="" selected>--请选择--</option>
+							<option value="是">是</option>
+							<option value="否">否</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="col-md-6 clearfix bs-form-group">
+					<label class="bs-sm-l control-label small">员工总数量：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" name="employeesNumber" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="clearfix text-center tab-footer">
+			<button class="btn btn-md btn-danger" type="reset">重置</button>
+			<button class="btn btn-md btn-danger" type="button" id="btnsave">保存</button>
+			<button class="btn btn-md btn-danger" type="button"
+				onclick="backkhgl()">返回</button>
+		</div>
+		<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+	</form>
+	<script id="小微企业经营情况">
+		var cust_id = getUrlParam("cust_id") || "";
+		var btnsave = $("#btnsave"), //保存
+		JYXM = $("input[name='businessProject']"), //经营项目
+		SSHY = $("#SSHY"), //所属行业
+		NCAY = $("input[name='cooperationYears']"), //与下游客户的平均合作年限
+		GDRFGZ_FLAG = $("#GDRFGZ_FLAG"), //是否在固定日发放工资
+		ACT_JL_DESC = $("#ACT_JL_DESC"), //近三年实际控制人变更情况
+		EMPSUM = $("input[name='employeesNumber']");//员工总数量	
+		function updata() {
+			var data1 = {
+				"CUST_ID" : cust_id
+			};
+			$.ajax({
+				type : "post",
+				url : baseurl + "custxwqy/query",
+				dataType : "json",
+				contentType : "application/json",
+				data : JSON.stringify(data1),
+				success : function(data) {
+					if (data.code == "00") {
+						//debugger;
+						if(data.result != null&& data.result.length){
+							var resultArr = data.result[0];
+							console.log(resultArr);
+							console.log(resultArr.JYXM)
+							JYXM.val(resultArr.JYXM);
+							NCAY.val(resultArr.NCAY);
+							GDRFGZ_FLAG.val(resultArr.GDRFGZ_FLAG);
+							ACT_JL_DESC.val(resultArr.ACT_JL_DESC);
+							EMPSUM.val(resultArr.EMPSUM);
+							SSHY.val(resultArr.SSHY);
+						}
+					} else if (data.code == "88") {
+						eval(data.reLoad);
+					} else {
+						//alert(data.errMsg);
+						console.log(data);
+					}
+				},
+				error : function(data) {
+					alert("错误");
+				}
+			})
+		}
+		updata();
+		function save() {
+			var data1 = {
+				"CUST_ID" : cust_id,
+				"JYXM" : JYXM.val(),
+				"NCAY" : NCAY.val(),
+				"SSHY":SSHY.val(),
+				"GDRFGZ_FLAG" : GDRFGZ_FLAG.val(),
+				"ACT_JL_DESC" : ACT_JL_DESC.val(),
+				"EMPSUM" : EMPSUM.val()
+			};
+			$.ajax({
+				beforeSend:function(){
+					if(true){$("#loadgif").fadeIn(200);};
+				},
+				type : "post",
+				url : baseurl + "custxwqy/save",
+				dataType : "json",
+				contentType : "application/json",
+				data : JSON.stringify(data1),
+				success : function(data) {
+					//console.log(data);
+					$("#loadgif").fadeOut(100);
+					if (data.code == "00") {
+						alert("保存成功");
+					} else {
+						console.log(data.errMsg);
+					}
+				}
+			})
+		}
+		btnsave.on("click", function() {//新增
+			save();
+		})
+	</script>
+<script>
+var json={//(字典枚举)筛选
+		"SSHY":"GBHY"//行业分类
+};
+selectOnload({"json":json,"isDefault":false,"isElse":false});
+</script>
+</body>
+</html>

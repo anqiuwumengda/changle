@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>影像资料-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<script>
+$(function() {  
+    FastClick.attach(document.body);  
+});  
+</script>
+</head>
+<body class="white-bg">
+<script src="../js/plupload.full.min.js"></script>
+<div class="clearfix">
+	<div class="col-xs-12 mb10">
+		<ul class="nav nav-pills">
+	         <li class="active"><a href="#picwrapper"  data-toggle="tab">客户基础资料</a></li>
+	         <li class=""><a href="#picwrapper1" data-toggle="tab">家庭资产</a></li>
+	         <li class=""><a href="#picwrapper2" data-toggle="tab">经营场所</a></li>
+	         <li class=""><a href="#picwrapper3" data-toggle="tab">其它</a></li>
+	         <li class=""><a href="#picwrapper4" data-toggle="tab">拜访</a></li>
+	     </ul>
+     </div>
+</div>
+<div class="tab-content">
+<div class="clearfix none active" on-off="off" id="picwrapper">
+</div>
+<div class="clearfix none" on-off="off" id="picwrapper1">
+	<div class="clearfix btn-group pl15 mb10">
+		<a class="btn btn-default active" data-toggle="tab" href="#picwrapper1_1">房产</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_2">车辆</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_3">土地</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_4">其它</a>
+	</div>
+	<div class="tab-content">
+		<div class="clearfix none active" on-off="off" id="picwrapper1_1"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_2"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_3"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_4"></div>
+	</div>
+</div>
+<div class="clearfix none" on-off="off" id="picwrapper2">
+</div>
+<div class="clearfix none" on-off="off" id="picwrapper3">
+</div>
+<div class="clearfix none" on-off="off" id="picwrapper4">
+</div>
+</div>
+<div class="clearfix text-center tab-footer" id="container">
+	<button class="btn btn-danger" type="button" id="pickfiles">上传</button>
+	<!-- <button class="btn btn-danger" type="button" id="camera">相机</button> -->
+	<button class="btn btn-danger" type="button" id="manage">管理</button>
+	<button class="btn btn-danger" type="button" onclick="backkhgl()">返回</button>
+</div>
+<div class="clearfix">
+	<video id="video" class="none" style="width:640px;height:480px;margin:10px auto;"></video>
+	<div><canvas id="canvas" class="none" width="640" height="480"></canvas></div>
+	<button class="btn btn-primary none" style="margin:10px auto; clear:both;" type="button" id="picture">拍照</button></div>
+</div>
+<div class="pl10 pr10 red" id="console"></div>
+<!-- 弹窗modal 1-->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">添加备注</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<input type="text" id="iDESC" class="form-control" placeholder="备注" />
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary mb5" id="uploadfiles" type="button">确定上传</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModal0" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">修改备注</h5>
+				<input type="hidden" id="eDOC" />
+			</div>
+			<div class="modal-body clearfix">
+				<input type="text" id="eDESC" class="form-control" placeholder="备注" />
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary mb5" id="btnQD" type="button">确　定</button>
+				<button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="preView"></div>
+<script>
+var CUST_ID = getUrlParam("cust_id");
+var iDESC = $("#iDESC");
+var tabId = '#picwrapper';
+Io.on("a[data-toggle=tab]","click",function(){
+	var $href=$(this).attr("href");
+	if($href=="#picwrapper1"){
+		$href=$($href).find("a.active").attr("href");
+	}
+	tabId = $href;	
+	//alert(tabId);  
+	$(".tab-content.none").attr("on-off","off");
+	$("[name=btnDel]").hide();
+})
+$("#picwrap	per1").find("a[data-toggle=tab]").on("click",function(){
+	$(this).addClass("active").siblings().removeClass("active");
+})
+function tpList(){
+	var data1 = {"CUST_ID":CUST_ID};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custdoc/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				//console.log(JSON.stringify(data.result))
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var ht='',ht1='',ht2='',ht3='',ht4='',ht5='';
+					var ht2_1='',ht2_2='',ht2_3='',ht2_4='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var FILE_NAME = result.FILE_NAME;
+						var date = FILE_NAME.substring(0,4)+'.'+FILE_NAME.substring(4,6)+'.'+FILE_NAME.substring(6,8);
+						ht+='<div class="bs_wd_6"><a class="thumbnail">';
+						ht+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+						ht+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+						ht+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+						ht+='<i class="glyphicon glyphicon-trash"></i></button>';
+						ht+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+						ht+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+						if(result.DOC_NAME=="#picwrapper"){
+							ht1+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht1+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht1+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht1+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht1+='<i class="glyphicon glyphicon-trash"></i></button>';
+							ht1+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+							ht1+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+						}else if(/#picwrapper1/.test(result.DOC_NAME)){
+							if(result.DOC_NAME=="#picwrapper1_1"){
+								ht2_1+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_1+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_1+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_1+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_1+='<i class="glyphicon glyphicon-trash"></i></button>';
+								ht2_1+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+								ht2_1+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_2"){
+								ht2_2+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_2+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_2+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_2+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_2+='<i class="glyphicon glyphicon-trash"></i></button>';
+								ht2_2+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+								ht2_2+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_3"){
+								ht2_3+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_3+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_3+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_3+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_3+='<i class="glyphicon glyphicon-trash"></i></button>';
+								ht2_3+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+								ht2_3+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_4"){
+								ht2_4+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_4+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_4+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_4+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_4+='<i class="glyphicon glyphicon-trash"></i></button>';
+								ht2_4+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+								ht2_4+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+							}
+						}else if(result.DOC_NAME=="#picwrapper2"){
+							ht3+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht3+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht3+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht3+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht3+='<i class="glyphicon glyphicon-trash"></i></button>';
+							ht3+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+							ht3+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+							
+						}else if(result.DOC_NAME=="#picwrapper3"){
+							ht4+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht4+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht4+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht4+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht4+='<i class="glyphicon glyphicon-trash"></i></button>';
+							ht4+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+							ht4+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+						}else if(result.DOC_NAME=="#picwrapper4"){
+							
+							ht5+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht5+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht5+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht5+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht5+='<i class="glyphicon glyphicon-trash"></i></button>';
+							ht5+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+							ht5+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+						}
+					}
+					$("#picwrapper").html(ht1);
+					$("#picwrapper1_1").html(ht2_1);
+					$("#picwrapper1_2").html(ht2_2);
+					$("#picwrapper1_3").html(ht2_3);
+					$("#picwrapper1_4").html(ht2_4);
+					$("#picwrapper2").html(ht3);
+					$("#picwrapper3").html(ht4);
+					$("#picwrapper4").html(ht5);
+				}else{
+					$("#picwrapper").html('');
+					$("#picwrapper1_1").html('');
+					$("#picwrapper1_2").html('');
+					$("#picwrapper1_3").html('');
+					$("#picwrapper1_4").html('');
+					$("#picwrapper2").html('');
+					$("#picwrapper3").html('');
+					$("#picwrapper4").html('');
+				}				
+			}else{
+				console.log(data.errMsg);
+			}
+		},error:function(){
+			console.log("错误");
+		}
+	}) 
+}
+tpList();
+Io.on("#manage","click",function(){//显示按钮————开关
+	if($(tabId).attr("on-off")=="off"){
+		$(tabId).attr("on-off","on");
+		$(tabId).find("[name=btnDel]").show();
+		$(tabId).find("[name=btnEdit]").show();
+	}else{
+		$(tabId).attr("on-off","off");
+		$(tabId).find("[name=btnDel]").hide();
+		$(tabId).find("[name=btnEdit]").hide();
+	}
+})
+Io.on("button[name=btnEdit]","click",function(){//编辑
+	$("#eDOC").val($(this).attr("zt"));
+	$("#eDESC").val("");
+	$(".modal-dialog").css("margin-top",$(parent.window).scrollTop());
+	$("#myModal0").modal({
+		backdrop:false
+	})
+})
+Io.on("#btnQD","click",function(){
+	var data0 = {
+		"DOC_PATH":$("#eDOC").val(),
+		"DESC":$("#eDESC").val()
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custdoc/updatePhotoDesc",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){					
+				tpList();
+				$("#myModal0").modal("hide");
+			}else{
+				console.log(data.errMsg);
+			}
+		},error:function(){
+			console.log("错误");
+		}
+	})
+})
+Io.on("button[name=btnDel]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	if(confirm("确定删除吗？")){
+		var data1={"SEQ_NO":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custdoc/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){					
+					tpList();
+				}else{
+					console.log(data.errMsg);
+				}
+			},error:function(){
+				console.log("错误");
+			}
+		}) 
+	}
+})
+/*上传图片*/
+var uploader = new plupload.Uploader({
+	
+    runtimes: 'html5,flash,silverlight,html4', //上传插件初始化选用那种方式的优先级顺序
+    browse_button: 'pickfiles', // 点击上传的按钮
+    container: document.getElementById("container"), // 展现上传文件列表的容器，[默认是body]
+    url: baseurl+'file/upload2',//服务器端的上传页面地址
+    flash_swf_url: '../js/Moxie.swf', //flash文件地址//swf文件，当需要使用swf方式进行上传时需要配置该参数
+    file_data_name: 'filedata',
+    silverlight_xap_url: '../js/Moxie.xap',//silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+    filters: {
+        max_file_size: '10mb',
+        mime_types: [
+            {title: "Image files", extensions: "jpg,gif,png"},
+            {title: "Zip files", extensions: "zip"}
+        ]
+    },
+    multi_selection: false, //多选对话框
+    init: {
+        PostInit: function (up) {
+        	iDESC.val("");
+			$("#myModalLabel1").html("");
+        },
+        FilesAdded: function (up, files) { //获取上传文件信息&&开始上传 uploader.start();
+            for (var i in files) {
+            	$('#myModalLabel1').html(files[i].name + '(' + plupload.formatSize(files[i].size) + ')');
+			}
+            $(".modal-dialog").css("margin-top",$(parent.window).scrollTop());
+            $("#myModal1").modal({
+        		backdrop:false
+        	})
+            Io.on('#uploadfiles','click',function(){
+            	uploader.start();
+            	$("#myModal1").modal("hide");
+                return false;
+            })
+        },
+        UploadProgress: function (up, file) { //上传进度百分比
+            //document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+        },
+        Error: function (up, err) {
+            //document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            
+        },
+        FileUploaded: function (uploader, file, responseObject) {
+            var json = $.parseJSON(responseObject.response);
+            if(json.code=="00"){
+            	
+            	var data1 = {"CUST_ID":CUST_ID,"DOC_NAME":tabId,"FILE_NAME":json.FILENAME,"DOC_PATH":json.msg,"DESC":iDESC.val()};
+            	$.ajax({
+					type:"post",
+					url:baseurl+"custdoc/save",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						if(data.code=="00"){
+							tpList();
+							// var height=$("body").height();
+							//parent.window.$("#myTabsFrame").height(height);
+						}else{
+							console.log(data.errMsg);
+						}
+					},error:function(){
+						console.log("错误");
+					}
+				}) 
+            }     
+            
+            $('#filelist').find('.del').bind('click', function () {
+                var $this = $(this);
+                $this.parents('.iteam').remove();
+                //isPic = 0;
+                uploader.removeFile(file);
+                Picturedata = undefined;
+            });
+        }
+    }
+});
+uploader.init();
+var ClickNum = 0;
+Io.on(".thumbnail img","click",function(){
+	ClickNum++;
+	setTimeout(function(){ClickNum=0;},500);
+	if(ClickNum==2){
+		var imgsrc = $(this).attr("src");
+		$("#preView").html('<img src="'+imgsrc+'" style="margin-top:'+$(parent.window).scrollTop()+'px" />');
+		$("#preView").show();
+	}	
+});
+Io.on("#preView","click",function(){
+	$("#preView").hide();
+})
+</script>
+</body>
+</html>

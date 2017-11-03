@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustZzMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CUST_ID,ZW_TYPE,CUST_XZ,ZZ_MS,ZZ_MODEL,MC,XJ_SJ,BIZ_DATE,BIZ_YEARS,INCOME_Y,PROFIT_Y,CRT_DATE,MTN_DATE
+		from cust_zz
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="ZW_TYPE != null"> and ZW_TYPE=#{ZW_TYPE,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_zz
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="CUST_XZ != null ">CUST_XZ,</if>
+			<if test="ZW_TYPE != null ">ZW_TYPE,</if>
+			<if test="ZZ_MS != null and ZZ_MS!='' ">ZZ_MS,</if>
+			<if test="ZZ_MODEL != null ">ZZ_MODEL,</if>
+			<if test="MC != null and MC!='' ">MC,</if>
+			<if test="XJ_SJ != null ">XJ_SJ,</if>
+			<if test="BIZ_DATE != null ">BIZ_DATE,</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!='' ">BIZ_YEARS,</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y,</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!='' ">PROFIT_Y,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},</if>
+			<if test="CUST_XZ != null">#{CUST_XZ,jdbcType=VARCHAR},</if>
+			<if test="ZW_TYPE != null">#{ZW_TYPE,jdbcType=VARCHAR},</if>
+			<if test="ZZ_MS != null and ZZ_MS!=''">#{ZZ_MS,jdbcType=DECIMAL},</if>
+			<if test="ZZ_MODEL != null">#{ZZ_MODEL,jdbcType=VARCHAR},</if>
+			<if test="MC != null and MC!=''">#{MC,jdbcType=DECIMAL},</if>
+			<if test="XJ_SJ != null">#{XJ_SJ,jdbcType=VARCHAR},</if>
+			<if test="BIZ_DATE != null">#{BIZ_DATE,jdbcType=VARCHAR},</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!=''">#{BIZ_YEARS,jdbcType=INTEGER},</if>
+			<if test="INCOME_Y != null and INCOME_Y!=''">#{INCOME_Y,jdbcType=DECIMAL},</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!=''">#{PROFIT_Y,jdbcType=DECIMAL},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_zz
+		<set>
+			<if test="CUST_XZ != null ">CUST_XZ=#{CUST_XZ,jdbcType=VARCHAR},</if>
+			<if test="ZZ_MS != null and ZZ_MS!='' ">ZZ_MS=#{ZZ_MS,jdbcType=DECIMAL},</if>
+			<if test="ZZ_MODEL != null ">ZZ_MODEL=#{ZZ_MODEL,jdbcType=VARCHAR},</if>
+			<if test="MC != null and MC!='' ">MC=#{MC,jdbcType=DECIMAL},</if>
+			<if test="XJ_SJ != null ">XJ_SJ=#{XJ_SJ,jdbcType=VARCHAR},</if>
+			<if test="BIZ_DATE != null ">BIZ_DATE=#{BIZ_DATE,jdbcType=VARCHAR},</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!='' ">BIZ_YEARS=#{BIZ_YEARS,jdbcType=INTEGER},</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y=#{INCOME_Y,jdbcType=DECIMAL},</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!='' ">PROFIT_Y=#{PROFIT_Y,jdbcType=DECIMAL},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		ZW_TYPE=#{ZW_TYPE,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from cust_zz where
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		ZW_TYPE=#{ZW_TYPE,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from cust_zz
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="ZW_TYPE != null"> and ZW_TYPE=#{ZW_TYPE,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	<select id="filterQuery" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select cb.CUST_ID,cb.CUST_NAME,cb.TEL_NO,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cz.ZW_TYPE,cz.CUST_XZ,cz.ZZ_MS,
+		cz.ZZ_MODEL,cz.MC,cz.XJ_SJ,cz.BIZ_DATE,cz.BIZ_YEARS,cz.INCOME_Y,cz.PROFIT_Y,cz.CRT_DATE,cz.MTN_DATE from cust_base cb
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN cust_zz cz on cb.cust_id = cz.cust_id
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' )
+		
+			<!-- OrgCD -->
+			<if test="ZH_ID != null and ZH_ID != ''"><![CDATA[ and  lrdu.ORG_CD = #{ZH_ID,jdbcType=INTEGER}]]></if>
+			<!-- User_id -->
+			<if test="JL_ID != null and JL_ID != ''"> <![CDATA[ and  cb.CUST_GRP_JL = #{JL_ID,jdbcType=INTEGER}]]></if>
+			<if test="ZW_TYPE != null"> and ZW_TYPE=#{ZW_TYPE,jdbcType=VARCHAR}</if>
+		order by cb.MTN_DATE DESC,cb.CUST_ID DESC
+	</select>
+</mapper>

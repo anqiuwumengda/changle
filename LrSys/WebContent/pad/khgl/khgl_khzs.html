@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户之声-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootpackage.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">录入日期：</label>
+			<div class="bs-sm-r">
+				<input type="text" class="datepicker1" value=""/>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">电子银行产品：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="产品1">产品1</option>
+					<option value="产品2">产品2</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">存款/理财产品：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="产品1">产品1</option>
+					<option value="产品2">产品2</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">信贷产品：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="产品1">产品1</option>
+					<option value="产品2">产品2</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">银行卡：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="招商银行">招商银行</option>
+					<option value="北京银行">北京银行</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">客户满意度：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="非常满意">非常满意</option>
+					<option value="满意">满意</option>
+					<option value="一般">一般</option>
+					<option value="不满意">不满意</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">其它：</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name=""/>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="reset">重置</button>
+		<button class="btn btn-md btn-danger" type="button">保存</button>
+		<button class="btn btn-md btn-danger" type="button">返回</button>
+	</div>
+</form>
+<div class="col-xs-12">
+<table class="bs_table table_bg_blue">
+	<thead>
+		<tr>
+			<th width="130">录入日期</th>
+			<th>潜在需求</th>
+			<th>客户满意度</th>
+			<th>备注</th>
+			<th width="66"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>2014.06.06</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<button class="btn btn-xs btn-danger" type="button">
+					<i class="glyphicon glyphicon-trash"></i> 删除
+				</button>
+			</td>
+		</tr>
+		<tr>
+			<td>2014.10.01</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<button class="btn btn-xs btn-danger" type="button">
+					<i class="glyphicon glyphicon-trash"></i> 删除
+				</button>
+			</td>
+		</tr>
+		<tr>
+			<td>2014.06.01</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>
+				<button class="btn btn-xs btn-danger" type="button">
+					<i class="glyphicon glyphicon-trash"></i> 删除
+				</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<script>
+$(".datepicker1").datepicker("update",newDate);
+</script>
+</body>
+</html>

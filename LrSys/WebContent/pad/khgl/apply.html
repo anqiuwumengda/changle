@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户管理-审批</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="white-bg pt15">
+	<form class="form-horizontal">
+	<div class="clearfix" >
+		<div class="col-md-12 clearfix bs-form-group">
+			<ul class="nav nav-pills" id="">
+				<li id='kone' class="active"><a href="#jthree" data-toggle="tab">已审核</a></li>
+				<li id='ktwo' class=""><a href="#jtwo" data-toggle="tab">待审核</a></li>
+				<li  id='kthree'class=""><a href="#jone" data-toggle="tab">需审核</a></li>				           
+			 </ul>
+		</div>
+	</div>
+	<div class="tab-content">
+		<div class="none" id="jone">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>									
+						<th>客户名称</th>						
+						<th >客户类型</th>									
+						<th>客户经理分类</th>
+						<th>申请经理</th>
+						<th>操作</th>			
+						</tr>
+					</thead>
+					<tbody id="xu_sh">
+								
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="none" id="jtwo">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>
+							<th>客户名称</th>							
+							<th id="sort_type" up-down="off">客户类型</th>									
+							<th id="sort_jl" up-down="off">客户经理分类</th>
+							<th>管户经理</th>
+							<th width="10%">操作</th>			
+						</tr>
+					</thead>
+					<tbody id="dai_sh">
+								
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="none active" id="jthree">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>
+						<th>客户名称</th>						
+						<th id="sort_type" up-down="off">客户类型</th>									
+						<th id="sort_jl" up-down="off">客户经理分类</th>
+						<th>管户经理</th>
+						<th>操作</th>			
+						</tr>
+					</thead>
+					<tbody id="kechakan">
+								
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+	<!-- 审批弹窗-->
+	<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >审批</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">申请经理：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" Disabled id="approve_USER_NAME">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+				<label class="bs-sm-l control-label">客户名称：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" disabled id="approve_CUST_NAME">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<div class="bs-sm-r">
+						<input type="hidden" class="form-control" value="kehuid" id="approve_CUST_ID">
+					</div>
+				</div>				
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">查看时效：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" value="3 " id ="approve_VALID_DAY" Disabled>				
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">是否同意：</label>
+					<div class="bs-sm-r radio checkbox">
+						<label><input type="radio" name="isagree" value="2" checked>是</label>
+						<label><input type="radio" name="isagree" value="1">否</label>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">审核意见：</label>
+					<div class="bs-sm-r">			
+						<textarea class="form-control" cols="53" id="CONTENT"></textarea>
+					</div>
+				</div>	
+				<div class="clearfix bs-form-group">		
+					<div class="bs-sm-r">			
+						<input type="hidden" class="form-control" id ="approve_USER_ID" >
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="approve">审批</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>			
+			</div>			
+		</div>
+	</div>
+	<!-- 状态弹窗-->
+	<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >审核状态</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">审核状态：</label>
+					<div class="bs-sm-r checkbox">
+						<label><input type="radio" name="a_state" value="0" disabled>待审核</label>			
+						<label><input type="radio" name="a_state" value="1" disabled>已拒绝</label>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">审核意见：</label>
+					<div class="bs-sm-r">			
+						<textarea disabled class="form-control" cols="53" id="sh_CONTENT"></textarea>
+					</div>
+				</div>				
+			</div>
+			<div class="modal-footer ">
+				<div class="clearfix text-center tab-footer">
+					<button class="btn btn-md btn-default" data-dismiss="modal" >返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</form>
+	<script type="text/javascript">
+		Io.on("[name='approve']","click",function(){
+			$("#approve_USER_NAME").val( $(this).attr("USER_NAME"));
+			$("#approve_CUST_NAME").val( $(this).attr("CUST_NAME"));
+			$("#approve_CUST_ID").val( $(this).attr("CUST_ID"));
+			$("#approve_USER_ID").val( $(this).attr("USER_ID"));
+			$("#myModal").modal({
+				backdrop:false
+			})
+		})
+		Io.on("[name='see_state']","click",function(){
+			var zt=$(this).attr("zt");			
+			$("[name=a_state]").eq(zt).attr("checked","checked");
+			$("#sh_CONTENT").val($(this).attr("yj"));
+			$("#myModal1").modal({
+				backdrop:false
+			})
+		})
+		Io.on("[name='btnsee']","click",function(){
+			var id = $(this).attr("zt");
+			location.href="./kehuguanli_see.html?cust_id="+id+"&v=1";
+		})
+	</script>
+	<script type="text/javascript">
+	function start (){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custapply/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(''),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.USER_ID_SQ_NAME + '</td>';
+						html+='<td>';
+						if(result.STAT=="2"){
+						html+='<button zt="'+result.CUST_ID+'" class="btn btn-danger btn-xs" type="button" name="btnsee" >查看</button>';
+						}
+						if(result.STAT=="1"){
+						html+='<button class="btn btn-xs" type="button">被拒绝</button>';
+						}
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#kechakan").html(html);
+			}else{
+				console.log(data.errMsg);
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})
+	}
+	start();
+	$("#kone").on("click",function(){start();})
+	</script>
+	<script type="text/javascript"id="待审核">
+	$("#ktwo").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custapply/querYsq",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(''),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.USER_ID_SQ_NAME + '</td>';
+						html+='<td>';
+						html+='<button  yj="'+result.CONTENT+'"zt="'+result.STAT+'"class="btn btn-danger btn-xs" type="button" name="see_state" >查看审批状态</button> ';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#dai_sh").html(html);
+			}else{
+				console.log(data.errMsg);
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})
+	})
+	</script>
+	<script type="text/javascript"id="可查看">
+	$("#kthree").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custapply/queryDsh",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(''),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.USER_NAME + '</td>';
+						html+='<td>';
+						html+='<button CUST_NAME="'+result.CUST_NAME+'" USER_ID="'+result.USER_ID+'" USER_NAME="'+result.USER_NAME+'" CUST_ID="'+result.CUST_ID+'" class="btn btn-danger btn-xs" type="button" name="approve" >审批</button> ';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#xu_sh").html(html);
+			}else{
+				console.log(data.errMsg);
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})	
+	})
+	</script>
+	<script type="text/javascript"id="审批提交">
+	$("#approve").on("click",function(){
+		var data={
+				"USER_ID":$("#approve_USER_ID").val(),//申请经理
+				"CUST_ID":$("#approve_CUST_ID").val(),//客户编号
+				"VALID_DAY":$("#approve_VALID_DAY").val(),//时效
+				"STAT":$("input[name=isagree]:checked").val(),//是否同意
+				"CONTENT":$("#CONTENT").val()//审批意见
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custapply/update",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data),
+			success:function(data){
+				if(data.code=="00"){
+					alert("成功")
+					$("#Modal").modal("hide").on("hidden.bs.modal");	
+					start();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+				}
+			},error:function(data){
+				alert(data);
+			}
+		})
+		})
+	</script>
+</div>
+</body>
+</html>

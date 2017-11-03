@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustNzNeedMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		cn.ID,cn.CUST_ID,cn.CRT_DATE,cn.NZ_TYPE,ld.dic_name,cn.NUM,cn.MONTH from cust_nz_need cn
+		left join lrd_dic ld on cn.NZ_TYPE = ld.dic_id
+		<where>
+			<if test="id != null and id !=''"> and id=#{id,jdbcType=INTEGER}</if>
+			<if test="CUST_ID != null and CUST_ID !=''"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="CRT_DATE != null and CRT_DATE !=''"> and cn.CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR}</if>
+			<if test="NZ_TYPE != null and NZ_TYPE !=''"> and NZ_TYPE=#{NZ_TYPE,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null and DIC_PARENTID !=''"> and ld.DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_nz_need
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="NZ_TYPE != null ">NZ_TYPE,</if>
+			<if test="NUM != null ">NUM,</if>
+			<if test="MONTH != null ">MONTH,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=VARCHAR},
+			</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="NZ_TYPE != null">#{NZ_TYPE,jdbcType=VARCHAR},</if>
+			<if test="NUM != null">#{NUM,jdbcType=VARCHAR},</if>
+			<if test="MONTH != null">#{MONTH,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<delete id="delete">
+		delete from cust_nz_need
+		<where>
+			<if test="CUST_ID != null and CUST_ID != ''"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="CRT_DATE != null and CRT_DATE != ''"> and CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+</mapper>

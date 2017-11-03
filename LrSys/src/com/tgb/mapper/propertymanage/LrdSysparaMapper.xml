@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdSysparaMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CORP_CD,CHPARAKEY,CHPARAVALUE,CHPARADESC,CHPARAVISIBLE,CHPARAMAINTAIN,CHPARALOCALE
+		from lrd_syspara
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="CHPARAKEY != null"> and CHPARAKEY=#{CHPARAKEY,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryMap" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CORP_CD,CHPARAKEY,CHPARAVALUE,CHPARADESC,CHPARAVISIBLE,CHPARAMAINTAIN,CHPARALOCALE
+		from lrd_syspara
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="CHPARAKEY != null"> and CHPARAKEY=#{CHPARAKEY,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_syspara
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null ">CORP_CD,</if>
+			<if test="CHPARAKEY != null ">CHPARAKEY,</if>
+			<if test="CHPARAVALUE != null ">CHPARAVALUE,</if>
+			<if test="CHPARADESC != null ">CHPARADESC,</if>
+			<if test="CHPARAVISIBLE != null ">CHPARAVISIBLE,</if>
+			<if test="CHPARAMAINTAIN != null ">CHPARAMAINTAIN,</if>
+			<if test="CHPARALOCALE != null ">CHPARALOCALE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null">#{CORP_CD,jdbcType=VARCHAR},</if>
+			<if test="CHPARAKEY != null">#{CHPARAKEY,jdbcType=VARCHAR},</if>
+			<if test="CHPARAVALUE != null">#{CHPARAVALUE,jdbcType=VARCHAR},</if>
+			<if test="CHPARADESC != null">#{CHPARADESC,jdbcType=CHAR},</if>
+			<if test="CHPARAVISIBLE != null">#{CHPARAVISIBLE,jdbcType=CHAR},</if>
+			<if test="CHPARAMAINTAIN != null">#{CHPARAMAINTAIN,jdbcType=CHAR},</if>
+			<if test="CHPARALOCALE != null">#{CHPARALOCALE,jdbcType=CHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_syspara
+		<set>
+			<if test="CHPARAVALUE != null ">CHPARAVALUE=#{CHPARAVALUE,jdbcType=VARCHAR},</if>
+			<if test="CHPARADESC != null ">CHPARADESC=#{CHPARADESC,jdbcType=CHAR},</if>
+			<if test="CHPARAVISIBLE != null ">CHPARAVISIBLE=#{CHPARAVISIBLE,jdbcType=CHAR},</if>
+			<if test="CHPARAMAINTAIN != null ">CHPARAMAINTAIN=#{CHPARAMAINTAIN,jdbcType=CHAR},</if>
+			<if test="CHPARALOCALE != null ">CHPARALOCALE=#{CHPARALOCALE,jdbcType=CHAR},</if>
+		</set>
+		where CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		CHPARAKEY=#{CHPARAKEY,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_syspara where
+		CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		CHPARAKEY=#{CHPARAKEY,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_syspara
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="CHPARAKEY != null"> and CHPARAKEY=#{CHPARAKEY,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+</mapper>

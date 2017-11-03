@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加字典</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/demo.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/common.js"></script>
+</head>
+<body class="pbody">
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">添加字典</h3>
+		</div>
+		<form class="form-horizontal">
+			<div class="box-body pt-30">
+				<div id="tB0" style="display:none">
+					<div class="form-group col-md-6">
+						<label class="col-md-4 control-label">字典ID:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="DIC_ID" />
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-4 control-label">字典名:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="DIC_NAME" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group" id="tB1" style="display:none">
+					<label class="col-md-4 control-label">字典名:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="gName" disabled="disabled" />
+					</div>
+				</div>
+				<div class="form-group">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Code ID</th>
+								<th>代码名</th>
+								<th>Sort</th>
+								<th>中文备注</th>
+								<th>ISLEAF</th>
+							</tr>
+						</thead>
+						<tbody id="zL">
+							<tr>
+								<td class="text-center">子类</td>
+								<td><input type="text" name="id" placeholder="必填" /></td>
+								<td><input type="text" name="name" placeholder="必填" /></td>
+								<td><input type="text" name="sort" /></td>
+								<td><input type="text" name="desc" /></td>
+								<td><input type="checkbox" value="1" name="is" /></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="form-group">
+					<div class="col-md-12">
+						<button id="plus" class="form-control" type="button">增加一行</button>
+					</div>
+				</div>			
+				<div class="clearfix text-center btn-footr">
+					<button id="btnSave" class="btn btn-danger" type="button">保　存</button>
+					<button id="btnBack" class="btn btn-primary" type="button">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+<script>
+var pId =  getUrlParam("p")||"",
+	zTn =  getUrlParam("n")||"";
+if(pId==""||pId=="undefined"){
+	$("#tB0").show();
+}else{
+	$("#tB1").show();
+	$("#gName").val(zTn);
+}
+//返回
+Io.on("#btnBack","click",function(){
+	location.href="./dictionary.jsp";
+});
+Io.on("#btnSave","click",function(){
+	var data0;
+	if(pId==""||pId=="undefined"){
+		if($("#DIC_ID").val()==""){
+			alert("请填写字典ID");
+			return false;
+		}
+		if($("#DIC_NAME").val()==""){
+			alert("请填写字典名称");
+			return false;
+		}
+		data0 = [{
+			"DIC_ID":$("#DIC_ID").val(),
+			"DIC_NAME":$("#DIC_NAME").val(),
+			"CORP_CD":"907","DIC_PARENTID":"xxx",
+			"DIC_DESC":"","DIC_ISENABLE":"1","ISLEAF":"1"
+		}];
+		pId = $("#DIC_ID").val();
+	}else{
+		data0 = [];
+	}
+	$("#zL tr").each(function(){
+		var id = $(this).find("[name=id]").val();
+		var name = $(this).find("[name=name]").val();
+		var sort = $(this).find("[name=sort]").val();
+		var desc = $(this).find("[name=desc]").val();
+	    var is = $(this).find("[name=is]:checked").val()=="1"?"1":"";
+	    if(id!=""&&name!=""){
+	    	data0.push({
+	    		"DIC_ID":id,
+	    		"DIC_NAME":name,
+	    		"DIC_SORT":sort,
+	    		"DIC_DESC":desc,
+	    		"DIC_PARENTID":pId,
+	    		"ISLEAF":is,
+	    		"DIC_ISENABLE":"1",
+	    		"CORP_CD":"907"
+	    	});
+	    }
+	});
+	$.ajax({
+		type:"post",
+		url:baseurl+"slrddic/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				location.href="./dictionary.jsp";
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+});
+//增加一行
+Io.on("#plus","click",function(){
+	var html='<tr><td class="text-center">子类</td>';
+	html += '<td><input type="text" name="id" placeholder="必填" /><td><input type="text" name="name" placeholder="必填" /></td>';
+	html += '<td><input type="text" name="sort" /></td><td><input type="text" name="desc" /></td>';
+	html += '<td><input type="checkbox" value="1" name="is" /></td></tr>';
+	$("#zL").append(html);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>基本信息-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-md-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">客户类型：</label>
+			<div class="bs-sm-r">
+				<select id="custType" class="form-control" disabled="true">
+					<option value="" selected>-请选择-</option>
+				</select> 
+			</div>
+		</div>
+	</div>
+	<div class="none" id="jone">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 姓名：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isName"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">年龄：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="age"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">性别：</label>
+				<div class="bs-sm-r radio">
+					<label><input type="radio" name="sex" value="01">男</label>
+					<label><input type="radio" name="sex" value="02">女</label>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 联系电话：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="telephone"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">备用联系电话：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="telNoBy"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="cartType" disabled="true">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">证件号码：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="cartNumber"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">学历：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="eduLevel" disabled="true">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职业：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="vocation" disabled="true">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">健康状况：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="healthy" disabled="true">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">所属区域：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isArea"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">所属客户群：</label>
+				<div class="bs-sm-r pt7">
+					<select id="custGrp" class="form-control" disabled="true"style="width:48%;float:left;">
+						<option value="" selected>--请选择--</option>
+					</select> 
+					<select id="custGrp2" class="form-control" disabled="true"style="width:48%;float:right;">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">所属客户经理：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="custGrpJl"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">家庭地址：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="myAdress"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">状态标记：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="CREATETYPE"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="none" id="jtwo">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small"><b class="red">*</b> 企业名称：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="storeName"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">注册资本：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="registCapital"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">统一社会信用代码：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="credCode"/>
+				</div>
+			</div>
+		</div>
+		<div id="myBorder" >
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">法定代表人：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="legalReprese"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="legalRepreseCertType" disabled="true">
+						<option value="" selected="">--请选择--</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">证件号码：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="legalRepreseCerdNumber"></span>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div id="myBorder" >
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">实际控制人：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="acturlController"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">证件类型：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="acturlControllerCertType" disabled="true">
+						<option value="" selected="">--请选择--</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">证件号码：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="acturlControllerCertNumber"></span>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">联系人：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="contactName"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">联系电话：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="telephoneB" style="width:48%;float:left;"></span>
+					<span class="form-control" id="telephoneC" style="width:48%;float:right;"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">基本户开户行：</label>
+				<div class="bs-sm-r">
+					<select id="openBank" class="form-control" disabled="true">
+						<option value="" selected>-请选择-</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b> 所属区域：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="isAreaB"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">管户经理：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="custGrpJlA"/></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">状态标记：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="CREATETYPEc"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+	<div class="clearfix"></div>
+</form>
+<script>
+
+var custType=$("#custType"),
+	isName=$("#isName"),
+	age=$("#age"),
+	telephone=$("#telephone"),
+	cartType=$("#cartType"), //证件类型
+	cartNumber=$("#cartNumber"), //证件号码
+	telNoBy=$("#telNoBy"),//备用联系电话
+	eduLevel=$("#eduLevel"),//学历
+	vocation=$("#vocation"),//职业
+	healthy=$("#healthy"),//健康状况
+	isArea=$("#isArea"),//所属区域
+	custGrp=$("#custGrp"),//所属客户群1
+	custGrp2=$("#custGrp2"),//所属客户群2
+	custGrpJl=$("#custGrpJl"),//所属客户经理
+	myAdress=$("#myAdress");//家庭或经营地址
+	CREATETYPEc=$("#CREATETYPEc");////状态标记
+
+//小微企业数据
+var storeName=$("#storeName"), //企业名称
+	custGrpJlA=$("#custGrpJlA"),//所属客户经理
+	credCode=$("#credCode"),//统一社会信用代码
+	isAreaB=$("#isAreaB"),//所属区域
+	contactName=$("#contactName"), //联系人
+	telephoneB=$("#telephoneB"), //联系人电话
+	telephoneC=$("#telephoneC"), //联系人电话
+	registCapital=$("#registCapital"), //注册资本
+	legalReprese=$("#legalReprese"), //法定代表人
+	legalRepreseCertType=$("#legalRepreseCertType"), //法人证件类型
+	legalRepreseCerdNumber=$("#legalRepreseCerdNumber") ,//法人证件代码
+	acturlController=$("#acturlController"), //实际控制人
+	acturlControllerCertType=$("#acturlControllerCertType"), //实际控制人证件类型
+	acturlControllerCertNumber=$("#acturlControllerCertNumber"), //实际控制人证件号码
+	openBank=$("#openBank"); //基本户开户行
+	CREATETYPE=$("#CREATETYPE"); //状态标记
+	
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var data1={"CUST_ID":cust_id};
+
+function　callback(){
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			//显示客户信息
+			var result=data.result[0];
+			custType.val(result.CUST_TYPE);
+			if(result.CUST_TYPE=="XWQY"){ //显示小微企业信息
+				storeName.text(result.CUST_NAME);
+				custGrpJlA.text(result.CUST_GRP_JLC);
+				isAreaB.text(result.AREA_CDC+result.AREA_CD2C);
+				registCapital.text(result.CAPITAL_AMT);
+				legalReprese.text(result.FR_NAME);
+				legalRepreseCertType.val(result.FR_ID_TYPE);
+				legalRepreseCerdNumber.text(result.FR_ID_NO);
+				acturlController.text(result.ACT_JL);
+				acturlControllerCertType.val(result.ACT_ID_TYPE);
+				acturlControllerCertNumber.text(result.ACT_ID_NO);
+				openBank.val(result.BANK_NAME);
+				telephoneB.text(result.LXR_TEL);
+				telephoneC.text(result.TEL_NO_BY);
+				contactName.text(result.LXR);
+				credCode.text(result.CRED_CODE);
+				CREATETYPEc.text(result.CREATE_TYPEC);
+				$("#jtwo").show();
+				$("#jone").hide();
+			}else{
+				isName.text(result.CUST_NAME);
+				age.text(result.USER_AGE);
+				telephone.text(result.TEL_NO);
+				cartNumber.text(result.ID_NO);
+				cartType.val(result.ID_TYPE);
+				$("input[name=sex]").each(function(){
+					var $this=$(this);
+					if($this.val()==result.SEX){
+						$this.attr("checked",true);
+					}
+				});
+				telNoBy.text(result.TEL_NO_BY);
+				eduLevel.val(result.EDU_LEVEL);
+				vocation.val(result.VOCATION);
+				healthy.val(result.HEALTHY);
+				isArea.text(result.AREA_CDC+result.AREA_CD2C);
+				custGrp.val(result.CUST_GRP);
+				custGrp2.val(result.CUST_GRP2);
+				custGrpJl.text(result.CUST_GRP_JLC);
+				myAdress.text(result.ADDRESS);
+				CREATETYPE.html(result.CREATE_TYPEC);
+				$("#jone").show();
+				$("#jtwo").hide();	
+			}
+			/* if(custType.val()=="XWQY"){
+				$("#jtwo").show();
+				$("#jone").hide();
+			}else if(custType.val()==""){
+				$("#jone,#jtwo").hide();
+			}else{
+				$("#jone").show();
+				$("#jtwo").hide();
+			} */
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+})
+//禁止单选框
+$("input[type=radio]").attr("disabled",true);
+}
+</script>
+<script id="字典枚举值">
+
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var data1={"CUST_ID":cust_id};
+var json={
+		"cartType":"ID_TYPE",//证件类型
+		"legalRepreseCertType":"ID_TYPE",//证件类型
+		"acturlControllerCertType":"ID_TYPE",//证件类型
+		"custType":"Cust_Type",//客户类型
+		"eduLevel":"EDU_LEVEL",//学历
+		"vocation":"VOCATION",//学历
+		"healthy":"HEALTHY",//健康状况
+		"custGrp":"CUST_GRP1",//所属客户群
+		"openBank":"OPEN_BANK",//基本户开户行
+		"isArea1":"Area_CD1",		
+		"isAreaB1":"Area_CD1"
+}
+$.ajax({//获取联动字典枚举值
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			var result=data.result[0];
+			if(result.CUST_TYPE=="XWQY"){
+				json["isAreaB2"]=result.AREA_CD;	
+				selectOnload({"json":json,"length":12});
+			}else{
+				json["isArea2"]=result.AREA_CD;
+				json["custGrp2"]=result.CUST_GRP;
+				selectOnload({"json":json,"length":13});
+			}
+			callback();
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+}) 
+</script>
+</body>
+</html>

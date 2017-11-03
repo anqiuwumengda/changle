@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding='GBK'?>
+<root>
+   <class name="hlc.base.AbstactEntity" code="01">
+      <message key="01" enValue="File %1 not found."
+        cnValue="找不到文件%1."/>
+      <message key="02" enValue="Field %1 is not exist."
+        cnValue="字段%1不存在."/>
+        <message key="03" enValue="the sql id %1 is not exist."
+        cnValue="SQL语句中id %1不存在."/>
+      <message key="21" enValue="Field %1 should be Date,format: yyyymmdd,greater than 19000101 ."
+        cnValue="输入域 %1 ，只能输入大于等于19000101的日期，格式为：yyyymmdd."/>
+      <message key="22" enValue="Field %1 should be Time,format: hhmmss or hh:mm:ss ."
+        cnValue="输入域 %1 ，只能输入时间，格式为：hhmmss或hh:mm:ss."/>
+   </class>
+   <class name="levin.base.ValidCheck" code="16">
+      <message key="26" enValue="Field %1 (%2) should greater than [%3](%4)."
+        cnValue="输入域 %1(%2) 应该大于等于[%3](%4)."/>
+      <message key="27" enValue="Field %1 (%2) should less than [%3](%4)."
+        cnValue="输入域 %1(%2) 应该小于等于[%3](%4)."/>
+      <message key="28" enValue="Field %1 should greater than or equals zero, now %2."
+        cnValue="输入域 %1 的取值范围是&gt;=0，当前值=%2"/>
+      <message key="29" enValue="Field %1 should greater than zero, now %2."
+        cnValue="输入域 %1 的取值范围是&gt;0，当前值=%2"/>
+      <message key="30" enValue="Field %1 should less than or equals zero, now %2."
+        cnValue="输入域 %1 的取值范围是&lt;=0，当前值=%2"/>
+      <message key="31" enValue="Field %1 should less than zero, now %2."
+        cnValue="输入域 %1 的取值范围是&lt;0，当前值=%2"/>
+      <message key="32" enValue="the length of Field %1 should exceed %2 ."
+        cnValue="输入域 %1 长度不足，不能少于%2个英文字符或者%3个汉字！"/>
+      <message key="33" enValue="the length of Field %1 can't exceed %3, now %2."
+        cnValue="输入域 %1 长度过长，目前字数为%2。不能多于%3个英文字符或者%4个汉字！"/>
+      <message key="34" enValue="Field %1 is not int, now %2."
+        cnValue="输入域 %1 不是整数，当前值=%2"/>
+      <message key="35" enValue="Field %1 is not number, now %2."
+        cnValue="输入域 %1 不是数值型数据，当前值=%2"/>
+   </class>
+   <class name="levin.base.DAOBase" code="02">
+      <message key="01" enValue="Property %1 not found, please confirm it."
+        cnValue="属性%1不存在,请确认."/>
+      <message key="02" enValue="The field %1 not exist in class %2"
+        cnValue="类%2中不存在属性%1."/>
+      <message key="03" enValue="can't delete because %1 doesn't define primary key."
+        cnValue="%1未定义主键,所以不能执行删除."/>
+      <message key="04" enValue="pkValue is null now,should not be null."
+        cnValue="pkValue不能为null."/>
+      <message key="05" enValue="pkValue=%1 exist error,',' should be the separator if the primary key is composed by multi-fields."
+        cnValue="pkValue=%1,存在错误,多个字段时应该以半角逗号分隔."/>
+      <message key="06" enValue="Query can't be executed because %1 doesn't define primary key."
+        cnValue="%1未定义主键,不能执行查询."/>
+      <message key="07" enValue="can't estimate if exist or not because %1 doesn't define primary key."
+        cnValue="%1未定义主键,不能判断其对象是否存在."/>
+   </class>
+   <class name="hlc.base.Service" code="03">
+      <message key="01" enValue="please check %1 doType=%2, whether seted in the ServiceConfig file."
+        cnValue="doType=%2错误,请检查%1是否在ServiceConfig进行了配置."/>
+      <message key="02" enValue="Error on the entity class to be auto created. at /%1"
+        cnValue="自动创建对象%1时出错,请检查autoCreate是否配置正确."/>
+      <message key="03" enValue="Error on the entity class to be auto created. at /%1"
+        cnValue="自动创建对象%1时出错."/>
+      <message key="04" enValue="Can't find target page alias(%1), please check the doType value(%2)."
+        cnValue="找不到别名为%1的目标页面,请检查doType=%2的设置."/>
+   </class>
+   <class name="levin.base.srcMaker" code="04">
+      <message key="01" enValue="Please set srcPath and className,Error on (srcPath=%1 className=%2)."
+        cnValue="(srcPath=%1 className=%2)有误,请设置srcPath和className参数."/>
+   </class>
+   <class name="levin.upload.DownLoad" code="05">
+      <message key="01" enValue="Please set fileObject or fileData."
+        cnValue="请设置fileObject或fileData参数."/>
+   </class>
+   <class name="levin.upload.LevinRequest" code="06">
+      <message key="01" enValue="The size of form data and all upload file is exceed the allowed value %1M"
+        cnValue="附件及表单数据总大小超过了%1M,请适当减小附件的大小."/>
+   </class>
+   <class name="levin.Controller" code="07">
+      <message key="01" enValue="The config file (%1) not found, Please check the path or file name."
+        cnValue="找不到配置文件%1,请检查路径及文件名."/>
+   </class>
+   <class name="hlc.UserInfo" code="08">
+      <message key="01" enValue="The session has losed, please login again."
+        cnValue="session失效,请重新登录系统."/>
+      <message key="02" enValue="The session has losed, please login again."
+        cnValue="session失效,请重新登录系统."/>
+      <message key="03" enValue="the User can't visit the module because of no right(%1). please contact to admin."
+        cnValue="您目前没有该功能的操作权限,请和系统管理员联系."/>
+      <message key="04" enValue="Please login first."
+        cnValue="请先正常登录系统."/>
+      <message key="05" enValue="Please login first."
+        cnValue="请先正常登录系统."/>
+   </class>
+   <class name="levin.util.DataSet" code="09">
+      <message key="01" enValue="column index should less then %1."
+        cnValue="列号错误，应该小于: %1"/>
+      <message key="02" enValue="column index should less then %1."
+        cnValue="列号错误，应该小于: %1"/>
+      <message key="03" enValue="column index should less then %1."
+        cnValue="列号错误，应该小于: %1"/>
+      <message key="04" enValue="column index should less then %1."
+        cnValue="列号错误，应该小于: %1"/>
+      <message key="05" enValue="column index should less then %1."
+        cnValue="列号错误，应该小于: %1"/>
+      <message key="06" enValue="column %1 not exist."
+        cnValue="列 %1 不存在，请检查列名称!"/>
+      <message key="07" enValue="row index exceed %1."
+        cnValue="行数超限%1."/>
+      <message key="08" enValue="column index exceed %1."
+        cnValue="列数超限%1."/>
+      <message key="09" enValue="sort type: 0,asc 1 desc"
+        cnValue="排序方式：0，升序；1，降序。"/>
+      <message key="10" enValue="sort type: ASC or DESC"
+        cnValue="排序方式：ASC，升序；DESC，降序。"/>
+      <message key="11" enValue="column count (%1) is error,should be (%2)."
+        cnValue="列数%1错误,应该是%2"/>
+   </class>
+   <class name="hlc.util.DbAccess" code="10">
+      <message key="01" enValue="config file DBConfig.xml not exist."
+        cnValue="数据源配置文件DBConfig.xml不存在."/>
+      <message key="02" enValue="init, datasource name [%1] not found."
+        cnValue="初始化,未找到数据源[%1]."/>
+      <message key="03" enValue="Prepared SQL set set,please invoke prepareSQL(String sql) first."
+        cnValue="尚未设置Prepared SQL，请先调用prepareSQL(String sql)方法。"/>
+      <message key="04" enValue="Prepared SQL set set,please invoke prepareSQL(String sql) first."
+        cnValue="尚未设置Prepared SQL，请先调用prepareSQL(String sql)方法。"/>
+      <message key="05" enValue="connect to database,timeout. value=%1ms,wait %2ms."
+        cnValue="连接数据库超时:  设定时间: %1ms,等待时间: %2ms."/>
+      <message key="06" enValue="clear pool: %1."
+        cnValue="清空连接池时,%1."/>
+      <message key="07" enValue="Prepared SQL set set,please invoke prepareSQL(String sql) first."
+        cnValue="尚未设置Prepared SQL，请先调用prepareSQL(String sql)方法。"/>
+      <message key="08" enValue="property error,allowed {dbDriver,connStr,dbCharset,fileEncoding,checkCode,user,password}."
+        cnValue="属性%1错误,允许的属性有{dbDriver,connStr,dbCharset,fileEncoding,checkCode,user,password}."/>
+      <message key="09" enValue="database %1 not exist."
+        cnValue="数据库%1不存在."/>
+      <message key="10" enValue="className can not be empty or null."
+        cnValue="类名不能为空或null."/>
+      <message key="11" enValue="database name %1 is not only one in file LevinDBConfig.xml"
+        cnValue="数据库名%1在配置文件LevinDBConfig.xml中出现了多次."/>
+   </class>
+   <class name="levin.util.DsUtility" code="11">
+      <message key="01" enValue="data type className=%1 not supported."
+        cnValue="数据类型className=%1不支持."/>
+   </class>
+   <class name="levin.util.JspListTable" code="12">
+      <message key="01" enValue="entityArray or dataSet property should not be null."
+        cnValue="JspListTable尚未设置entityArray或dataSet属性。"/>
+      <message key="03" enValue="the displayColumn and columnWidth count is not same."
+        cnValue="参数设置错误:displayColumn和columnWidth个数不一致，请重新调整。"/>
+   </class>
+   <class name="levin.util.MultiPage" code="13">
+      <message key="01" enValue="the multi-page data lost because other operation. please query again."
+        cnValue="因做其他操作,分页显示所用数据已经丢失,请重新查询!"/>
+   </class>
+   <class name="levin.upload.ShowPicture" code="14">
+      <message key="01" enValue="filedData not set."
+        cnValue="请设置fileData参数。"/>
+   </class>
+   <class name="levin.util.LevinDate" code="15">
+      <message key="01" enValue="Date format should be yyyymmdd or empty(current date)."
+        cnValue="日期必须为8位，格式为: yyyymmdd；或为空，表示取当前日期!"/>
+      <message key="02" enValue="Date %1 error,should be yyyymmdd or empty(current date)."
+        cnValue="日期%1错误，必须为8位，格式为: yyyymmdd"/>
+      <message key="03" enValue="Time format should be hhmmss or empty(current time)."
+        cnValue="时间必须为6位，格式为: hhmmss；或为空，表示取当前时间!"/>
+      <message key="04" enValue="Time %1 error,should be hhmmss or empty(current date)."
+        cnValue="日期%1错误，必须为8位，格式为: yyyymmdd"/>
+   </class>
+</root>

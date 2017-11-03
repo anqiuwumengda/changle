@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>统计报表-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/echarts.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<div class="bootstrap-admin-panel-content">
+	<div class="chart" id="chart" style="width:100%;height:400px;"></div>
+</div>	
+
+<script>
+var data0={};
+
+require.config({
+    paths: {
+        echarts: '../js'
+    }
+});
+require(
+        [
+            'echarts',
+            "echarts/chart/bar",
+            "echarts/chart/line"
+        ],
+        function (ec) {
+            var myChart = ec.init(document.getElementById('chart'));
+            var strArr=new Array();
+            var dateArr=new Array();
+            $.ajax({
+            	url:baseurl+"custinputsum/querySum",
+            	type:"post",
+            	dataType:"json",
+            	contentType:"application/json",
+            	data:JSON.stringify(data0),
+            	success:function(data){
+            		if(data.code=="00"){
+            			var result=data.result;
+            			for(var i=0;i<result.length;i++){
+            				strArr.push(result[i].num);
+            				dateArr.push(result[i].mon+"月");
+            			}
+            			var option = {
+                        		title : {
+                        	        text: '客户量统计表'
+                        	    },
+                        	    tooltip : {
+                        	        trigger: 'axis'
+                        	    },
+                        	    legend: {
+                        	        data:['客户量']
+                        	    },
+                        	    toolbox: {
+                        	        show : true,
+                        	        feature : {
+                        	            //mark : {show: true},
+                        	            //dataView : {show: true, readOnly: false},
+                        	            magicType : {show: true, type: ['line', 'bar']},
+                        	            restore : {show: true},
+                        	            saveAsImage : {show: true}
+                        	        }
+                        	    },
+                        	    calculable : true,
+                        	    color:["#87CEFA"],
+                        	    xAxis : [
+                        	        {
+                        	            type : 'category',
+                        	            data : dateArr
+                        	        }
+                        	    ],
+                        	    yAxis : [
+                        	        {
+                        	            type : 'value'
+                        	        }
+                        	    ],
+                        	    series : [
+                        	        {
+                        	            name:'客户量',
+                        	            type:'bar',
+                        	            data:strArr,
+                        	            markPoint : {
+                        	                data : [
+                        	                    {type : 'max', name: '最大值'},
+                        	                    {type : 'min', name: '最小值'}
+                        	                ]
+                        	            },
+                        	            markLine : {
+                        	                data : [
+                        	                    {type : 'average', name: '平均值'}
+                        	                ]
+                        	            }
+                        	        }
+                        	    ]
+                        }
+                        myChart.setOption(option);
+            		}else if(data.code=="88"){
+            			eval(data.reLoad);
+            		}
+            	}
+            	
+            })
+            
+        }
+    );
+</script>
+</body>
+</html>

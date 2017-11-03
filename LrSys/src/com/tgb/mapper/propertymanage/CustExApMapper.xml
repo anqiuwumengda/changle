@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.CustExApMapper">   
+
+	 <select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT scsp.ID_NO,scsp.ORG_NAME,scsp.ZYXM,scsp.INTERCODE,scsp.CUST_ID,scsp.CUST_GRP_GL,scsp.CUST_GRP_GL_NAME,scsp.ZR1_SENDMSG,scsp.ZR1_RESULT,scsp.ZR1_CODE,scsp.ZR1_DESC,
+		scsp.ZR2_SENDMSG,scsp.ZR2_RESULT,scsp.ZR2_CODE,scsp.ZR2_DESC,scsp.PJ_SENDMSG,scsp.PJ_JB,scsp.PJ_MODEL_TYPE,scsp.PJ_LMT,scsp.PJ_CODE,scsp.PJ_DESC,scsp.ED_SENDMSG,
+		scsp.ED_LMT,scsp.ED_CODE,scsp.ED_DESC,scsp.CS_SENDMSG,scsp.CS_RESULT,scsp.CS_CODE,scsp.CS_DESC,scsp.CREALIMIT,scsp.QQLIMIT,scsp.QQRATE,scsp.DATE,scsp.LOSE_DATE,
+		scsp.STAT,scsp.CREATERATE,scsp.OPERID,CUST_NAME,SEX,TEL_NO
+		FROM `scsp` left JOIN cust_base ON scsp.CUST_ID=cust_base.CUST_ID
+		<where>	
+			<if test="ID_NO != null"> and ID_NO=#{ID_NO,jdbcType=VARCHAR}</if>
+			<if test="ORG_NAME != null"> and ORG_NAME=#{ORG_NAME,jdbcType=VARCHAR}</if>
+			<if test="ZYXM != null"> and ZYXM=#{ZYXM,jdbcType=VARCHAR}</if>
+			<if test="INTERCODE != null"> and INTERCODE=#{INTERCODE,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="CUST_GRP_GL != null"> and CUST_GRP_GL=#{CUST_GRP_GL,jdbcType=VARCHAR}</if>
+			<if test="CUST_GRP_GL_NAME != null"> and CUST_GRP_GL_NAME=#{CUST_GRP_GL_NAME,jdbcType=VARCHAR}</if>
+			<if test="ZR1_SENDMSG != null"> and ZR1_SENDMSG=#{ZR1_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ZR1_RESULT != null"> and ZR1_RESULT=#{,jdbcType=VARCHAR}</if>
+			<if test="ZR1_CODE != null"> and ZR1_CODE=#{ZR1_CODE,jdbcType=VARCHAR}</if>
+			<if test="ZR1_DESC != null"> and ZR1_DESC=#{ZR1_DESC,jdbcType=VARCHAR}</if>
+			<if test="ZR2_SENDMSG != null"> and ZR2_SENDMSG=#{ZR2_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ZR2_RESULT != null"> and ZR2_RESULT=#{ZR2_RESULT,jdbcType=VARCHAR}</if>
+			<if test="ZR2_CODE != null"> and ZR2_CODE=#{ZR2_CODE,jdbcType=VARCHAR}</if>
+			<if test="ZR2_DESC != null"> and ZR2_DESC=#{ZR2_DESC,jdbcType=VARCHAR}</if>
+			<if test="PJ_SENDMSG != null"> and PJ_SENDMSG=#{PJ_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="PJ_JB != null"> and PJ_JB=#{PJ_JB,jdbcType=VARCHAR}</if>
+			<if test="PJ_MODEL_TYPE != null"> and PJ_MODEL_TYPE=#{PJ_MODEL_TYPE,jdbcType=VARCHAR}</if>
+			<if test="PJ_LMT != null"> and PJ_LMT=#{PJ_LMT,jdbcType=VARCHAR}</if>
+			<if test="PJ_CODE != null"> and PJ_CODE=#{PJ_CODE,jdbcType=VARCHAR}</if>
+			<if test="PJ_DESC != null"> and PJ_DESC=#{PJ_DESC,jdbcType=VARCHAR}</if>
+			<if test="ED_SENDMSG != null"> and ED_SENDMSG=#{ED_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ED_LMT != null"> and ED_LMT=#{ED_LMT,jdbcType=VARCHAR}</if>
+			<if test="ED_CODE != null"> and ED_CODE=#{ED_CODE,jdbcType=VARCHAR}</if>
+			<if test="ED_DESC != null"> andED_DESC =#{ED_DESC,jdbcType=VARCHAR}</if>
+			<if test="CS_SENDMSG != null"> and CS_SENDMSG=#{CS_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="CS_RESULT != null"> and =#{,jdbcType=VARCHAR}</if>
+			<if test="CS_CODE != null"> and CS_CODE=#{CS_CODE,jdbcType=VARCHAR}</if>
+			<if test="CREALIMIT != null"> and CREALIMIT=#{CREALIMIT,jdbcType=VARCHAR}</if>
+			<if test="CREATERATE != null"> and CREATERATE=#{CREATERATE,jdbcType=VARCHAR}</if>
+			<if test="QQLIMIT != null"> and QQLIMIT=#{QQLIMIT,jdbcType=VARCHAR}</if>
+			<if test="QQRATE != null"> and QQRATE=#{QQRATE,jdbcType=VARCHAR}</if>
+			<if test="DATE != null"> and DATE=#{DATE,jdbcType=VARCHAR}</if>
+			<if test="LOSE_DATE != null"> and LOSE_DATE=#{LOSE_DATE,jdbcType=VARCHAR}</if>
+			<if test="STAT != null"> and STAT=#{STAT,jdbcType=VARCHAR}</if>
+			<if test="OPERID != null"> and OPERID=#{OPERID,jdbcType=VARCHAR}</if>
+		</where>
+	</select> 
+	<select id="queryByID" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT * FROM `scsp` 
+		<where>	
+			<if test="CUST_ID != null"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</select> 
+	
+	
+	<delete id="delete"  parameterType="java.util.Map">
+	DELETE FROM `scsp`
+		<where>	
+			<if test="ID_NO != null"> and ID_NO=#{ID_NO,jdbcType=VARCHAR}</if>
+			<if test="ORG_NAME != null"> and ORG_NAME=#{ORG_NAME,jdbcType=VARCHAR}</if>
+			<if test="ZYXM != null"> and ZYXM=#{ZYXM,jdbcType=VARCHAR}</if>
+			<if test="INTERCODE != null"> and INTERCODE=#{INTERCODE,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="CUST_GRP_GL != null"> and CUST_GRP_GL=#{CUST_GRP_GL,jdbcType=VARCHAR}</if>
+			<if test="CUST_GRP_GL_NAME != null"> and CUST_GRP_GL_NAME=#{CUST_GRP_GL_NAME,jdbcType=VARCHAR}</if>
+			<if test="ZR1_SENDMSG != null"> and ZR1_SENDMSG=#{ZR1_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ZR1_RESULT != null"> and ZR1_RESULT=#{,jdbcType=VARCHAR}</if>
+			<if test="ZR1_CODE != null"> and ZR1_CODE=#{ZR1_CODE,jdbcType=VARCHAR}</if>
+			<if test="ZR1_DESC != null"> and ZR1_DESC=#{ZR1_DESC,jdbcType=VARCHAR}</if>
+			<if test="ZR2_SENDMSG != null"> and ZR2_SENDMSG=#{ZR2_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ZR2_RESULT != null"> and ZR2_RESULT=#{ZR2_RESULT,jdbcType=VARCHAR}</if>
+			<if test="ZR2_CODE != null"> and ZR2_CODE=#{ZR2_CODE,jdbcType=VARCHAR}</if>
+			<if test="ZR2_DESC != null"> and ZR2_DESC=#{ZR2_DESC,jdbcType=VARCHAR}</if>
+			<if test="PJ_SENDMSG != null"> and PJ_SENDMSG=#{PJ_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="PJ_JB != null"> and PJ_JB=#{PJ_JB,jdbcType=VARCHAR}</if>
+			<if test="PJ_MODEL_TYPE != null"> and PJ_MODEL_TYPE=#{PJ_MODEL_TYPE,jdbcType=VARCHAR}</if>
+			<if test="PJ_LMT != null"> and PJ_LMT=#{PJ_LMT,jdbcType=VARCHAR}</if>
+			<if test="PJ_CODE != null"> and PJ_CODE=#{PJ_CODE,jdbcType=VARCHAR}</if>
+			<if test="PJ_DESC != null"> and PJ_DESC=#{PJ_DESC,jdbcType=VARCHAR}</if>
+			<if test="ED_SENDMSG != null"> and ED_SENDMSG=#{ED_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="ED_LMT != null"> and ED_LMT=#{ED_LMT,jdbcType=VARCHAR}</if>
+			<if test="ED_CODE != null"> and ED_CODE=#{ED_CODE,jdbcType=VARCHAR}</if>
+			<if test="ED_DESC != null"> andED_DESC =#{ED_DESC,jdbcType=VARCHAR}</if>
+			<if test="CS_SENDMSG != null"> and CS_SENDMSG=#{CS_SENDMSG,jdbcType=VARCHAR}</if>
+			<if test="CS_RESULT != null"> and =#{,jdbcType=VARCHAR}</if>
+			<if test="CS_CODE != null"> and CS_CODE=#{CS_CODE,jdbcType=VARCHAR}</if>
+			<if test="CREALIMIT != null"> and CREALIMIT=#{CREALIMIT,jdbcType=VARCHAR}</if>
+			<if test="CREATERATE != null"> and CREATERATE=#{CREATERATE,jdbcType=VARCHAR}</if>
+			<if test="QQLIMIT != null"> and QQLIMIT=#{QQLIMIT,jdbcType=VARCHAR}</if>
+			<if test="QQRATE != null"> and QQRATE=#{QQRATE,jdbcType=VARCHAR}</if>
+			<if test="DATE != null"> and DATE=#{DATE,jdbcType=VARCHAR}</if>
+			<if test="LOSE_DATE != null"> and LOSE_DATE=#{LOSE_DATE,jdbcType=VARCHAR}</if>
+			<if test="STAT != null"> and STAT=#{STAT,jdbcType=VARCHAR}</if>
+			<if test="OPERID != null"> and OPERID=#{OPERID,jdbcType=VARCHAR}</if>
+		</where>
+		
+	</delete>
+	
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT b.ID_NO,b.CUST_ID,b.TEL_NO, b.JTZYXM ZYXM,b.CUST_NAME,s.PJ_JB,if(s.pj_jb>=8,'暂无',s.ED_LMT) ED_LMT,
+		if(s.pj_jb>=8,'暂无',s.QQLIMIT) QQLIMIT,if(s.pj_jb>=8,'暂无',s.CREALIMIT) CREALIMIT,s.DATE,s.LOSE_DATE from cust_base b 
+		left JOIN scsp s on s.CUST_ID=b.CUST_ID
+		left JOIN lrd_org o on o.org_name=s.ORG_NAME 
+		where (b.CREATE_TYPE='2' or b.CREATE_TYPE='4') and (b.ISDEL is null or b.ISDEL !='1')
+		<if test="CUST_GRP_JL != null"> and b.CUST_GRP_JL=#{CUST_GRP_JL,jdbcType=VARCHAR}</if>
+		<if test="ORG_CD != null"> and o.ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+		<if test="keyword != null and keyword !='' "> and 
+		( b.CUST_NAME like CONCAT('%','${keyword}','%') or
+		s.ID_NO like CONCAT('%','${keyword}','%') or
+		b.TEL_NO like CONCAT('%','${keyword}','%') ) 
+		</if>
+		ORDER BY s.DATE desc
+	</select>
+	
+	
+	<select id="queryHnByYf" parameterType="java.util.Map" resultType="java.util.HashMap">
+			
+		SELECT b.ID_NO,b.CUST_ID,b.CUST_NAME,pj.BHSIXMOVERDUENUM ,pj.BHSIXMOVERDUETERM ,pj.BHONEYOVERDUENUM ,pj.BHONEYRATEOVERDUETERM ,pj.BHTWOYOVERDUENUM ,pj.BHTWOYOVERDUETERM from cust_base b,hn_cust_pj pj
+		where pj.CARDNUM=b.ID_NO and b.CUST_ID=#{CUST_ID,jdbcType=VARCHAR};
+		
+	</select>
+	
+	<select id="queryBatch" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT BATCH_TYPE,START_TIME,END_TIME,STAT,BATCH_DATE
+		FROM `batch_log`
+		ORDER BY BATCH_DATE DESC
+	</select>
+	
+</mapper>

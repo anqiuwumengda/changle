@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>财务信息-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">采集数据日期：</label>
+			<div class="bs-sm-r">
+				<input class="form-control" id="datepicker" disabled="true">
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<table class="table table-bordered bs_table">
+			<tr><th colspan="4" class="bg_gray text-center">家庭资产负债（万元）</th></tr>
+			<tr>
+				<td width="25%">现金及银行存款</td>
+				<td width="25%" id="XJJYHCK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="XJJYHCK" subj_cd="A0001"></i>
+				</td>
+				<td width="25%">应付账款</td>
+				<td width="25%" id="ZFZK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="ZFZK" subj_cd="D0001"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>应收账款</td>
+				<td id="YSZK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YSZK" subj_cd="A0002"></i>
+				</td>
+				<td>预收款项</td>
+				<td id="YSKX" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YSKX" subj_cd="D0002"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>预付款项</td>
+				<td id="YFCX" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YFCX" subj_cd="A0003"></i>
+				</td>
+				<td>短期贷款</td>
+				<td id="DQDK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="DQDK" subj_cd="D0003"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>存货</td>
+				<td id="CK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="CK" subj_cd="A0004"></i>
+				</td>
+				<td class="bg_gray">短期负债</td>
+				<td id="DQFZ">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">流动资产</td>
+				<td id="LDZC"></td>
+				<td>长期贷款</td>
+				<td id="CQDK" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="CQDK" subj_cd="D0004"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>固定资产</td>
+				<td id="GDZC" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet2" zd="GDZC" subj_cd="A0005"></i>
+				</td>
+				<td>其他负债</td>
+				<td id="QTFZ" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="QTFZ" subj_cd="D0005"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>其他资产</td>
+				<td id="QTJYZC" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="QTJYZC" subj_cd="A0006"></i>
+				</td>
+				<td class="bg_gray">总负债</td>
+				<td id="ZFZ">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">总资产</td>
+				<td id="ZZC">自动计算</td>
+				<td class="bg_gray">权益</td>
+				<td id="QY">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">速动比率</td>
+				<td id="SDBL">自动计算</td>
+				<td class="bg_gray">资产负债率</td>
+				<td id="ZCFZL">自动计算</td>
+			</tr>
+			<tr>
+				<td>家庭或有负债</td>
+				<td id="JTHYFZ" class="contenteditable">
+					<span></span>
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="JTHYFZ" subj_cd="P0002"></i>
+				</td>
+				<td> </td>
+				<td> </td>
+			</tr>
+		</table>
+		<table class="table table-bordered bs_table">
+		<thead>
+			<tr>
+				<th class="bg_gray">收入支出情况</th>
+				<th>一年前</th>
+				<th>二年前</th>
+				<th>三年前</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>家庭总收入</td>
+				<td id="SR_1Y"></td>
+				<td id="SR_2Y"></td>
+				<td id="SR_3Y"></td>
+			</tr>
+			<tr>
+				<td>家庭总支出</td>
+				<td id="ZC_1Y"></td>
+				<td id="ZC_2Y"></td>
+				<td id="ZC_3Y"></td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+</form>
+<!-- 历史记录 -->
+<div class="col-xs-12">
+<table class="bs_table table_bg_blue">
+	<thead>
+		<tr>
+			<th width="130">录入日期</th>
+			<th>备注</th>
+			<th width="70"></th>
+		</tr>
+	</thead>
+	<tbody id="tbodyList">
+		
+	</tbody>
+</table>
+</div>
+<!-- 弹窗modal1 -->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">现金及银行存款明细</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<table class="bs_table table_bg_blue modal_table">
+					<thead>
+						<tr>
+							<th width="30%">类别</th>
+							<th width="15%">金额</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyJt1">
+						
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal2 -->
+<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel2">固定资产</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<table class="bs_table table_bg_blue modal_table">
+					<thead>
+						<tr>
+							<th width="30%">类别</th>
+							<th>数量</th>
+							<th>金额</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyJt2">
+						
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<input type="hidden" id="cust_type"/>
+<script id="财务信息">
+$("#datepicker").datepicker("update",newDate); //更新日期
+var cust_id=getUrlParam("cust_id");//获取url中cust_id的值
+var date_id=$("#datepicker");//获取日期值
+
+var XJJYHCK=$("#XJJYHCK"), //现金及银行存款
+	YSZK=$("#YSZK"),//应收账款
+	YFCX=$("#YFCX"),//预付款项
+	CK=$("#CK"),//存货
+	LDZC=$("#LDZC"),//流动资产
+	GDZC=$("#GDZC"),//固定资产
+	QTJYZC=$("#QTJYZC"),//其他资产
+	ZZC=$("#ZZC"),//总资产
+	SDBL=$("#SDBL"),//速动比率
+	ZFZK=$("#ZFZK"),//应付账款
+	YSKX=$("#YSKX"),//预收款项
+	DQDK=$("#DQDK"),//短期贷款
+	DQFZ=$("#DQFZ"),//短期负债
+	CQDK=$("#CQDK"),//长期贷款
+	QTFZ=$("#QTFZ"),//其他负债
+	ZFZ=$("#ZFZ"),//总负债
+	QY=$("#QY"),//权益
+	ZCFZL=$("#ZCFZL"),//资产负债率
+	JTHYFZ=$("#JTHYFZ"),//家庭或有负债
+	////////////////收入支出情况
+	SR_1Y=$("#SR_1Y"),//一年前家庭总收入
+	SR_2Y=$("#SR_2Y"),//二年前家庭总收入
+	SR_3Y=$("#SR_3Y"),//三年前家庭总收入
+	ZC_1Y=$("#ZC_1Y"),//一年前家庭总支出
+	ZC_2Y=$("#ZC_2Y"),//二年前家庭总支出
+	ZC_3Y=$("#ZC_3Y");//三年前家庭总支出
+
+function finrpt(){
+	var data1={
+			"CUST_ID":cust_id,
+			"DATE_ID":date_id.val(),
+			"DTL_TYPE":"1"
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"finrpt/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				var htm='';
+				if(data.result!=null && data.result.length){
+					var result=data.result[0];
+					XJJYHCK.find("span").html(result.XJJYHCK+htm);
+					YSZK.find("span").html(result.YSZK+htm);
+					YFCX.find("span").html(result.YFCX+htm);
+					CK.find("span").html(result.CK+htm);
+					LDZC.html(result.LDZC);
+					GDZC.find("span").html(result.GDZC+htm);
+					QTJYZC.find("span").html(result.QTJYZC+htm);
+					ZZC.html(result.ZZC);
+					SDBL.html(result.SDBL);
+					ZFZK.html(result.ZFZK);
+					YSKX.find("span").html(result.YSKX+htm);
+					DQDK.find("span").html(result.DQDK+htm);
+					DQFZ.html(result.DQFZ);
+					CQDK.find("span").html(result.CQDK+htm);
+					QTFZ.find("span").html(result.QTFZ+htm);
+					ZFZ.html(result.ZFZ);
+					QY.html(result.QY);
+					ZCFZL.html(result.ZCFZL);
+					JTHYFZ.find("span").html(result.JTHYFZ);
+					SR_1Y.text(result.SR_1Y);
+					SR_2Y.text(result.SR_2Y);
+					SR_3Y.text(result.SR_3Y);
+					ZC_1Y.text(result.ZC_1Y);
+					ZC_2Y.text(result.ZC_2Y);
+					ZC_3Y.text(result.ZC_3Y);
+				}else{
+					XJJYHCK.find("span").html(htm);
+					YSZK.find("span").html(htm);
+					YFCX.find("span").html(htm);
+					CK.find("span").html(htm);
+					LDZC.html("");
+					GDZC.find("span").html(htm);
+					QTJYZC.find("span").html(htm);
+					ZZC.html("");
+					SDBL.html("");
+					ZFZK.find("span").html(htm);
+					YSKX.find("span").html(htm);
+					DQDK.find("span").html(htm);
+					DQFZ.html("");
+					CQDK.find("span").html(htm);
+					QTFZ.find("span").html(htm);
+					ZFZ.html("");
+					QY.html("");
+					ZCFZL.html("");
+					JTHYFZ.html("");
+					SR_1Y.text("");
+					SR_2Y.text("");
+					SR_3Y.text("");
+					ZC_1Y.text("");
+					ZC_2Y.text("");
+					ZC_3Y.text("");
+				}
+			}
+		}
+	})
+}
+
+function finrptList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"finrpt/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var html="";
+					var result=data.result;
+					var dateId=result[0].DATE_ID;
+					$("#datepicker").val(dateId);
+					finrpt();
+					for(var i=0;i<result.length;i++){
+						html+='<tr>'+
+							'<td>'+ result[i].DATE_ID +'</td>'+
+							'<td></td>'+
+							'<td date="'+ result[i].DATE_ID +'">'+
+							'<button class="btn btn-xs btn-danger" type="button" name="btnSee">'+
+							'<i class="glyphicon glyphicon-eye-open"></i></button></td>'+
+							'</tr>';
+					}
+					$("#tbodyList").html(html);
+				}else{
+					finrpt();
+					$("#tbodyList").html("");
+				}
+			}else{
+				$("#tbodyList").html("");
+			}
+		}
+	})
+}
+finrptList();
+Io.on("[name=btnSee]","click",function(){ //查看
+	var date_id=$(this).parent().attr("date");
+	$("#datepicker").val(date_id);
+	finrpt();
+});
+//计算年收入
+var cust_type=$("#cust_type");
+var data0={"CUST_ID":cust_id};
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null&&data.result.length){
+				var result=data.result[0];
+				cust_type.val(result.CUST_TYPE);
+				var data1={"CUST_ID":cust_id,"CUST_TYPE":cust_type.val()};
+				$.ajax({
+					type:"post",
+					url:baseurl+"rptdtl/querySR1Y",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						if(data.code=="00"){
+							$("#SR_1Y").text(data.result[0].SR_1Y);
+						}else{
+							alert(data.errMsg);
+						}
+					}
+				});
+			}
+			
+		}else if(data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			console.log(data.errMsg);
+		}
+	}
+});
+</script>
+<script id="财务明细">
+$("[name=findet1]").on("click",function(){
+	var $this=$(this);
+	var title=$this.parent().prev().text();
+	var subj_cd=$this.attr("subj_cd")||"0";
+	var zd=$this.attr("zd");
+	$("#myModalLabel1").text(title).attr("zd",zd);
+	$("#myModal1").modal({
+		backdrop:false
+	});
+	queryDetailList(subj_cd);
+});
+$("[name=findet2]").on("click",function(){
+	var $this=$(this);
+	var title=$this.parent().prev().text();
+	var subj_cd=$this.attr("subj_cd")||"0";
+	var zd=$this.attr("zd");
+	$("#myModalLabel2").text(title).attr("zd",zd);
+	$("#myModal2").modal({
+		backdrop:false
+	});
+	queryDetailList2(subj_cd);
+});
+function queryDetailList(cd){//cd为财务指标代码
+	var data1={"DATE_ID":date_id.val(),"CUST_ID":cust_id,"SUBJ_CD":cd};
+	var zd=$("#myModalLabel1").attr("zd");
+	$.ajax({
+		type:"post",
+		url:baseurl+"rptdtl/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;					
+					var html="";
+					for(var i=0;i<result.length;i++){
+						html+='<tr cid="'+ result[i].RPT_DTL_ID +'">'+
+							'<td><select id="my'+ cd + i +'" v="'+ result[i].SUBJ_TYPE +'" class="selectOne"></select></td>'+
+							'<td>'+ result[i].SUBJ_VAL +'</td>'+
+							'<td>'+ result[i].DTL_DESC +'</td>'+
+							'</tr>';
+							
+					}
+					
+					$("#tbodyJt1").html(html);
+					$("#tbodyJt1").find("tr").find("select").each(function(i,v){
+						var $this=$(v);
+						var val=$this.attr("v");
+						var id = "my"+ cd + i ;
+						//findetSelect(key,zd); //字典枚举
+						var data1={"DIC_PARENTID":zd};
+						$.ajax({
+							type:"post",
+							url:baseurl+"lrddic/query",
+							dataType:"json",
+							contentType:"application/json",
+							data:JSON.stringify(data1),
+							success:function(data){
+								if(data.code=="00"){
+									var ids=$("#"+id);
+									if(data.result!=null && data.result.length){
+										var result=data.result;
+										var html="";
+										for(var i=0;i<result.length;i++){
+											html+='<option value="'+ result[i].DIC_ID + '" >'+ result[i].DIC_NAME +'</option>';
+										}
+										ids.html(html);
+										$this.val(val).attr("disabled",true);
+									}
+								}
+							}
+						})
+						
+					});
+				}else{
+					$("#tbodyJt1").html("");
+					console.log(data.errMsg);
+				}
+			}else if(data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				$("#tbodyJt1").html("");
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+function queryDetailList2(cd){//cd为财务指标代码
+	var data1={"DATE_ID":date_id.val(),"CUST_ID":cust_id,"SUBJ_CD":cd};
+	var zd=$("#myModalLabel2").attr("zd");
+	$.ajax({
+		type:"post",
+		url:baseurl+"rptdtl/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;					
+					var html="";
+					for(var i=0;i<result.length;i++){
+						html+='<tr cid="'+ result[i].RPT_DTL_ID +'">'+
+							'<td><select id="my'+ cd + i +'" v="'+ result[i].SUBJ_TYPE +'" class="selectOne"></select></td>'+
+							'<td>'+ result[i].DTL_NUM +'</td>'+
+							'<td>'+ result[i].SUBJ_VAL +'</td>'+
+							'<td>'+ result[i].DTL_DESC +'</td>'+
+							'</tr>';
+					}
+					
+					$("#tbodyJt2").html(html);
+					$("#tbodyJt2").find("tr").find("select").each(function(i,v){
+						var $this=$(v);
+						var val=$this.attr("v");
+						var id = "my"+ cd + i ;
+						//findetSelect(key,zd); //字典枚举
+						var data1={"DIC_PARENTID":zd};
+						$.ajax({
+							type:"post",
+							url:baseurl+"lrddic/query",
+							dataType:"json",
+							contentType:"application/json",
+							data:JSON.stringify(data1),
+							success:function(data){
+								if(data.code=="00"){
+									var ids=$("#"+id);
+									if(data.result!=null && data.result.length){
+										var result=data.result;
+										var html="";
+										for(var i=0;i<result.length;i++){
+											html+='<option value="'+ result[i].DIC_ID + '" >'+ result[i].DIC_NAME +'</option>';
+										}
+										ids.html(html);
+										$this.val(val).attr("disabled",true);
+									}
+								}
+							}
+						})
+						
+					});
+				}else{
+					$("#tbodyJt2").html("");
+					console.log(data.errMsg);
+				}
+			}else if(data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				$("#tbodyJt2").html("");
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+</script>
+</body>
+</html>

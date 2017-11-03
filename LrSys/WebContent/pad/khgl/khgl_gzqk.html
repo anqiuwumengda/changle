@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>工作经营情况-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootstrap-suggest.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../css/pages.css">
+<style>
+ .form-group{ margin-bottom:12px;} 
+</style>
+</head>
+<body class="white-bg">
+  <form class="form-horizontal"  >
+	<div class="clearfix" id="jzero">
+		<div class="col-md-12 clearfix bs-form-group">
+			<ul class="nav nav-pills" id="custType">
+                <li class="active"><a href="#jone" data-toggle="tab">职工</a></li>
+                <li class=""><a href="#jtwo" data-toggle="tab">种植</a></li>
+                <li class=""><a href="#jthree" data-toggle="tab">养殖</a></li>
+                <li class=""><a href="#jfour" data-toggle="tab">打工</a></li>
+                <li class=""><a href="#jfive" data-toggle="tab">经商</a></li>
+                <li class=""><a href="#jfiveS" data-toggle="tab">主营项目</a></li>
+            </ul>
+		</div>
+	</div>
+
+	<div class="tab-content">
+	<div class="none active" id="jone">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">工作单位名称：</label>
+				<div class="bs-sm-r">
+				<div class="input-group">
+					<input type="text" class="form-control" id="companyName" />
+					<div class="input-group-btn">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        </ul>
+                    </div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">单位部门：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="department"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职务：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="ZGZW">
+						<option value="" selected>--请选择--</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b>工作开始年份：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="workYear" name="workYear"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职工性质：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="zgType">
+						<option value="" selected>--请选择--</option>
+						<option value="01">正式在编</option>
+						<option value="02">合同制</option>
+						<option value="03">临时工</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b>医疗保险上年度合计缴纳金额（元）：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="YLBXAMT" name="YLBXAMT" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b>年收入(万元)：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="YEARAMT" name="YEARAMT" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="clearfix text-center tab-footer">
+			<button class="btn btn-md btn-danger" type="reset">重置</button>
+			<button class="btn btn-md btn-danger" type="button" id="submitSave">保存</button>
+			<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+		</div>
+	</div>
+	<div class="none" id="jtwo">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue" style="min-width:600px;">
+			<thead>
+				<tr>
+					<th>作物种类</th>
+					<th>种植亩数</th>
+					<th>种植模式</th>
+					<th>亩产（斤）</th>
+					<th>下架时间</th>
+					<th>经营年限</th>
+					<th>年收入(万元)</th>
+					<th width="70">
+						<button class="btn btn-xs" type="button" onclick="addrow1();">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyZz">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jthree">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue">
+			<thead>
+				<tr>
+					<th>养殖种类</th>
+					<th>数量</th>
+					<th>出栏时间</th>
+					<th>经营年限</th>
+					<th>年收入(万元)</th>
+					<th width="70">
+						<button class="btn btn-xs" type="button" onclick="addrow2();">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyYz">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jfour">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue">
+			<thead>
+				<tr>
+					<th>外出地</th>
+					<th>务工年限</th>
+					<th>年收入(万元)</th>
+					<th width="70">
+						<button class="btn btn-xs" type="button" onclick="addrow3();">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyDg">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jfive">
+			<div class=" clearfix col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">商铺名称：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" name="storeName" id="DP_NAME"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">营业执照名称：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" name="licenseName"id="LICENCE_NAME" />
+				</div>
+			</div>
+	
+		
+			<div class=" clearfix col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">营业执照注册号：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" name="licenseNumber" id="LICENCE_NO"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">经营地址：</label>
+				<div class="bs-sm-r">
+					<input class="form-control" name="storeAddress" id="JS_ADDRESS"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b>员工总数量：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="WORKERS" name="WORKERS" onkeyup="value=value.replace(/[^\d]/g,'')">
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label"><b class="red">*</b>有人身意外伤害保险或工伤保险的员工数量：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" id="BX_CNT" name="BX_CNT" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+				</div>
+			</div>
+		
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue" style="min-width:600px;">
+			<thead>
+				<tr>
+					<th>经营行业</th>
+					<th>经营项目</th>
+					<th>经营年限</th>
+					<th colspan="2">经营场所建筑面积（㎡）</th>
+					<th>年收入(万元)</th>
+					<th>年利润(万元)</th>
+					<th width="70">
+						<button class="btn btn-xs" type="button" onclick="addrow4();">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyJs">				
+			</tbody>
+			</table>
+		</div>
+		<div class="clearfix text-center tab-footer">
+			<button class="btn btn-md btn-danger" type="reset">重置</button>
+			<button class="btn btn-md btn-danger" type="button" id="submitSaveJs">保存</button>
+			<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+		</div>
+	</div>
+
+
+	<div class="none" id="jfiveS">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">主营项目：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" name="JTZYXM" id="JTZYXM">
+						<option value="">-请选择-</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix text-center tab-footer">
+			<button class="btn btn-md btn-danger" type="reset">重置</button>
+			<button class="btn btn-md btn-danger" type="button" id="submitSaveXm">保存</button>
+			<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+		</div>
+	</div>
+	<div class="none" id="jsix">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">客户性质：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="smEnterprise">小微企业</span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">经营项目：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" name="businessProject"/>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">与下游客户的平均合作年限：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" name="cooperationYears"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">是否在固定日发放工资：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" name="isWage">
+						<option value="" selected>--请选择--</option>
+						<option value="是">是</option>
+						<option value="否">否</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">近三年实际控制人变更情况：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" name="isPeopleChange">
+						<option value="" selected>--请选择--</option>
+						<option value="无">无</option>
+						<option value="有变更">有变更</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label small">员工总数量：</label>
+				<div class="bs-sm-r">
+					<input type="text" class="form-control" name="employeesNumber"/>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix text-center tab-footer">
+			<button class="btn btn-md btn-danger" type="reset">重置</button>
+			<button class="btn btn-md btn-danger" type="button" id="submitSaveXw">保存</button>
+			<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+		</div>
+	</div>
+	</div>
+</form>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<!-- 弹窗modal 1-->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">种植</h5>
+			</div>
+			<form id="zzForm">
+			<div class="modal-body clearfix">
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>作物种类：</label>
+					<div class="bs-sm-r col-md-8">
+						<select class="form-control" id="zwType" name="zwType" >				
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b> 种植亩数：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="zzMs" name="zzMs">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b> 种植模式：</label>
+					<div class="bs-sm-r col-md-8">
+						<select class="form-control" id="zzModel" name="zzModel">
+							<option value="" selected="">--请选择--</option>
+							<option value="01">露天</option>
+							<option value="02">大棚</option>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">亩产（斤）：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="mc" onkeyup="value=value.replace(/[^\d.]/g,'')">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">下架时间(月)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="xjSj">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>经营开始年份：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control date-readonly"  readonly="readonly" id="bizDate" name='bizDate'>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>年收入(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="incomeY"name="incomeY" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave1">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal 2-->
+<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel2">养殖</h5>
+			</div>
+			<form id="yzForm">
+			<div class="modal-body clearfix">
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">养殖种类：</label>
+					<div class="bs-sm-r col-md-8">
+						<select class="form-control" id="YZ_TYPE" name="YZ_TYPE">
+							<option value="" selected>-请选择-</option>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">数量：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="YZ_CNT" name="YZ_CNT">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">出栏时间：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="CL_SJ" name="CL_SJ">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">经营开始年份：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control date-readonly" readonly="readonly" id="BIZ_DATE" name="BIZ_DATE">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">年收入(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="INCOME_Y" name="INCOME_Y" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					</div>
+				</div>
+			</div>
+			</form>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave2">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal 3-->
+<div id="myModal3" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel3">打工</h5>
+			</div>
+			<form id="dgForm">
+			<div class="modal-body clearfix">
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">外出地：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="DG_WCD" name="DG_WCD">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">务工年限：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="DG_YEARS" name="DG_YEARS">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">年收入(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="DG_Y" name="DG_Y" onkeyup="value=value.replace(/[^\d.]/g,'')" />
+					</div>
+				</div>
+			</div>
+			</form>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave3">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal 4-->
+<div id="myModal4" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel4">经商</h5>
+			</div>
+			<form id="jsForm">
+			<div class="modal-body clearfix">
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>经营行业：</label>
+					<div class="bs-sm-r col-md-8">
+						<select class="form-control" id="BIZ_HY" name="BIZ_HY">
+							<option value="">-请选择-</option>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>经营项目：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="BIZ_XM" name="BIZ_XM">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>经营开始年份：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control date-readonly" readonly="readonly" id="JS_DATE" name="JS_DATE">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>经营场所建筑面积（平方米）：</label>
+					<div class="bs-sm-r col-md-8">
+						<div class=" " style="width:50%;float:left;">
+						<input type="text" class="form-control" id="OWN_AREA" name="OWN_AREA" placeholder="自有:">
+						</div>
+						<div class="" style="width:50%;float:right;">
+						<input type="text" class="form-control" id="RENT_AREA" name="RENT_AREA" placeholder="租赁:">
+						</div>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>年利润(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="PROFIT_Y" name="PROFIT_Y" onkeyup="value=value.replace(/[^\d.]/g,'')" />
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label"><b class="red">*</b>年收入(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" id="JS_Y" name="JS_Y" onkeyup="value=value.replace(/[^\d.]/g,'')" />
+					</div>
+				</div>
+			</div>
+			</form>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave4">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$.ajax({
+	type:"post",
+	url:baseurl+"lrdykh/querygzdw",
+	dataType:"json",
+	contentType:"application/json",
+	success:function(data){
+		if(data.code=="00"){
+			if(data.name!=null&&data.name.length){
+				var Arr = data.name;
+				var Json = {};
+				Json.value = [];				
+				for(i=0;i<Arr.length;i++){
+					var json ={};
+					json.word = Arr[i];
+					Json.value[i] = json;
+				}
+				var BsSuggest=$("#companyName").bsSuggest({
+					indexId:"-1",
+					idField: "",
+					showBtn: false, 
+					data:Json
+				});
+			}
+		}else{
+			console.log(data.errMsg);
+		}
+	}
+}) 
+</script>
+<script id="modal弹窗">
+function addrow1(){
+	$("#zwType").removeAttr("disabled");
+	$("#myModal1").modal({
+		backdrop:false	
+	});	
+	//$("#YZ_TYPE").attr("disabled",false);
+	//$("#zzForm").data('bootstrapValidator').destroy();
+	//$('#zzForm').data('bootstrapValidator', null);
+	//zzForm();
+}
+function addrow2(){
+	$("#myModal2").modal({
+		backdrop:false
+	});
+	$("#YZ_TYPE").attr("disabled",false);
+	$("#yzForm").data('bootstrapValidator').destroy();
+	$('#yzForm').data('bootstrapValidator', null);
+	yzForm();
+}
+function addrow3(){
+	$("#dgForm").data('bootstrapValidator').destroy();
+	$('#dgForm').data('bootstrapValidator', null);
+	dgForm();
+	$("#myModal3").modal({
+		backdrop:false
+	});
+}
+function addrow4(){
+	$("#jsForm").data('bootstrapValidator').destroy();
+	$('#jsForm').data('bootstrapValidator', null);
+	jsForm();
+	$("#myModal4").modal({
+		backdrop:false
+	});
+	$("#BIZ_HY").attr("disabled",false);
+}
+$(".modal").on("hidden.bs.modal",function(){
+	$(this).find("input").val("");
+});
+</script>
+
+<script id="职工&小微企业">
+var cust_id=getUrlParam("cust_id")||"";
+var data0={"CUST_ID":cust_id};
+var submitSave=$("#submitSave");//保存按钮
+function call(){
+var companyName=$("#companyName"),//工作单位名称
+	department=$("#department"),//单位部门
+	ZGZW=$("#ZGZW"),//职务
+	zgType=$("#zgType"),//职工性质
+	workYear=$("#workYear"),//工作开始年份
+	YLBXAMT=$("#YLBXAMT"),//医疗保险上年度合计缴纳金额
+	YEARAMT=$("#YEARAMT");//年收入
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null&&data.result.length){
+				var result=data.result[0];
+				if(result.CUST_TYPE=="XWQY"){
+					$("#jone,#custType").hide();
+					$("#jsix").show();
+				}else{
+					$("#JTZYXM").val(result.JTZYXM);
+				}
+			}
+		}else{
+			console.log(data.errMsg);
+		}
+	}
+}) 
+$.ajax({
+	type:"post",
+	url:baseurl+"custzg/queryCustZgList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(null!=data.result && data.result.length){
+				var result=data.result[0];
+				companyName.val(result.WORK_NAME);
+				department.val(result.DEPT);
+				ZGZW.val(result.DUTY);
+				workYear.val(result.WORK_DATE);
+				zgType.val(result.ZB_FLAG);
+				YLBXAMT.val(result.YLBXAMT);
+				YEARAMT.val(result.YEARAMT);
+			}
+			
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		$("#loadgif").fadeOut(100);
+		alert("错误");
+	}
+})
+call2(); 	
+}
+$("#form_z").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		YLBXAMT:{
+			validators:{
+				notEmpty:{
+					message:'医疗保险上年度合计缴纳金额'
+				}
+			}
+		},
+		YEARAMT:{
+			validators:{
+				notEmpty:{
+					message:'年收入不能为空'
+				}
+			}
+		}
+	}
+})
+submitSave.on("click",function(){ //职工保存
+	//if(!$("#workYear").val()&&( !$("#YLBXAMT").val() )&&( !$("#YEARAMT").val() )){
+		if(!$("#workYear").val()){
+			Io.bs.alert("带*不能为空");
+			return ;
+		}
+		if(!$("#YLBXAMT").val()){
+			Io.bs.alert("带*不能为空");
+			return ;
+		}
+		if(!$("#YEARAMT").val()){
+			Io.bs.alert("带*不能为空");
+			return ;
+		}
+	var data1={
+			"CUST_ID":cust_id,
+			"WORK_NAME":$("#companyName").val(),
+			"DEPT":$("#department").val(),
+			"DUTY":$("#ZGZW").val(),
+			"WORK_DATE":$("#workYear").val(),
+			"ZB_FLAG":$("#zgType").val(),
+			"YLBXAMT":$("#YLBXAMT").val(),
+			"YEARAMT":$("#YEARAMT").val()
+	};
+	$.ajax({
+		beforeSend:function(){
+			//if(true){$("#loadgif").fadeIn(200);};
+		},
+		type:"post",
+		url:baseurl+"custzg/saveCustZg",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			$("#loadgif").fadeOut(100);
+			if(data.code=="00"){
+				alert("保存成功");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				$("#loadgif").fadeOut(100);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			$("#loadgif").fadeOut(100);
+			alert("错误");
+		}
+	}) 
+})
+
+</script>
+
+<script id="种植">
+function call2(){
+var btnsave1=$("#btnsave1"); //保存
+var zwType=$("#zwType"),//作物种类
+	zzMs=$("#zzMs"),//种植亩数
+	zzModel=$("#zzModel"),//种植模式
+	mc=$("#mc"),//亩产
+	xjSj=$("#xjSj"),//下架时间
+	bizDate=$("#bizDate"),//经营开始年份
+	incomeY=$("#incomeY");//年收入
+function zzList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custzz/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>' + result.ZW_TYPEC + '</td>';
+						html+='<td>' + result.ZZ_MS + '</td>';
+						html+='<td>' +result.ZZ_MODELC+ '</td>';
+						html+='<td>' + result.MC + '</td>';
+						html+='<td>' + result.XJ_SJ + '</td>';
+						html+='<td>' + result.BIZ_YEARS + '</td>';
+						html+='<td>' + result.INCOME_Y + '</td>';
+						html+='<td>';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.ZW_TYPE +'" name="btnEdit1"><i class="glyphicon glyphicon-pencil"></i></button> ';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.ZW_TYPE +'" name="btnDel1"><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tbodyZz").html(html);
+				}else{
+					$("#tbodyZz").html('');
+				}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			alert("错误");
+		}
+	}) 
+	Io.on("[name='btnEdit1']", "click", function(){
+		addrow1();
+		var zt=$(this).attr("zt");
+		var data1={"CUST_ID":cust_id,"ZW_TYPE":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custzz/query",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result=data.result[0];
+					zwType.val(result.ZW_TYPE);
+					$("#zwType").attr("disabled","true");
+					zzMs.val(result.ZZ_MS);
+					zzModel.val(result.ZZ_MODEL);
+					mc.val(result.MC);
+					xjSj.val(result.XJ_SJ);
+					bizDate.val(result.BIZ_DATE);
+					incomeY.val(result.INCOME_Y);
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+}
+zzList();
+function addAndEdit(){
+	var data1={
+			"CUST_ID":cust_id,
+			"ZW_TYPE":zwType.val(),
+			"ZZ_MS":zzMs.val(),
+			"ZZ_MODEL":zzModel.val(),
+			"MC":mc.val(),
+			"XJ_SJ":xjSj.val(),
+			"BIZ_DATE":bizDate.val(),
+			"INCOME_Y":incomeY.val()
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custzz/save",
+		dataType:"json",
+		async:false,
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal1").modal("hide").on("hidden.bs.modal",function(){
+					$(this).find("input,select").val("");
+					$("#zzForm").data('bootstrapValidator').destroy();
+					$('#zzForm').data('bootstrapValidator', null);
+					zzform();
+					//$('#zzForm').bootstrapValidator('resetForm', true); 
+					
+				});
+				zzList();
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+btnsave1.on("click",function(){//新增
+	$('#zzForm').bootstrapValidator('validate',"fields");
+	if($('#zzForm').data('bootstrapValidator').isValid()){
+		addAndEdit();
+	}
+})
+Io.on("[name=btnDel1]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"ZW_TYPE":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custzz/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					zzList();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+})
+call3();
+}
+//种植验证
+zzform();
+function zzform(){
+$("#zzForm").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		zzMs:{
+			validators:{
+				notEmpty:{
+					message:'种植亩数不能为空'
+				},
+				regexp:{
+					message:'只能为数字或保留一位小数',
+					regexp:'^[0-9]{0,6}\d*([.][1-9])?$'
+				}
+			}
+		},
+		zzModel:{
+			validators:{
+				notEmpty:{
+					message:'种植模式不能为空'
+				}
+			}
+		},
+		zwType:{
+			validators:{
+				notEmpty:{
+					message:'作物种类不能为空'
+				}
+			}
+		},
+		bizDate:{
+			validators:{
+				notEmpty:{
+					message:'经营开始年份不能为空'
+				}
+			}
+		},
+		incomeY:{
+			validators:{
+				notEmpty:{
+					message:'年收入不能为空'
+				}
+			}
+		}
+	}
+})
+}
+</script>
+
+<script id="养殖">
+function call3(){
+var btnsave2=$("#btnsave2"); //保存
+var YZ_TYPE=$("#YZ_TYPE"),//养殖种类
+	YZ_CNT=$("#YZ_CNT"),//数量
+	CL_SJ=$("#CL_SJ"),//出栏时间
+	BIZ_DATE=$("#BIZ_DATE"),//经营开始日期
+	INCOME_Y=$("#INCOME_Y");//年收入
+function yzList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custyz/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>' + result.YZ_TYPEC + '</td>';
+						html+='<td>' + result.YZ_CNT + '</td>';
+						html+='<td>' + result.CL_SJ + '</td>';
+						html+='<td>' + result.BIZ_YEARS + '</td>';
+						html+='<td>' + result.INCOME_Y + '</td>';
+						html+='<td>';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.YZ_TYPE +'" name="btnEdit2"><i class="glyphicon glyphicon-pencil"></i></button> ';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.YZ_TYPE +'" name="btnDel2"><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tbodyYz").html(html);
+				}else{
+					$("#tbodyYz").html('');
+				}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			alert("错误");
+		}
+	}) 
+	Io.on("[name='btnEdit2']", "click", function(){
+		addrow2();
+		var zt=$(this).attr("zt");
+		var data1={"CUST_ID":cust_id,"YZ_TYPE":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custyz/query",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result=data.result[0];
+					YZ_TYPE.val(result.YZ_TYPE);
+					$("#YZ_TYPE").attr("disabled","true");
+					YZ_CNT.val(result.YZ_CNT);
+					CL_SJ.val(result.CL_SJ);
+					BIZ_DATE.val(result.BIZ_DATE);
+					INCOME_Y.val(result.INCOME_Y);
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+}
+yzList();
+function addAndEdit1(){
+	var data1={
+			"CUST_ID":cust_id,
+			"YZ_TYPE":YZ_TYPE.val(),
+			"YZ_CNT":YZ_CNT.val(),
+			"CL_SJ":CL_SJ.val(),
+			"BIZ_DATE":BIZ_DATE.val(),
+			"INCOME_Y":INCOME_Y.val(),
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custyz/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal2").modal("hide").on("hidden.bs.modal",function(){
+					$(this).find("input,select").val("");
+					$("#yzForm").data('bootstrapValidator').destroy();
+					$('#yzForm').data('bootstrapValidator', null);
+					yzForm();
+				});
+				yzList();
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+btnsave2.on("click",function(){//新增
+	$('#yzForm').bootstrapValidator('validate',"fields");
+	if($('#yzForm').data('bootstrapValidator').isValid()){
+		addAndEdit1();
+	}
+})
+Io.on("[name=btnDel2]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"YZ_TYPE":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custyz/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					yzList();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+})
+call4();
+}
+//养殖验证
+yzForm();
+function yzForm(){
+$("#yzForm").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		YZ_CNT:{
+			validators:{
+				notEmpty:{
+					message:'数量不能为空'
+				},
+				regexp:{
+					message:'只能为数字',
+					regexp:'^[0-9]*[1-9][0-9]*$'
+				}
+			}
+		},
+		YZ_TYPE:{
+			validators:{
+				notEmpty:{
+					message:'养殖种类不能为空'
+				}
+			}
+		},
+		CL_SJ:{
+			validators:{
+				notEmpty:{
+					message:'出栏时间不能为空'
+				}
+			}
+		},
+		INCOME_Y:{
+			validators:{
+				notEmpty:{
+					message:'年收入不能为空'
+				}
+			}
+		}/*,
+		BIZ_DATE:{
+			validators:{
+				notEmpty:{
+					message:'经营年份不能为空'
+				}
+			}
+		}*/
+	}
+})
+}
+</script>
+
+<script id="打工">
+function call4(){
+var btnsave3=$("#btnsave3"); //保存
+var DG_WCD=$("#DG_WCD"),//外出地
+	DG_YEARS=$("#DG_YEARS"),//务工年限
+	DG_Y=$("#DG_Y");//年收入
+function dgList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custdg/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>' + result.DG_WCD + '</td>';
+						html+='<td>' + result.DG_YEARS + '</td>';
+						html+='<td>' + result.INCOME_Y + '</td>';
+						html+='<td>';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.DG_WCD +'" name="btnEdit3"><i class="glyphicon glyphicon-pencil"></i></button> ';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.DG_WCD +'" name="btnDel3"><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tbodyDg").html(html);
+				}else{$("#tbodyDg").html('');}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			alert("错误");
+		}
+	}) 
+	Io.on("[name='btnEdit3']", "click", function(){
+		addrow3();
+		var zt=$(this).attr("zt");
+		var data1={"CUST_ID":cust_id,"DG_WCD":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custdg/query",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result=data.result[0];
+					DG_WCD.val(result.DG_WCD);
+					DG_YEARS.val(result.DG_YEARS);
+					DG_Y.val(result.INCOME_Y);
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+}
+dgList();
+function addAndEdit2(){
+	var data1={
+			"CUST_ID":cust_id,
+			"DG_WCD":DG_WCD.val(),
+			"DG_YEARS":DG_YEARS.val(),
+			"INCOME_Y":DG_Y.val(),
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custdg/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal3").modal("hide").on("hidden.bs.modal",function(){
+					$(this).find("input,select").val("");
+					$("#dgForm").data('bootstrapValidator').destroy();
+					$('#dgForm').data('bootstrapValidator', null);
+					dgForm();
+				});
+				dgList();
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+btnsave3.on("click",function(){//新增
+	$("#dgForm").bootstrapValidator("validate","fields");
+	if($("#dgForm").data("bootstrapValidator").isValid()){
+		addAndEdit2();
+	}
+})
+Io.on("[name=btnDel3]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"DG_WCD":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custdg/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					dgList();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+})
+call5();
+}
+//打工验证
+dgForm();
+function dgForm(){
+$("#dgForm").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		DG_WCD:{
+			validators:{
+				notEmpty:{
+					message:'外出地不能为空'
+				}
+			}
+		}
+	}
+})
+}
+</script>
+
+<script id="经商">
+function call5(){
+var submitSaveJs=$("#submitSaveJs");//保存按钮
+var DP_NAME=$("#DP_NAME"),//店铺名称
+	LICENCE_NO=$("#LICENCE_NO"),//营业执照号
+	LICENCE_NAME=$("#LICENCE_NAME"),//营业执照名称	
+	JS_ADDRESS=$("#JS_ADDRESS");//经营地址
+	WORKERS=$("#WORKERS");//员工总数量
+	BX_CNT=$("#BX_CNT");//有人身意外伤害保险或工伤保险的员工数量
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(null!=data.result && data.result.length){				
+				var result=data.result[0];
+				DP_NAME.val(result.DP_NAME);
+				LICENCE_NO.val(result.LICENCE_NO);
+				LICENCE_NAME.val(result.LICENCE_NAME);
+				JS_ADDRESS.val(result.JS_ADDRESS);
+				WORKERS.val(result.WORKERS);
+				BX_CNT.val(result.BX_CNT);
+				
+			}
+			
+			submitSaveJs.on("click",function(){
+				if(!$("#WORKERS").val()){
+					Io.bs.alert("带*不能为空");
+					return;
+				}
+				if(!$("#BX_CNT").val()){
+					Io.bs.alert("带*不能为空");
+					return;
+				}
+
+				var data1={
+						"CUST_ID":cust_id,
+						"DP_NAME":DP_NAME.val(),
+						"LICENCE_NO":LICENCE_NO.val(),
+						"LICENCE_NAME":LICENCE_NAME.val(),
+						"JS_ADDRESS":JS_ADDRESS.val(),
+						"WORKERS":WORKERS.val(),
+						"BX_CNT":BX_CNT.val()
+				};
+				$.ajax({
+					beforeSend:function(){
+						if(true){$("#loadgif").fadeIn(200);};
+					},
+					type:"post",
+					url:baseurl+"custbase/updateCustBase",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						$("#loadgif").fadeOut(100);
+						if(data.code=="00"){
+							alert("保存成功");
+						}else if (data.code=="88"){
+							eval(data.reLoad);
+						}else{
+							alert(data.errMsg);
+							$("#loadgif").fadeOut(100);
+							console.log(data.errMsg);
+						}
+					},error:function(data){
+						$("#loadgif").fadeOut(100);
+						alert("错误");
+					}
+				}) 
+				//}
+			})
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+});
+$("#js_zhubiao").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		WORKERS:{
+			validators:{
+				notEmpty:{
+					message:'员工总数量'
+				}
+			}
+		},
+		BX_CNT:{
+			validators:{
+				notEmpty:{
+					message:'有人身意外伤害保险或工伤保险的员工数量'
+				}
+			}
+		}
+	}
+})
+
+var btnsave4=$("#btnsave4"); //保存
+var BIZ_HY=$("#BIZ_HY"),//经营行业
+	BIZ_XM=$("#BIZ_XM"),//经营项目
+	JS_DATE=$("#JS_DATE"),//经营开始日期
+	OWN_AREA=$("#OWN_AREA"),//经营场所建筑面积-自有
+	RENT_AREA=$("#RENT_AREA"),//经营场所建筑面积-租赁
+	JS_Y=$("#JS_Y"),//年收入
+	PROFIT_Y=$("#PROFIT_Y"),//年利润
+	WORKERS=$("#WORKERS"),//员工总数量
+	BX_CNT=$("#BX_CNT");//有人身意外伤害保险或工伤保险的员工数量
+function jsList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custjs/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>' + result.BIZ_HYC + '</td>';
+						html+='<td>' + result.BIZ_XM + '</td>';
+						html+='<td>' + result.BIZ_YEARS + '</td>';
+						html+='<td>自有：<span>' + result.OWN_AREA + '</span></td>';
+						html+='<td>租赁：<span>' + result.RENT_AREA + '</span></td>';
+						html+='<td>' + result.INCOME_Y + '</td>';
+						html+='<td>' + result.PROFIT_Y + '</td>';
+						html+='<td>';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.BIZ_HY +'" name="btnEdit4"><i class="glyphicon glyphicon-pencil"></i></button> ';
+						html+='<button class="btn btn-danger btn-xs" type="button" zt="'+ result.BIZ_HY +'" name="btnDel4"><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tbodyJs").html(html);
+				}else{
+					$("#tbodyJs").html('');
+				}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			alert("错误");
+		}
+	}) 
+	Io.on("[name='btnEdit4']", "click", function(){
+		addrow4();
+		var zt=$(this).attr("zt");
+		var data1={"CUST_ID":cust_id,"BIZ_HY":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custjs/query",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result=data.result[0];
+					BIZ_HY.val(result.BIZ_HY);
+					$("#BIZ_HY").attr("disabled","true");
+					BIZ_XM.val(result.BIZ_XM);
+					JS_DATE.val(result.BIZ_DATE);
+					OWN_AREA.val(result.OWN_AREA);
+					RENT_AREA.val(result.RENT_AREA);
+					JS_Y.val(result.INCOME_Y);
+					PROFIT_Y.val(result.PROFIT_Y);
+					//WORKERS.val(result.WORKERS);
+					//BX_CNT.val(result.BX_CNT);
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+}
+jsList();
+function addAndEdit3(){
+	var data1={
+			"CUST_ID":cust_id,
+			"BIZ_HY":BIZ_HY.val(),
+			"BIZ_XM":BIZ_XM.val(),
+			"BIZ_DATE":JS_DATE.val(),
+			"OWN_AREA":OWN_AREA.val(),
+			"RENT_AREA":RENT_AREA.val(),
+			"INCOME_Y":JS_Y.val(),
+			"PROFIT_Y":PROFIT_Y.val()
+	};
+	if(Number(JS_Y.val())<=Number(PROFIT_Y.val())){
+		Io.bs.alert("年收入必须大于年利润");
+		return false;
+	}
+	$.ajax({
+		type:"post",
+		url:baseurl+"custjs/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal4").modal("hide").on("hidden.bs.modal",function(){
+					$(this).find("input,select").val("");
+					$("#jsForm").data('bootstrapValidator').destroy();
+					$('#jsForm').data('bootstrapValidator', null);
+					jsForm();
+				});
+				jsList();
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	}) 
+}
+btnsave4.on("click",function(){//新增
+	$("#jsForm").bootstrapValidator("validate","fields");
+	if($("#jsForm").data("bootstrapValidator").isValid()){
+		addAndEdit3();
+	}
+})
+Io.on("[name=btnDel4]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"BIZ_HY":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custjs/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					jsList();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				alert("错误");
+			}
+		}) 
+	})
+})
+call6();
+}
+//经商验证
+jsForm();
+function jsForm(){
+$("#jsForm").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		BIZ_HY:{
+			validators:{
+				notEmpty:{
+					message:'经营行业不能为空'
+				}
+			}
+		},
+		BIZ_XM:{
+			validators:{
+				notEmpty:{
+					message:'经营项目不能为空'
+				}
+			}
+		},
+		JS_DATE:{
+			validators:{
+				notEmpty:{
+					message:'开始年份不能为空'
+				}
+			}
+		},
+		OWN_AREA:{
+			validators:{
+				notEmpty:{
+					message:'自有面不能为空（可为0）'
+				}
+			}
+		},
+		RENT_AREA:{
+			validators:{
+				notEmpty:{
+					message:'租赁面不能为空（可为0）'
+				}
+			}
+		},
+		PROFIT_Y:{
+			validators:{
+				notEmpty:{
+					message:'年利润不能为空'
+				},
+				numeric:{message:'只能为数字'
+				},
+				callback:{
+					message: '年利润不能大于年收入',
+					callback: function(value, validator) { 
+						if(Number(value)<=Number(JS_Y.value)){
+							validator.updateStatus('JS_Y', 'VALID', 'callback');
+							 return true;  
+						}else{
+							return false;
+						}
+                       
+                     }  
+				}
+			}
+		},
+		JS_Y:{
+			validators:{
+				notEmpty:{
+					message:'年收入不能为空'
+				},
+				numeric:{message:'只能为数字'
+				},
+				callback:{
+					message: '年收入不能小于年利润',
+					callback: function(value, validator) { 
+						if(Number(value)<=Number(PROFIT_Y.value)){
+							 return false;  
+						}else{
+							validator.updateStatus('PROFIT_Y', 'VALID', 'callback');
+							return true;
+						}
+                       
+                     }  
+				}
+			} 
+		}
+	}
+})
+}
+</script>
+<script id="家庭主营项目">
+function call6(){
+	var JTZYXM=$("#JTZYXM");
+	$("#submitSaveXm").on("click",function(){
+		var data2={
+				"CUST_ID":cust_id,
+				"JTZYXM":JTZYXM.val()
+		};
+		$.ajax({
+			beforeSend:function(){
+				if(true){$("#loadgif").fadeIn(200);};
+			},
+			type:"post",
+			url:baseurl+"custbase/updateCustBase",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data2),
+			success:function(data){
+				$("#loadgif").fadeOut(100);
+				if(data.code=="00"){
+					alert("保存成功");
+				}else{
+					console.log(data.errMsg);
+				}
+			},error:function(){
+				$("#loadgif").fadeOut(100);
+				console.log("错误");
+			}
+		});
+	});
+}
+</script>
+<script id="字典&&日历">
+var ziD = {
+	"zgType":"ZGXZ",//职工性质
+	"ZGZW":"ZGZW",//职务
+	"zwType":"ZW_Type",//作物种类
+	"YZ_TYPE":"YZ_Type",//养殖种类
+	"JTZYXM":"JTZYXM",//家庭主营项目
+	"BIZ_HY":"BIZ_HY" //经营行业 
+};
+selectOnload({"json":ziD,"func":call,"length":6,"isDefault":false});
+//经营开始年份
+$("#BIZ_DATE,#workYear").datepicker({ 
+	startView: 'decade',
+	maxViewMode: 2,
+	minViewMode:2,
+	format: 'yyyy',
+	autoclose: true
+});
+//经商时间——校验和时间绑定
+$("#JS_DATE").datepicker({ 
+	startView: 'decade',
+	maxViewMode: 2,
+	minViewMode:2,
+	format: 'yyyy',
+	autoclose: true
+}).on('hide',function(e) {  
+    $('#jsForm').data('bootstrapValidator')  
+    .updateStatus('JS_DATE', 'NOT_VALIDATED',null)  
+    .validateField('JS_DATE');  
+}); 
+//种植时间——校验和时间绑定
+$("#bizDate").datepicker({ 
+	startView: 'decade',
+	maxViewMode: 2,
+	minViewMode:2,
+	format: 'yyyy',
+	autoclose: true
+}).on('hide',function(e) {  
+    $('#zzForm').data('bootstrapValidator')  
+    .updateStatus('bizDate', 'NOT_VALIDATED',null)  
+    .validateField('bizDate');  
+}); 
+//下架月份
+$("#xjSj").datepicker({ 
+	startView: 2,
+	maxViewMode: 1,
+	minViewMode:1,
+	format: 'MM',
+	autoclose: true,
+	language:"zh-CN"
+}); 
+//养殖时间——校验和时间绑定
+$("#CL_SJ").datepicker({ 
+	startView: 2,
+	maxViewMode: 1,
+	minViewMode:1,
+	format: 'MM',
+	autoclose: true,
+	language:"zh-CN"
+}).on('hide',function(e) {  
+    $('#yzForm').data('bootstrapValidator')  
+    .updateStatus('CL_SJ', 'NOT_VALIDATED',null)  
+    .validateField('CL_SJ');  
+}); 
+</script>
+</body>
+</html>

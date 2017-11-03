@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乐融易贷客户关系管理系统-维护</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../css/demo.css">
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="page-bg">
+<!--  <div class="table_wrapper white-bg">
+<table class="table table-bordered table-striped table-hover" >
+<thead>
+	<tr>
+		<th style="width:4%;">评级</th>
+		<th>信用额度打折</th>
+		<th>农户信用贷额度</th>
+		<th>个体经营信用贷额度</th>
+		<th>其他信用贷额度</th>
+		<th>家庭贷额度打折</th>
+		<th>农户家庭贷额度</th>
+		<th>个体家庭贷额度</th>
+		<th>其他家庭贷额度</th>
+		<th>农户信用贷利率</th>
+		<th>个体经营信用贷利率</th>
+		<th>其他信用贷利率</th>
+		<th>农户家庭贷利率</th>
+		<th>个体经营家庭贷利率</th>
+		<th>其他家庭贷利率</th>
+		<th >操作</th>
+	</tr>
+</thead>
+<tbody id="listbody">
+</tbody>
+</table>
+</div>-->
+<div class="table-responsive box box-solid">
+	<table class="table table-bordered table-striped table-hover no-margin" style="width:1500px;max-width:1500px">
+		<thead>
+			<tr>
+				<th style="width:4%;vertical-align:middle;">评级</th>
+				<th>信用额度打折</th>
+				<th>农户信用贷额度</th>
+				<th>个体经营信用贷额度</th>
+				<th>其他信用贷额度</th>
+				<th>家庭贷额度打折</th>
+				<th>农户家庭贷额度</th>
+				<th>个体家庭贷额度</th>
+				<th>其他家庭贷额度</th>
+				<th>农户信用贷利率</th>
+				<th>个体经营信用贷利率</th>
+				<th>其他信用贷利率</th>
+				<th>农户家庭贷利率</th>
+				<th>个体经营家庭贷利率</th>
+				<th>其他家庭贷利率</th>
+				<th style="width:4%;vertical-align:middle;">操作</th>	
+			</tr>
+		</thead>
+		<tbody id="listbody">				
+		</tbody>
+	</table>
+</div>
+<div id="myModa0" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >参数修改</h5>
+			</div>
+			<div class="modal-body">
+			<form class="form-horizontal" id="form">
+			<div class="col-md-6">
+				<div class="form-group ">
+					<label class="col-md-3 control-label no-padding">评级:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" disabled="disabled" name="PJ" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">信用额度打折:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_XY_DZ" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">农户信用贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_XY_NH" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">个体经营信用贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_XY_GT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">其他信用贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_XY_QT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">农户家庭贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_JT_NH" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">家庭贷额度打折:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_JT_DZ" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">个体家庭贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_JT_GT" />
+					</div>
+				</div>
+				</div>
+				<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">其他家庭贷额度:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="ED_JT_QT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">农户信用贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_XY_NH" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">个体经营信用贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_XY_GT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">其他信用贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_XY_QT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">农户家庭贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_JT_NH" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">个体经营家庭贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_JT_GT" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">其他家庭贷利率:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"   name="LV_JT_QT" />
+					</div>
+				</div>
+				</div>
+			</form>
+			</div>				
+			<div class="modal-footer clearfix">
+			 	<button class="btn btn-default" id="upDate">确认</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function pageLoad(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"edend/queryList",
+		dataType:"json",
+		contentType:"application/json",
+		//data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>' + result.PJ+ '级</td>';
+						html+='<td>' + result.ED_XY_DZ+ '</td>';
+						html+='<td>' + result.ED_XY_NH+ '</td>';
+						html+='<td>' + result.ED_XY_GT+ '</td>';
+						html+='<td>' + result.ED_XY_QT+ '</td>';
+						html+='<td>' + result.ED_JT_DZ+ '</td>';
+						html+='<td>' + result.ED_JT_NH+ '</td>';
+						html+='<td>' + result.ED_JT_GT+ '</td>';
+						html+='<td>' + result.ED_JT_QT+ '</td>';
+						html+='<td>' + result.LV_XY_NH + '</td>';						
+						html+='<td>' + result.LV_XY_GT + '</td>';
+						html+='<td>' + result.LV_XY_QT + '</td>';
+						html+='<td>' + result.LV_JT_NH + '</td>';
+						html+='<td>' + result.LV_JT_GT + '</td>';
+						html+='<td>' + result.LV_JT_QT + '</td>';
+						html+='<td>';
+						html+='<button class="btn btn-danger btn-xs" PJ='+result.PJ+ ' type="button" name="btnEdit" >修改</button>'
+						html+='</td>';						
+						html+='</tr>';
+					}
+					$("#listbody").html(html);
+				}
+			
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+}
+pageLoad();
+Io.on("[name=btnEdit]","click",function(){
+	var PJ=$(this).attr("PJ");
+	$.ajax({
+		type:"post",
+		url:baseurl+"edend/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify({"PJ":PJ}),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null ){
+					var result=data.result;
+					$("[name=PJ]").val(result.PJ+'级');
+					$("[name=ED_JT_DZ]").val(result.ED_JT_DZ);
+					$("[name=ED_JT_GT]").val(result.ED_JT_GT);
+					$("[name=ED_JT_NH]").val(result.ED_JT_NH);
+					$("[name=ED_JT_QT]").val(result.ED_JT_QT);
+					$("[name=ED_XY_DZ]").val(result.ED_XY_DZ);
+					$("[name=ED_XY_GT]").val(result.ED_XY_GT);
+					$("[name=ED_XY_NH]").val(result.ED_XY_NH);
+					$("[name=ED_XY_QT]").val(result.ED_XY_QT);
+					$("[name=LV_JT_GT]").val(result.LV_JT_GT);
+					$("[name=LV_JT_NH]").val(result.LV_JT_NH);
+					$("[name=LV_JT_QT]").val(result.LV_JT_QT);
+					$("[name=LV_XY_GT]").val(result.LV_XY_GT);
+					$("[name=LV_XY_NH]").val(result.LV_XY_NH);
+					$("[name=LV_XY_QT]").val(result.LV_XY_QT);
+					$("#myModa0").modal({
+						backdrop:false
+					});
+					//$("#form").data('bootstrapValidator').destroy();
+					//$('#form').data('bootstrapValidator', null);
+				}
+			
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	
+});
+Io.on("#upDate","click",function(){
+	$('#form').bootstrapValidator('validate',"fields");
+	if($('#form').data('bootstrapValidator').isValid()){
+	var json={
+			"PJ":$("[name=PJ]").val().substring(0,1),				
+			"ED_JT_DZ":$("[name=ED_JT_DZ]").val(),
+			"ED_JT_GT":$("[name=ED_JT_GT]").val(),
+			"ED_JT_NH":$("[name=ED_JT_NH]").val(),
+			"ED_JT_QT":$("[name=ED_JT_QT]").val(),
+			"ED_XY_DZ":$("[name=ED_XY_DZ]").val(),
+			"ED_XY_GT":$("[name=ED_XY_GT]").val(),
+			"ED_XY_NH":$("[name=ED_XY_NH]").val(),
+			"ED_XY_QT":$("[name=ED_XY_QT]").val(),
+			"LV_JT_GT":$("[name=LV_JT_GT]").val(),
+			"LV_JT_NH":$("[name=LV_JT_NH]").val(),
+			"LV_JT_QT":$("[name=LV_JT_QT]").val(),
+			"LV_XY_GT":$("[name=LV_XY_GT]").val(),
+			"LV_XY_NH":$("[name=LV_XY_NH]").val(),
+			"LV_XY_QT":$("[name=LV_XY_QT]").val()
+	};
+	console.log(json);
+	$.ajax({
+		type:"post",
+		url:baseurl+"edend/update",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(json),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModa0").modal("hide");
+				pageLoad();
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+	}
+});
+$("#form").bootstrapValidator({
+	message:"This value is not valid",
+	fields:{
+		LV_XY_NH:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				 regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		},
+		ED_JT_DZ:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_JT_GT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_JT_NH:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_JT_QT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_XY_DZ:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_XY_GT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_XY_NH:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		ED_XY_QT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				}
+			}
+		},
+		LV_JT_GT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		},
+		LV_JT_NH:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		},
+		LV_JT_QT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		},
+		LV_XY_GT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		},
+		LV_XY_QT:{
+			validators:{
+				notEmpty:{
+					message:'不能为空'
+				},
+				regexp:{
+				    regexp:/^\d+(\.\d{2})?$/,
+					message:"必须为2位小数"
+				}
+			}
+		}
+	}
+})
+</script>
+</body>
+</html>

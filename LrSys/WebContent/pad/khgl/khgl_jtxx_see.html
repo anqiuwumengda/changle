@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>家庭信息-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">婚姻状况：</label>
+			<div class="bs-sm-r">
+				<select id="isMarriage" class="form-control" disabled="disabled">					
+				</select> 
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">结婚证登记日期：</label>
+			<div class="bs-sm-r">
+				<span class="form-control" name="marriedate" id="marriedate"></span>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">有无子女：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="radio" name="isChildren" value="1"/> 有</label>
+				<label><input type="radio" name="isChildren" value="0"/> 无</label>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label small">借款人及家庭成员工作情况：</label>
+			<div class="bs-sm-r">
+				<select id="workCondition" class="form-control"disabled="disabled">
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="table_wrapper">
+		<table class="table table-bordered small" style="min-width:600px;">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>年龄</th>
+					<th>家庭关系</th>
+					<th>证件类型</th>
+					<th>证件号码</th>
+					<th>联系电话</th>
+					<th>职业</th>
+					<th>婚姻状况</th>
+					<th>年收入</th>
+				</tr>
+			</thead>
+			<tbody id="jtxxlist">
+				<tr><td align="center" height="300" colspan="10">暂时没有内容</td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+</form>
+
+<script id="列表模板">
+function call(){
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var isMarriage = $("#isMarriage"),
+	marriedate = $("#marriedate"),
+	workCondition = $("#workCondition");
+var data1={"CUST_ID":cust_id};
+
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+	if(data.code=="00"){
+		//显示客户信息
+		var result=data.result[0];
+		isMarriage.val(result.JH_FLAG);
+		marriedate.text(result.JH_DATE);
+		workCondition.val(result.JK_JT_STATUS);
+		$("input[name=isChildren]").each(function(){
+			var $this=$(this);
+			if($this.val()==result.CHILD_FLAG){
+				$this.attr("checked",true);
+			}
+		});
+	}else if (data.code=="88"){
+		eval(data.reLoad);
+	}else{
+		alert(data.errMsg);
+	}
+},error:function(data){
+	alert("错误");
+}
+})
+
+function pagerList(){
+	var data2={"CUST_ID":cust_id};  
+	 $.ajax({
+		beforeSend:function(){
+			$("#jtxxlist").html("<tr><td colspan='10'>正在加载...</td></tr>");
+		},
+		url:baseurl+"custrela/query",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				var resultArr=data.result;
+				var html="",isex,iage;
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					if(result.ID_NO){
+						var id_no=result.ID_NO;
+						var sexStr=id_no.substring(16,17);
+						var ageStr=id_no.substring(6,10);
+						var date=new Date();
+						var isYear=date.getFullYear();
+						isex=(sexStr%2 ==0) ?"女":"男";
+						iage=isYear-parseInt(ageStr);
+					}else{
+						isex="";
+						iage="";
+					}
+					html+='<tr>';
+					html+='<td>' + result.VS_NAME + '</td>';
+					html+='<td>' + isex + '</td>';
+					html+='<td>' + iage + '</td>';
+					html+='<td>' + result.RELA_TYPEC + '</td>';
+					html+='<td>' + result.ID_TYPEC + '</td>';
+					html+='<td>' + result.ID_NO + '</td>';
+					html+='<td>' + result.TEL_NO + '</td>';
+					html+='<td>' + result.VOCATIONC + '</td>';
+					html+='<td>' + result.JH_FLAGC + '</td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='</tr>';
+				}
+				$("#jtxxlist").html(html);
+				if(resultArr.length>10){
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+				}				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+			
+		},error:function(data){
+			alert("错误");
+		}
+	})
+}
+pagerList();
+}
+</script>
+<script id="字典">
+var json = {
+		"isMarriage":"JH_FLAG",//婚姻状况
+		"workCondition":"JK_JT_STATUS"//借款人及家庭成员工作情况
+}
+selectOnload({"json":json,"func":call,"length":2,"isDefault":false});
+</script>	
+<script>
+//禁止单选框
+$("input[type=radio]").attr("disabled",true);
+</script>
+</body>
+</html>

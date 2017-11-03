@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户管理-乐融易贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<script>
+$(function() {  
+    FastClick.attach(document.body);  
+});  
+</script>
+<body class="page-bg"><div class="white-bg mb50">
+<div class="clearfix tab-header">
+	<input class="form-control left" name="keyword" style="width:268px;" placeholder="客户名/电话/证件号">
+	<a href="javascript:;" class="btn btn-primary left" id="custSearchBtn">检索</a>
+</div>
+<div class="clearfix tab-header">
+	<button class="btn btn-danger btn-sm" type="button" id="newport">
+		<i class="glyphicon glyphicon-plus"></i> 新增
+	</button>
+	<button class="btn btn-primary btn-sm" type="button" id="search_conditions">
+		<i class="glyphicon glyphicon-zoom-out"></i> 筛选
+	</button>
+	<button class="btn btn-info btn-sm" type="button" id="myapply">
+		<i class="glyphicon glyphicon-list-alt"></i> 审核
+	</button>
+	<button class="btn btn-danger btn-sm" type="button" id="btnDel">
+		<i class="glyphicon glyphicon-trash"></i> 删除
+	</button>
+</div>
+<form class="form-horizontal">
+<!-- 弹窗-->
+<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >按条件筛选</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">客户类型：</label>
+					<div class="bs-sm-r">
+						<select id="CUST_TYPE" class="form-control" name="CUST_TYPE" >							
+						</select>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">所属区域：</label>
+					<div class="bs-sm-r">
+						<select id="AREA_CD" class="form-control" style="width:48%;float:left;">							
+						</select> 
+						<select id="AREA_CD2" class="form-control" style="width:48%;float:right;">
+							<option value="">-请选择-</option>							
+						</select>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">所属客户群：</label>
+					<div class="bs-sm-r">
+						<select id="CUST_GRP" class="form-control" style="width:48%;float:left;">							
+						</select> 
+						<select id="CUST_GRP2" class="form-control" style="width:48%;float:right;">		
+							<option value="">-请选择-</option>					
+						</select>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">管户经理分类：</label>
+					<div class="bs-sm-r">
+						<select id="JL_TYPE" class="form-control" name="JL_TYPE" >							
+						</select>
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="button" id="go_search">搜索</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal 1-->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >申请查看客户(<span id='kehu'></span>)</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">授权人：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" Disabled id="guanhuJL">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<div class="bs-sm-r">
+						<input type="hidden" class="form-control"  id="USER_ID_SQ">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<div class="bs-sm-r">
+						<input type="hidden" class="form-control"  id="CUST_ID">
+					</div>
+				</div>
+				<div class="clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">查看时效：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" value="3" id ="VALID_DAY" Disabled>				
+					</div>
+				</div></div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">申请状态：</label>
+					<div class="bs-sm-r checkbox">			
+						<label><input type="radio" name="state" value="0" checked>待审核</label>
+						<label><input type="radio" name="state" value="1"disabled>审核中</label>
+						<label><input type="radio" name="state" value="2" disabled>已审核</label>
+					</div>
+				</div>			
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="apply">提交</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+<div class="table_wrapper">
+<table class="table table-bordered table-striped table-hover" id="example">
+<thead>
+	<tr>
+		<th>客户名称</th>
+		<th>电话号码</th>
+		<th id="sort_type" up-down="off">客户类型</th>
+		<th id="sort_date" up-down="on">数据更新日期</th>
+		<th id="sort_jl" up-down="off">客户经理分类</th>
+		<th>管户经理</th>
+		<th>操作</th>
+	</tr>
+</thead>
+<tbody id="listbody">
+	<tr><td align="center" height="300" colspan="8">暂时没有内容</td></tr>
+</tbody>
+</table>
+</div>
+<ul class="pagination pagination-sm" id="pagination">
+	<li class="prev"><a href="javascript:;">← 上一页</a></li>
+	<li class="active"><a href="javascript:;">1</a></li>
+	<li class="next"><a href="javascript:;">下一页 →</a></li>
+</ul>
+<script>
+function pageLoad(resultArr){
+	var html="";
+	for(var i=0;i<resultArr.length;i++){
+		var result = resultArr[i];
+		var jlTypec=result.JL_TYPEC||"";
+		var telNo=result.TEL_NO;
+		if(result.CUST_TYPE=="XWQY"){
+			telNo=result.LXR_TEL;
+		}
+		var btnbj ="编辑";
+		if(result.OTHER){btnbj="申请";}
+		html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+		html+='<td>' + result.CUST_NAME + '</td>';
+		html+='<td>' + telNo + '</td>';
+		html+='<td>' + result.CUST_TYPEC + '</td>';
+		html+='<td>' + result.MTN_DATE + '</td>';
+		html+='<td>' + jlTypec + '</td>';
+		html+='<td>' + result.CUST_GRP_JLC + '</td>';
+		html+='<td>';
+		html+='<button mz="'+result.CUST_NAME+'"JLID="'+result.CUST_GRP_JL+'" khid="'+result.CUST_ID+'" yt="'+result.CUST_GRP_JLC+'" class="btn btn-danger btn-xs" type="button" name="btnEdit" >'+btnbj+'</button> ';
+		html+='</td>';
+		html+='</tr>';
+	}
+	return html;
+}
+</script>
+<script id="列表模板">
+function pagerList(currentPage,pageSize){
+	var keyword=$("[name=keyword]").val()||"";
+	var url,data2;
+	if(keyword==""||keyword==null){
+		url="custbase/queryList";
+		data2={
+			"isPagination":"true",
+			"currentPage":currentPage,
+			"pageSize":pageSize
+		}; 
+	}else{
+		url="custbase/querybylike";
+		data2={
+			"keyword":keyword,
+			"pageSize":pageSize,
+			"currentPage":currentPage,
+			"isPagination":"true"
+		};
+	}
+	if(typeof(data)=="object") $.extend(data2,data);	
+	 $.ajax({
+		beforeSend:function(){
+			$("#listbody").html("<tr><td colspan='8'>正在加载...</td></tr>");
+		},
+		url:baseurl + url,
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					Io.on("#sort_type","click",function(){//按客户类型排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].CUST_TYPEC>resultArr[j].CUST_TYPEC){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_jl").attr("up-down","off");
+						$("#sort_date").attr("up-down","off");
+					})
+					Io.on("#sort_date","click",function(){//按时间排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].MTN_DATE>resultArr[j].MTN_DATE){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_jl").attr("up-down","off");
+						$("#sort_type").attr("up-down","off");
+					})
+					Io.on("#sort_jl","click",function(){//按经理类别排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].JL_TYPEC>resultArr[j].JL_TYPEC){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_type").attr("up-down","off");
+						$("#sort_date").attr("up-down","off");
+					})
+					$("#listbody").html(pageLoad(resultArr));
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+					iFrameHeight('myTabsFrame');
+				}else{
+					$("#listbody").html('<tr><td align="center" height="200" colspan="8">暂时没有内容</td></tr>');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				$("#listbody").html('<tr><td align="center" height="200" colspan="8">'+data.errMsg+'</td></tr>');
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+pagerList(1,10);
+$("#custSearchBtn").on("click",function(){
+	pagerList(1,10);
+})
+</script>	
+<script>
+//查看&编辑
+Io.on("[name=btnEdit]","click",function(){
+	var id =$(this).parent().parent().attr("zt");
+	if($(this).html()=="编辑"){
+		location.href="kehuguanli_edit.html?cust_id="+id;
+	}else{
+		$("#kehu").html( $(this).attr("mz"));
+		$("#guanhuJL").val( $(this).attr("yt"));
+		$("#CUST_ID").val( $(this).attr("khid"));
+		$("#USER_ID_SQ").val( $(this).attr("JLID"));
+		$("#myModal1").modal({
+			backdrop:false
+		})
+	}
+	
+})
+var ClickNum = 0;
+Io.on(".btSee","click",function(){
+	var id = $(this).attr("zt");
+	var btn=$(this).find('button').html();
+	ClickNum++;
+	setTimeout(function(){ClickNum=0;},500);
+	if(ClickNum==2){
+		if(btn=="编辑"){
+			location.href="kehuguanli_see.html?cust_id="+id;
+		}else{
+			$("#kehu").html( $(this).find('button').attr("mz"));
+			$("#guanhuJL").val( $(this).find('button').attr("yt"));
+			$("#CUST_ID").val( $(this).find('button').attr("khid"));
+			$("#USER_ID_SQ").val( $(this).find('button').attr("JLID"));
+			$("#myModal1").modal({
+				backdrop:false
+			})
+		}
+	}
+	
+})
+
+//新增客户
+$("#newport").on("click",function(){
+	location.href="../khgl/kehuguanli_add.html";
+})
+//审核跳转
+$("#myapply").on("click",function(){
+	location.href="./apply.html";
+})
+//筛选弹出+字典加载
+$("#search_conditions").on("click",function(){
+	$("#myModal").modal({
+		backdrop:false
+	})
+	var json={//(字典枚举)
+		"CUST_TYPE":"CUST_TYPE",//客户类型
+		"AREA_CD":"AREA_CD1",//所属区域
+		"CUST_GRP":"CUST_GRP1",//所属客户群		
+		"JL_TYPE":"JL_TYPE"//客户经理分类
+	}
+	selectOnload({"json":json,"isDefault":false,"isElse":false,"func":cBack,"length":4});
+});
+function cBack(){
+	if(typeof(data)=="object"){
+		for(var x in data){
+			$("#"+x).val(data[x]);
+		}	
+	}	
+}
+//筛选
+$("#go_search").on("click",function(){
+	data={
+			"CUST_TYPE":$("#CUST_TYPE").val(),//客户类型
+			"AREA_CD":$("#AREA_CD").val(),//所属区域
+			"AREA_CD2":$("#AREA_CD2").val(),//所属区域2
+			"CUST_GRP":$("#CUST_GRP").val(),//所属客户群
+			"CUST_GRP2":$("#CUST_GRP2").val(),//所属客户群2
+			"JL_TYPE ":$("#JL_TYPE").val()//客户经理分类
+	};
+	pagerList(1,10);
+	$("#myModal").modal("hide").on("hidden.bs.modal");
+				
+})
+</script>
+<script type="text/javascript"id="申请提交">
+	$("#apply").on("click",function(){
+		var data={
+			"USER_ID_SQ":$("#USER_ID_SQ").val(),//授权人
+			"CUST_ID":$("#CUST_ID").val(),//客户编号
+			"VALID_DAY":$("#VALID_DAY").val(),//查看时效
+			"STAT":$("input[name=state]:checked").val()//状态
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custapply/save",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data),
+			success:function(data){
+				if(data.code=="00"){
+					alert("申请成功")
+					$("#Modal1").modal("hide").on("hidden.bs.modal",function(){});					
+				}else if(data.code=="01"){
+					alert('正在审核中');
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					}
+			},error:function(data){
+				alert("错误");
+				console.log(data);
+			}
+		})
+	})
+</script>
+<script id="删除">
+Io.on("#listbody>tr","click",function(){
+	var $this=$(this);
+	$this.addClass("on").siblings().removeClass("on");
+})
+$("#btnDel").on("click",function(){
+	var $on=$("#listbody").find("tr.on");
+	var cust_id=$on.attr("zt");
+	if($on&&$on.size()>0){
+		Io.bs.alert("此操作将删除该客户所有信息，确定删除？",function(){
+			//$(".bsok").on("click",function(){
+				var data1={"CUST_ID":cust_id};
+				$.ajax({
+					type:"post",
+					url:baseurl+"custbase/deleteAll",
+					dataType:"json",
+					async:false,
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						if(data.code=="00"){
+							alert("删除成功");
+							pagerList(1,10);
+						}else if(data.code=="88"){
+							eval(data.reLoad);
+						}else{
+							alert(data.errMsg);
+						}
+					}
+				})
+			//})
+		})
+	}else{
+		alert("请选择要删除的客户");
+	}
+})
+</script>
+</div></body>
+</html>

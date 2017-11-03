@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户需求-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/myscript.js"></script>
+<script src="../js/angular.min.js"></script>
+<script src="../js/plupload.full.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../css/pages.css">
+<style>
+	.nongziDetails li{
+		margin-bottom:10px;
+		width:100%;
+		height:35px;
+		line-height:35px;
+	}
+	.nongziDetails input{
+		height:35px;
+		text-indent:8px;
+		line-height:35px;
+		border:1px solid #ccc;
+		border-radius:3px;
+	}
+	.nongziDetails span{
+		padding-right:15px;
+		width:50xp;
+		text-align:right;
+		
+	}
+	#BEIZHU{
+		height: auto;
+		width: 100%;
+		word-wrap: break-word;
+	}
+	#HUIFANGBEIZHU{
+		height: auto;
+		width: 100%;
+		word-wrap: break-word;
+	}
+</style>
+</head>
+<body class="white-bg" ng-app="myApp" ng-controller="customersCtrl">
+<form class="form-horizontal" id="form">
+<div class="clearfix" id='container'>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">模式：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="BAIFANG" value="1"/>拜访</label>
+				<!-- <label><input type="checkbox" id="HUIFANG" value="1"/>回访</label> -->
+				<button class="btn btn-md btn-danger" id="pickfiles">拍照</button>
+			</div>
+		</div>
+	</div>
+	<!-- 弹窗modal 1-->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">添加备注</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<input type="text" id="iDESC" class="form-control" placeholder="备注" />
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary mb5" id="uploadfiles" type="button">确定上传</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">录入日期：</label>
+			<div class="bs-sm-r">
+				<input type="text" id="CRT_DATE" class="form-control" value=""/>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix" >
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">金融业务：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="BANK_CD" value="1"/>借记卡</label>
+				<label><input type="checkbox" id="DJ_DESC" value="1"/>贷记卡 </label>
+				<label><input type="checkbox" id="CK_DESC" value="1 "/>存款</label>
+				<label><input type="checkbox" id="LC_DESC" value="1 "/>理财</label>
+				<label><input type="checkbox" id="DZ_CD" value="1"/>电子银行</label>
+				<label><input type="checkbox" id="POS_DESC" value="1"/>POS机</label>
+				<label><input type="checkbox" id="WH_DESC" value="1"/>外汇</label>
+				<label><input type="checkbox" id="DFGZ_DESC" value="1"/>代发工资</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix" >
+		<div class="col-sm-6 clearfix bs-form-group" >
+			<label class="bs-sm-l control-label">智e购：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="SCYH_DESC" value="1"/>商城用户</label>
+				<label><input type="checkbox" id="SH_DESC" value="1"/>商户 </label>
+				<label><input type="checkbox" id="NZYH_DESC" value="1" ng-click="nongziClick()"/>农资用户</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix" >
+		<div class="col-sm-12 clearfix bs-form-group nongziDetails" ng-show="nongziDetails" >
+			<div style="width:100%;padding-left:80px;">
+					<span>农资需求：</span>
+					<ul >
+				   	 <li ng-repeat="x in items">
+				   	 	 <span>{{x.DIC_NAME}}</span>
+					   	 <input type="number"  placeholder="单位：吨/瓶" ng-model="x.num"/>
+					   	 <input type="number" id="x.DIC_ID" placeholder="需求月份"  ng-model="x.month" ng-blur="onchangeFunc(x)"/>
+				   	 </li>
+			   	  	</ul>
+				</div>
+				
+		</div>
+	</div>
+	
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">贷款需求额度（万）：</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" id="XQED" name="XQED" />
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">贷款用途：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="checkbox" id="JF_DESC" value="1 "/>建房</label>
+				<label><input type="checkbox" id="ZZ_DESC" value="1"/>种植</label>
+				<label><input type="checkbox" id="yZ_DESC" value="1"/>养殖</label>
+				<label><input type="checkbox" id="JS_DESC" value="1"/>经商</label>
+				<label><input type="checkbox" id="GF_DESC" value="1"/>购房</label>
+				<label><input type="checkbox" id="GC_DESC" value="1"/>购车</label>
+				<label><input type="checkbox" id="ZX_DESC" value="1"/>装修</label>
+				<label><input type="checkbox" id="QT_DESC" value="1"/>其它消费</label>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">客户满意度：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" id="KHMYD">
+				</select>
+			</div>
+		</div>
+		<!-- <div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">回访结果：</label>
+			<div class="bs-sm-r">
+				<select class="form-control" id="HFRESULT">
+				</select>
+			</div>
+		</div> -->
+	</div>
+	<!-- 增加备注栏 -->
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">备注：</label>
+			<div class="bs-sm-r">
+				<textarea id="BEIZHU"></textarea>
+			</div>
+		</div>
+		<!-- <div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">回访备注：</label>
+			<div class="bs-sm-r">
+				<textarea id="HUIFANGBEIZHU"></textarea>
+			</div>
+		</div> -->
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="reset">重置</button>
+		<button class="btn btn-md btn-danger" type="button" id="submitSave">保存</button>
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl()">返回</button>
+	</div>
+</form>
+<div class="col-xs-12">
+<table class="bs_table table_bg_blue">
+	<thead>
+		<tr>
+			<th width="130">录入日期</th>
+			<th>潜在需求</th>
+			<th>贷款需求额度（万）</th>
+			<th>贷款用途</th>
+			<th>客户满意度</th>
+			<th width="70"></th>
+		</tr>
+	</thead>
+	<tbody id="tBody">		
+	</tbody>
+</table>
+</div>
+<div class="clearfix text-center tab-footer">
+	<button class="btn btn-md btn-danger" type="button" id="checkBFRecord" onclick="checkBFRecordFunc()">查看拜访记录</button>
+</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<script id="客户需求">
+var items=[];
+function all(){
+$("#CRT_DATE").datepicker("update",newDate);//更新日期
+ cust_id=getUrlParam("cust_id")||"";
+var submitSave=$("#submitSave");//保存按钮
+var CRT_DATE=$("#CRT_DATE"),//录入日期
+	XQED=$("#XQED"),//需求额度
+	KHMYD=$("#KHMYD"),//客户满意度
+	BANK_CD=$("#BANK_CD"),//借记卡
+	DJ_DESC=$("#DJ_DESC"),//贷记卡
+	CK_DESC=$("#CK_DESC"),//存款
+	LC_DESC=$("#LC_DESC"),//理财
+	DZ_CD=$("#DZ_CD"),//电子银行
+	POS_DESC=$("#POS_DESC"),//POS机
+	WH_DESC=$("#WH_DESC"),//外汇
+	DFGZ_DESC=$("#DFGZ_DESC"),//代发工资
+	JF_DESC=$("#JF_DESC"),//建房
+	ZZ_DESC=$("#ZZ_DESC"),//种植
+	YZ_DESC=$("#YZ_DESC"),//养殖
+	JS_DESC=$("#JS_DESC"),//经商
+	GF_DESC=$("#GF_DESC"),//购房
+	GC_DESC=$("#GC_DESC"),//购车
+	ZX_DESC=$("#ZX_DESC"),//装修
+	QT_DESC=$("#QT_DESC"),//其他
+	SCYH_DESC=$("#SCYH_DESC"),//商城用户
+	SH_DESC=$("#SH_DESC"),//商户
+	NZYH_DESC=$("#NZYH_DESC"),//农资用户
+	//HUIFANG=$("#HUIFANG"),//回访模式
+	BAIFANG=$("#BAIFANG"),//拜访模式 
+	HFRESULT=$("#HFRESULT"),//回访结果
+	BEIZHU = $("#BEIZHU");//备注
+	//HUIFANGBEIZHU = $("#HUIFANGBEIZHU");//回访备注
+function xq(d){
+		//查询
+	var data0={"CUST_ID":cust_id,
+			"CRT_DATE":d,
+			"STATE":"LR"
+			};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custfeedback/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result[0];
+					//console.log(JSON.stringify(result));
+					CRT_DATE.val(result.CRT_DATE.replace(/-/g,'/'));//录入时间
+					BANK_CD.prop('checked',result.BANK_CD=='1'?true:false);
+					DJ_DESC.prop('checked',result.DJ_DESC=='1'?true:false);
+					CK_DESC.prop('checked',result.CK_DESC=='1'?true:false);
+					LC_DESC.prop('checked',result.LC_DESC=='1'?true:false);
+					DZ_CD.prop('checked',result.DZ_CD=='1'?true:false);
+					POS_DESC.prop('checked',result.POS_DESC=='1'?true:false);
+					WH_DESC.prop('checked',result.WH_DESC=='1'?true:false);
+					DFGZ_DESC.prop('checked',result.DFGZ_DESC=='1'?true:false);
+					JF_DESC.prop('checked',result.JF_DESC=='1'?true:false);
+					ZZ_DESC.prop('checked',result.ZZ_DESC=='1'?true:false);
+					YZ_DESC.prop('checked',result.YZ_DESC=='1'?true:false);
+					JS_DESC.prop('checked',result.JS_DESC=='1'?true:false);
+					GF_DESC.prop('checked',result.GF_DESC=='1'?true:false);
+					GC_DESC.prop('checked',result.GC_DESC=='1'?true:false);
+					ZX_DESC.prop('checked',result.ZX_DESC=='1'?true:false);
+					QT_DESC.prop('checked',result.QT_DESC=='1'?true:false);
+					SCYH_DESC.prop('checked',result.SCYH_DESC=='1'?true:false);
+					SH_DESC.prop('checked',result.SH_DESC=='1'?true:false);
+					//NZYH_DESC.prop('checked',result.NZYH_DESC=='1'?true:false);
+					XQED.val(result.XQED);
+					KHMYD.val(result.KHMYD);
+					BEIZHU.val(result.BEIZHU);
+					
+				}else{
+					BANK_CD.prop('checked',false);
+					DJ_DESC.prop('checked',false);
+					CK_DESC.prop('checked',false);
+					LC_DESC.prop('checked',false);
+					DZ_CD.prop('checked',false);
+					POS_DESC.prop('checked',false);
+					WH_DESC.prop('checked',false);
+					DFGZ_DESC.prop('checked',false);
+					JF_DESC.prop('checked',false);
+					ZZ_DESC.prop('checked',false);
+					YZ_DESC.prop('checked',false);
+					JS_DESC.prop('checked',false);
+					GF_DESC.prop('checked',false);
+					GC_DESC.prop('checked',false);
+					ZX_DESC.prop('checked',false);
+					QT_DESC.prop('checked',false);
+					XQED.val('');
+					KHMYD.val('');
+				}
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+	
+xq();
+CRT_DATE.on("blur",function(){
+	if(CRT_DATE.val()=='') $("#CRT_DATE").datepicker("update",newDate);
+	xq(CRT_DATE.val().replace(/\//g,'-'));
+})
+function xqList(){
+	var data0={"CUST_ID":cust_id,"STATE":"LR"};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custfeedback/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var XQ = [];
+						var YT = [];						
+						if(result.BANK_CD==1)XQ.push('借记卡');
+						if(result.DJ_DESC==1)XQ.push('贷记卡');
+						if(result.CK_DESC==1)XQ.push('存款');
+						if(result.LC_DESC==1)XQ.push('理财');
+						if(result.DZ_CD==1)XQ.push('电子银行');
+						if(result.POS_DESC==1)XQ.push('POS机');
+						if(result.WH_DESC==1)XQ.push('外汇');
+						if(result.DFGZ_DESC==1)XQ.push('代发工资');
+						if(result.JF_DESC==1)YT.push('建房');
+						if(result.ZZ_DESC==1)YT.push('种植');
+						if(result.YZ_DESC==1)YT.push('养殖');
+						if(result.JS_DESC==1)YT.push('经商');
+						if(result.GF_DESC==1)YT.push('购房');
+						if(result.GC_DESC==1)YT.push('购车');
+						if(result.ZX_DESC==1)YT.push('装修');
+						if(result.QT_DESC==1)YT.push('其他');
+						html+='<tr>';
+						html+='<td>'+ result.CRT_DATE.replace(/-/g,'.') +'</td>';
+						html+='<td>'+ XQ.join('、') +'</td>';
+						html+='<td>'+ result.XQED +'</td>';
+						html+='<td>'+ YT.join('、') +'</td>';
+						html+='<td>'+ result.KHMYDC +'</td>';
+						/* switch(result.KHMYD){
+							case '1':
+								html+='<td>很不满意</td>';
+								break;
+							case '2':
+								html+='<td>不满意</td>';
+								break;
+							case '3':
+								html+='<td>一般</td>';
+								break;
+							case '4':
+								html+='<td>满意</td>';
+								break;
+							case '5':
+								html+='<td>很满意</td>';
+								break;
+							default:
+								html+='<td></td>';
+						} */
+						html+='<td>';
+						html+='<button class="btn btn-xs btn-danger" type="button" name="btnDel" zt='+ result.CRT_DATE +'><i class="glyphicon glyphicon-trash"></i></button> ';
+						html+='<button class="btn btn-xs btn-danger" type="button" name="btnSee" zt='+ result.CRT_DATE +'><i class="glyphicon glyphicon-eye-open"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tBody").html(html);
+				}else{
+					$("#tBody").html('');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})	
+}
+xqList();
+submitSave.on("click",function(){
+	var itemsFlag=true;//农资需求，月份是否符合
+	if(hasPic == false && BAIFANG.is(':checked')){//拜访时，必须上传照片
+		alert("请上传拜访图片!");
+		return;
+	}
+	if(items != null){
+		for(var i=0;i<items.length;i++){
+			if(items[i]!=""&&(items[i].month<1||items[i].month>12)){
+				alert(items[i].DIC_NAME+'的月份输入不规范');
+				itemsFlag=false;
+				break;
+			}
+		}
+	}
+		
+	
+	
+	if(itemsFlag){
+		if(CRT_DATE.val()=='') $("#CRT_DATE").datepicker("update",newDate);
+		$('#form').bootstrapValidator('validate',"fields");//激活
+		if($('#form').data('bootstrapValidator').isValid()){//验证
+			//不选择农资用户，items置为空
+			if(!document.getElementById("NZYH_DESC").checked){
+				items = [];
+			}
+			var data1={
+					"CUST_ID":cust_id,
+					"CRT_DATE":CRT_DATE.val().replace(/\//g,'-'),
+					"XQED":XQED.val(),
+					"KHMYD":KHMYD.val(),
+					"BANK_CD":BANK_CD.is(':checked')?'1':'0',
+					"DJ_DESC":DJ_DESC.is(':checked')?'1':'0',
+					"CK_DESC":CK_DESC.is(':checked')?'1':'0',
+					"LC_DESC":LC_DESC.is(':checked')?'1':'0',
+					"DZ_CD":DZ_CD.is(':checked')?'1':'0',
+					"POS_DESC":POS_DESC.is(':checked')?'1':'0',
+					"WH_DESC":WH_DESC.is(':checked')?'1':'0',
+					"DFGZ_DESC":DFGZ_DESC.is(':checked')?'1':'0',
+					"JF_DESC":JF_DESC.is(':checked')?'1':'0',
+					"ZZ_DESC":ZZ_DESC.is(':checked')?'1':'0',
+					"YZ_DESC":YZ_DESC.is(':checked')?'1':'0',
+					"JS_DESC":JS_DESC.is(':checked')?'1':'0',
+					"GF_DESC":GF_DESC.is(':checked')?'1':'0',
+					"GC_DESC":GC_DESC.is(':checked')?'1':'0',
+					"ZX_DESC":ZX_DESC.is(':checked')?'1':'0',
+					"QT_DESC":QT_DESC.is(':checked')?'1':'0',
+					"SCYH_DESC":SCYH_DESC.is(':checked')?'1':'0',
+					"SH_DESC":SH_DESC.is(':checked')?'1':'0',
+					"NZYH_DESC":NZYH_DESC.is(':checked')?'1':'0',
+					"nongziDetails":items,
+					"BAIFANG":BAIFANG.is(':checked')?'1':'0',
+					//"HUIFANG":HUIFANG.is(':checked')?'1':'0',
+					"HFRESULT":HFRESULT.val(),
+					"BEIZHU":BEIZHU.val()
+					//"HUIFANGBEIZHU":HUIFANGBEIZHU.val()
+			};
+			//alert(data1.BAIFANG);
+			$.ajax({
+				beforeSend:function(){
+					if(true){$("#loadgif").fadeIn(200);};
+				},
+				type:"post",
+				url:baseurl+"custfeedback/save",
+				dataType:"json",
+				contentType:"application/json",
+				data:JSON.stringify(data1),
+				success:function(data){
+					$("#loadgif").fadeOut(100);
+					if(data.code=="00"){
+						xqList();
+						alert("保存成功");
+						//照片上传标识
+						hasPic = false;
+					}else if (data.code=="88"){
+						eval(data.reLoad);
+					}else{
+						alert(data.errMsg);
+						console.log(data.errMsg);
+						$("#loadgif").fadeOut(100);
+					}
+				},error:function(data){
+					console.log("错误");
+					$("#loadgif").fadeOut(100);
+				}
+			}) 
+		}else{
+			 $('#form').bootstrapValidator('validate',"fields");//激活
+		}
+	}
+	
+});
+$("#form").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	fields:{
+		XQED:{
+			validators:{
+				notEmpty:{
+					message:'需求额度不能为空'
+				},				
+				regexp:{
+					regexp:/^[0-9\.]+$/,
+					message:'请填写正确金额'
+				}
+			}
+		}		
+	}
+})
+Io.on("[name='btnSee']", "click", function(){
+	var zt=$(this).attr("zt");
+	var data1={"CUST_ID":cust_id,"CRT_DATE":zt,"STATE":"LR"};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custfeedback/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				var result=data.result[0];
+				CRT_DATE.val(result.CRT_DATE.replace(/-/g,'/'));
+				BANK_CD.prop('checked',result.BANK_CD=='1'?true:false);
+				DJ_DESC.prop('checked',result.DJ_DESC=='1'?true:false);
+				CK_DESC.prop('checked',result.CK_DESC=='1'?true:false);
+				LC_DESC.prop('checked',result.LC_DESC=='1'?true:false);
+				DZ_CD.prop('checked',result.DZ_CD=='1'?true:false);
+				POS_DESC.prop('checked',result.POS_DESC=='1'?true:false);
+				WH_DESC.prop('checked',result.WH_DESC=='1'?true:false);
+				DFGZ_DESC.prop('checked',result.DFGZ_DESC=='1'?true:false);
+				JF_DESC.prop('checked',result.JF_DESC=='1'?true:false);
+				ZZ_DESC.prop('checked',result.ZZ_DESC=='1'?true:false);
+				YZ_DESC.prop('checked',result.YZ_DESC=='1'?true:false);
+				JS_DESC.prop('checked',result.JS_DESC=='1'?true:false);
+				GF_DESC.prop('checked',result.GF_DESC=='1'?true:false);
+				GC_DESC.prop('checked',result.GC_DESC=='1'?true:false);
+				ZX_DESC.prop('checked',result.ZX_DESC=='1'?true:false);
+				QT_DESC.prop('checked',result.QT_DESC=='1'?true:false);
+				XQED.val(result.XQED);
+				KHMYD.val(result.KHMYD);
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+});
+Io.on("[name=btnDel]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"CUST_ID":cust_id,"CRT_DATE":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custfeedback/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){	
+					xqList();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	})
+})
+}
+</script>
+<script id="字典">
+var json={"KHMYD":"KHMYD",//客户满意度
+			"HFRESULT":"HF_RESULT"//回访结果
+		}
+selectOnload({"json":json,"func":all,"length":1,"isDefault":false});//客户满意度
+</script>
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+	$scope.nongziDetails=false;
+	$scope.nongziClick=function(){
+		$scope.nongziDetails=!$scope.nongziDetails;
+		var data1 = {
+  			   "DIC_PARENTID":"NZ_TYPE"
+  	   };
+		$.ajax({
+   			type:"post",
+   			url:baseurl+"lrddic/query",
+   			dataType:"json",
+   			async:false,
+   			contentType:"application/json",
+   			data:JSON.stringify(data1),
+   			success:function(data){
+   				if(data.code == "00"){
+   				 $scope.items = data.result;
+   				}
+   			}
+		});
+	}
+	$scope.$watch("items",function(n,o) {
+	     items=n;
+	 }, true);
+	$scope.onchangeFunc=function(obj){
+		  if(obj.month!=""&&(obj.month<1||obj.month>12)){
+			  alert(obj.DIC_NAME+'的月份输入不规范');
+		  }
+	  }
+});
+ function checkBFRecordFunc(){
+	 location.href="khgl_bf_record.html?cust_id="+cust_id;
+ }
+</script>
+<script >
+var iDESC = $("#iDESC");
+var tabId = '#picwrapper4';
+hasPic = false;//是否上传照片
+/*上传图片*/
+var uploader = new plupload.Uploader({
+	
+    runtimes: 'html5,flash,silverlight,html4', //上传插件初始化选用那种方式的优先级顺序
+    browse_button: 'pickfiles', // 点击上传的按钮
+    container: document.getElementById("container"), // 展现上传文件列表的容器，[默认是body]
+    url: baseurl+'file/upload2',//服务器端的上传页面地址
+    flash_swf_url: '../js/Moxie.swf', //flash文件地址//swf文件，当需要使用swf方式进行上传时需要配置该参数
+    file_data_name: 'filedata',
+    silverlight_xap_url: '../js/Moxie.xap',//silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+    filters: {
+        max_file_size: '10mb',
+        mime_types: [
+            {title: "Image files", extensions: "jpg,gif,png"},
+            {title: "Zip files", extensions: "zip"}
+        ]
+    },
+    multi_selection: false, //多选对话框
+    init: {
+        PostInit: function (up) {
+        	iDESC.val("");
+			$("#myModalLabel1").html("");
+        },
+        FilesAdded: function (up, files) { //获取上传文件信息&&开始上传 uploader.start();
+            for (var i in files) {
+            	$('#myModalLabel1').html(files[i].name + '(' + plupload.formatSize(files[i].size) + ')');
+			}
+            $(".modal-dialog").css("margin-top",$(parent.window).scrollTop());
+            $("#myModal1").modal({
+        		backdrop:false
+        	})
+            Io.on('#uploadfiles','click',function(){
+            	uploader.start();
+            	$("#myModal1").modal("hide");
+                return false;
+            })
+        },
+        UploadProgress: function (up, file) { //上传进度百分比
+            //document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+        },
+        Error: function (up, err) {
+            //document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+            
+        },
+        FileUploaded: function (uploader, file, responseObject) {
+            var json = $.parseJSON(responseObject.response);
+            if(json.code=="00"){
+            	
+            	var data1 = {"CUST_ID":cust_id,"DOC_NAME":tabId,"FILE_NAME":json.FILENAME,"DOC_PATH":json.msg,"DESC":iDESC.val()};
+            	$.ajax({
+					type:"post",
+					url:baseurl+"custdoc/save",
+					dataType:"json",
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						if(data.code=="00"){
+							alert("需求照片上传成功，请在“影像资料”模块查看");
+							hasPic = true;
+							//tpList();
+							// var height=$("body").height();
+							//parent.window.$("#myTabsFrame").height(height);
+						}else{
+							console.log(data.errMsg);
+						}
+					},error:function(){
+						console.log("错误");
+					}
+				}) 
+            }     
+            
+            $('#filelist').find('.del').bind('click', function () {
+                var $this = $(this);
+                $this.parents('.iteam').remove();
+                //isPic = 0;
+                uploader.removeFile(file);
+                Picturedata = undefined;
+            });
+        }
+    }
+});
+uploader.init();
+</script>
+</body>
+</html>

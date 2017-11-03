@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdOrgMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CORP_CD,ORG_CD,ORG_NAME,ORG_PCD,ORG_FLAG,ORG_VFLAG,ORG_DESC,LEVELID,CRT_DATE,MTN_DATE,ORG_ABB,WD_ID from lrd_org
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="ORG_CD != null"> and ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_org
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null ">CORP_CD,</if>
+			<if test="ORG_CD != null ">ORG_CD,</if>
+			<if test="ORG_NAME != null ">ORG_NAME,</if>
+			<if test="ORG_PCD != null ">ORG_PCD,</if>
+			<if test="ORG_FLAG != null ">ORG_FLAG,</if>
+			<if test="ORG_VFLAG != null ">ORG_VFLAG,</if>
+			<if test="ORG_DESC != null ">ORG_DESC,</if>
+			<if test="LEVELID != null ">LEVELID,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="ORG_ABB != null ">ORG_ABB,</if>
+			<if test="ORG_RELA_TYPE != null ">ORG_RELA_TYPE,</if>
+			<if test="WD_ID != null ">WD_ID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null">#{CORP_CD,jdbcType=VARCHAR},</if>
+			<if test="ORG_CD != null">#{ORG_CD,jdbcType=VARCHAR},</if>
+			<if test="ORG_NAME != null">#{ORG_NAME,jdbcType=VARCHAR},</if>
+			<if test="ORG_PCD != null">#{ORG_PCD,jdbcType=VARCHAR},</if>
+			<if test="ORG_FLAG != null">#{ORG_FLAG,jdbcType=CHAR},</if>
+			<if test="ORG_VFLAG != null">#{ORG_VFLAG,jdbcType=CHAR},</if>
+			<if test="ORG_DESC != null">#{ORG_DESC,jdbcType=VARCHAR},</if>
+			<if test="LEVELID != null">#{LEVELID,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="ORG_ABB != null ">#{ORG_ABB,jdbcType=VARCHAR},</if>
+			<if test="ORG_RELA_TYPE != null ">#{ORG_RELA_TYPE,jdbcType=VARCHAR},</if>
+			<if test="WD_ID != null ">#{WD_ID,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_org
+		<set>
+			<if test="ORG_NAME != null ">ORG_NAME=#{ORG_NAME,jdbcType=VARCHAR},</if>
+			<if test="ORG_PCD != null ">ORG_PCD=#{ORG_PCD,jdbcType=VARCHAR},</if>
+			<if test="ORG_FLAG != null ">ORG_FLAG=#{ORG_FLAG,jdbcType=CHAR},</if>
+			<if test="ORG_VFLAG != null ">ORG_VFLAG=#{ORG_VFLAG,jdbcType=CHAR},</if>
+			<if test="ORG_DESC != null ">ORG_DESC=#{ORG_DESC,jdbcType=VARCHAR},</if>
+			<if test="LEVELID != null ">LEVELID=#{LEVELID,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="ORG_ABB != null ">ORG_ABB=#{ORG_ABB,jdbcType=VARCHAR},</if>
+			<if test="ORG_ABB != null ">WD_ID=#{WD_ID,jdbcType=VARCHAR},</if>
+		</set>
+		where CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		ORG_CD=#{ORG_CD,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_org where
+		CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_org
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="ORG_CD != null"> and ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	<select id="queryMenu" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT ORG_CD 'id',ORG_NAME 'name',ORG_PCD 'pId',ORG_RELA_TYPE ,ORG_ABB
+		FROM lrd_org 
+		<where>
+			<if test="ORG_RELA_TYPE != null"> and ORG_RELA_TYPE=#{ORG_RELA_TYPE,jdbcType=VARCHAR}</if>
+			<if test="ROLE_FW == 00"> and ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+			<if test="ROLE_FW == 02"> and (ORG_CD=#{ORG_CD,jdbcType=VARCHAR} or ORG_PCD=#{ORG_CD,jdbcType=VARCHAR}) </if>
+			<if test="ROLE_FW == 01"> and (ORG_CD=#{ORG_CD,jdbcType=VARCHAR} or(ORG_PCD != "" and ORG_PCD is not null))</if>
+			<if test="ORG_PCD != null and ORG_PCD != '' "><![CDATA[and ORG_PCD = #{ORG_PCD,jdbcType=VARCHAR}]]></if>;
+		</where> 
+	</select>
+	<select id="queryUserOrg" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select a.ORG_CD, b.CORP_CD,b.ORG_NAME,b.ORG_ABB from lrd_user a,lrd_org b where a.ORG_CD = b.ORG_CD and a.CORP_CD = b.CORP_CD and a.USER_ID=#{USER_ID,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deletepc">
+		delete from lrd_org_pc2 where corp_cd='907' and ORG_PCD='020008' and ORG_RELA_TYPE='00';
+	</delete>
+	
+	<insert id="insertpc">
+		insert into lrd_org_pc2
+		select '907',ORG_CD,'020008' ORG_PCD,'00' from LRD_ORG where FIND_IN_SET(ORG_PCD, getChildORG('907','020008','00'));
+	</insert>
+</mapper>

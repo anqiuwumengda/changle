@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdSysLogMapper">
+
+
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT
+		CORP_CD,ORG_CD,USER_ID,OPER_DATE,OPER_NAME,OPER_DX,OPER_PARA,OPER_IG,CRT_DATE,MTN_DATE
+		FROM lrd_syslog
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="ORG_CD != null"> and ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="CRT_DATE !=null"> and CRT_DATE &gt;=#{CRT_DATE}</if>
+			<if test="MTN_DATE !=null"> and MTN_DATE &lt;=#{MTN_DATE}</if>
+
+
+		</where>
+	</select>
+	<delete id="deleteByPk">delete from lrd_syslog where
+		CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		ORG_CD=#{ORG_CD,jdbcType=VARCHAR} and
+		USER_ID=#{USER_ID,jdbcType=VARCHAR}
+	</delete>
+	<delete id="delete">
+		delete from lrd_syslog
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="ORG_CD != null"> and ORG_CD=#{ORG_CD,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_syslog
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null ">CORP_CD,</if>
+			<if test="ORG_CD != null ">ORG_CD,</if>
+			<if test="USER_ID != null ">USER_ID,</if>
+			<if test="OPER_DATE != null ">OPER_DATE,</if>
+			<if test="OPER_NAME != null ">OPER_NAME,</if>
+			<if test="OPER_DX != null ">OPER_DX,</if>
+			<if test="OPER_PARA != null">OPER_PARA,</if>
+			<if test="OPER_IG != null ">OPER_IG,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			
+			<if test="CORP_CD != null ">#{CORP_CD,jdbcType=VARCHAR},</if>
+			<if test="ORG_CD != null ">#{ORG_CD,jdbcType=VARCHAR},</if>
+			<if test="USER_ID != null ">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="OPER_DATE != null ">#{OPER_DATE,jdbcType=VARCHAR},</if>
+			<if test="OPER_NAME != null ">#{OPER_NAME,jdbcType=VARCHAR},</if>
+			<if test="OPER_DX != null ">#{OPER_DX,jdbcType=VARCHAR},</if>
+			<if test="OPER_PARA != null">#{OPER_PARA,jdbcType=VARCHAR},</if>
+			<if test="OPER_IG != null ">#{OPER_IG,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	
+</mapper>

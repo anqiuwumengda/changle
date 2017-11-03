@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdMenuMapper">
+	
+	<select id="queryTree" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select distinct f.FUNC_CD,
+		       t.SYS_CD,
+		       t.FUNC_TYPE,
+		       t.FUNC_PCD,
+		       t.FUNC_URL,
+		       t.FUNC_NUM,
+		       t.CRT_DATE,
+		       t.MTN_DATE,
+		       t.FUNC_NAME
+		  from lrd_rolefunc f,
+		       lrd_function t,
+		       (select a.ROLE_ID, a.CORP_CD
+		          from lrd_userrole a, lrd_user b
+		         where a.CORP_CD = b.CORP_CD
+		           and a.USER_ID = b.USER_ID
+		           and b.USER_ID = #{user_id,jdbcType=VARCHAR}) b
+		 where f.ROLE_CD = b.ROLE_ID
+		   and f.CORP_CD = b.CORP_CD
+		   and f.FUNC_CD = t.FUNC_CD
+			and t.FUNC_TYPE='0'
+	</select>
+</mapper>

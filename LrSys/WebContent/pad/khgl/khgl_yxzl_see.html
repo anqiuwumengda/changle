@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>影像资料-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<script>
+$(function() {  
+    FastClick.attach(document.body);  
+});  
+</script>
+</head>
+<body class="white-bg">
+<div class="clearfix">
+	<div class="col-xs-12 mb10">
+		<ul class="nav nav-pills">
+	         <li class="active"><a href="#picwrapper"  data-toggle="tab">客户基础资料</a></li>
+	         <li class=""><a href="#picwrapper1" data-toggle="tab">家庭资产</a></li>
+	         <li class=""><a href="#picwrapper2" data-toggle="tab">经营场所</a></li>
+	         <li class=""><a href="#picwrapper3" data-toggle="tab">其它</a></li>
+	         <li class=""><a href="#picwrapper4" data-toggle="tab">拜访</a></li>
+	     </ul>
+     </div>
+</div>
+<div class="tab-content">
+<div class="clearfix none active" id="picwrapper">
+</div>
+<div class="clearfix none" id="picwrapper1">
+	<div class="clearfix btn-group pl15 mb10">
+		<a class="btn btn-default active" data-toggle="tab" href="#picwrapper1_1">房产</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_2">车辆</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_3">土地</a>
+		<a class="btn btn-default" data-toggle="tab" href="#picwrapper1_4">其它</a>
+	</div>
+	<div class="tab-content">
+		<div class="clearfix none active" on-off="off" id="picwrapper1_1"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_2"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_3"></div>
+		<div class="clearfix none" on-off="off" id="picwrapper1_4"></div>
+	</div>
+</div>
+<div class="clearfix none" id="picwrapper2">
+</div>
+</div>
+<div class="clearfix text-center tab-footer">
+	<button class="btn btn-danger" type="button" onclick="backkhgl()">返回</button>
+</div>
+<div id="preView"></div>
+<script>
+var CUST_ID = getUrlParam("cust_id");
+var tabId = '#picwrapper';
+Io.on("a[data-toggle=tab]","click",function(){
+	debugger;
+	var $href=$(this).attr("href");
+	if($href=="#picwrapper1"){
+		$href=$($href).find("a.active").attr("href");
+	}
+	tabId = $href;	
+	$(".tab-content.none").attr("on-off","off");
+	$("[name=btnDel]").hide();
+})
+$("#picwrapper1").find("a[data-toggle=tab]").on("click",function(){
+	$(this).addClass("active").siblings().removeClass("active");
+})
+function tpList(){
+	var data1 = {"CUST_ID":CUST_ID};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custdoc/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var ht='',ht1='',ht2='',ht3='',ht4='',ht5='';
+					var ht2_1='',ht2_2='',ht2_3='',ht2_4='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var FILE_NAME = result.FILE_NAME;
+						var date = FILE_NAME.substring(0,4)+'.'+FILE_NAME.substring(4,6)+'.'+FILE_NAME.substring(6,8);
+						ht+='<div class="bs_wd_6"><a class="thumbnail">';
+						ht+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+						ht+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+						ht+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+						ht+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+						if(result.DOC_NAME=="#picwrapper"){
+							ht1+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht1+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht1+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht1+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht1+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							//ht1=ht;
+						}else if(/#picwrapper1/.test(result.DOC_NAME)){
+							if(result.DOC_NAME=="#picwrapper1_1"){
+								ht2_1+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_1+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_1+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_1+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_1+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_2"){
+								ht2_2+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_2+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_2+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_2+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_2+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_3"){
+								ht2_3+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_3+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_3+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_3+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_3+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							}else if(result.DOC_NAME=="#picwrapper1_4"){
+								ht2_4+='<div class="bs_wd_6"><a class="thumbnail">';
+								ht2_4+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+								ht2_4+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+								ht2_4+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+								ht2_4+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							}
+							//ht2=ht;
+						}else if(result.DOC_NAME=="#picwrapper2"){
+							ht3+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht3+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht3+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht3+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht3+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+							
+						}else if(result.DOC_NAME=="#picwrapper3"){
+							ht4+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht4+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht4+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht4+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht4+='<i class="glyphicon glyphicon-trash"></i></button></a></div>';
+						}else if(result.DOC_NAME=="#picwrapper4"){
+							
+							ht5+='<div class="bs_wd_6"><a class="thumbnail">';
+							ht5+='<img src="'+baseurl+result.DOC_PATH+'" alt="260x180" style="width: 260px; height: 180px;"/>';
+							ht5+='<span>拍摄时间：'+date+'</span><span>备注：'+result.DESC+'</span>';
+							ht5+='<button class="btn btn-xs btn-danger" zt="'+result.SEQ_NO+'" name="btnDel" type="button">';
+							ht5+='<i class="glyphicon glyphicon-trash"></i></button>';
+							ht5+='<button class="btn btn-xs btn-danger" zt="'+result.DOC_PATH+'" name="btnEdit" type="button">';
+							ht5+='<i class="glyphicon glyphicon-pencil"></i></button></a></div>';
+						}
+					}
+					$("#picwrapper").html(ht1);
+					$("#picwrapper1_1").html(ht2_1);
+					$("#picwrapper1_2").html(ht2_2);
+					$("#picwrapper1_3").html(ht2_3);
+					$("#picwrapper1_4").html(ht2_4);
+					$("#picwrapper2").html(ht3);
+					$("#picwrapper3").html(ht4);
+					$("#picwrapper4").html(ht5);
+				}else{
+					$("#picwrapper").html('');
+					$("#picwrapper1_1").html('');
+					$("#picwrapper1_2").html('');
+					$("#picwrapper1_3").html('');
+					$("#picwrapper1_4").html('');
+					$("#picwrapper2").html('');
+					$("#picwrapper3").html('');
+					$("#picwrapper4").html('');
+				}				
+			}else{
+				console.log(data.errMsg);
+			}
+		},error:function(){
+			console.log("错误");
+		}
+	}) 
+}
+tpList();
+var ClickNum = 0;
+Io.on(".thumbnail img","click",function(){
+	ClickNum++;
+	setTimeout(function(){ClickNum=0;},500);
+	if(ClickNum==2){
+		var imgsrc = $(this).attr("src");
+		$("#preView").html('<img src="'+imgsrc+'" style="margin-top:'+$(parent.window).scrollTop()+'px" />');
+		$("#preView").show();
+	}	
+});
+Io.on("#preView","click",function(){
+	$("#preView").hide();
+})
+</script>
+</body>
+</html>

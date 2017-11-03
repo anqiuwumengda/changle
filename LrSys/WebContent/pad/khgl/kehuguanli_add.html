@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>新增-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="white-bg pt15">
+	<div class=""><legend class="form_bt">新增客户</legend></div>
+	<iframe id="myTabsFrame" name="myTabsFrame" src="./jbxx_add.html" onload="iFrameHeight('myTabsFrame')">正在加载</iframe>
+</div>
+<script>//iframe高度自适应
+function reinitIframe(){ 
+	var iframe = document.getElementById("myTabsFrame"); 
+	try{ 
+	var wHeight= $(window).height();
+	var bHeight = iframe.contentWindow.document.body.scrollHeight; 
+	var dHeight = iframe.contentWindow.document.documentElement.scrollHeight; 
+	var height = Math.max(bHeight, dHeight,wHeight); 
+	iframe.height = height; 
+	}catch (err){} 
+	} 
+	window.setInterval("reinitIframe()", 20);
+	</script>
+</body>
+</html>

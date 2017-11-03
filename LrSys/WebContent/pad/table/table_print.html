@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>审查审批表-乐融易贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="white-bg mb50">
+<div class="table_wrapper">
+	<table class="table table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th>身份证号</th>
+				<th>主营项目</th>
+				<th>客户姓名</th>
+				<th>评分卡最高额度</th>
+				<th>测算额度</th>
+				<th>信用额度</th>
+				<th>信用利率</th>
+				<th>亲情额度</th>
+				<th>亲情利率</th>
+				<th>失效日期</th>
+			</tr>
+		</thead>
+		<tbody id="listbody">
+			
+		</tbody>
+	</table>
+</div>
+	<ul class="pagination pagination-sm" id="pagination">
+		<li class="prev"><a href="javascript:;">← 上一页</a></li>
+		<li class="active"><a href="javascript:;">1</a></li>
+		<li class="next"><a href="javascript:;">下一页 →</a></li>
+	</ul>
+</div>
+<script>
+function pageLoad(resultArr){
+	var html="";
+	for(var i=0;i<resultArr.length;i++){
+		var result = resultArr[i];
+		html+='<tr>';
+		html+='<td>' + result.ID_NO + '</td>';
+		html+='<td>' + result.ZYXM + '</td>';
+		//html+='<td>' + result. + '</td>';
+		html+='<td>' + result.PJ_LMT + '</td>';
+		html+='<td>' + result.ED_LMT + '</td>';
+		html+='<td>' + result.CREALIMIT + '</td>';
+		html+='<td>' + result.CREATERATE + '</td>';
+		html+='<td>' + result.QQLIMIT + '</td>';
+		html+='<td>' + result.QQRATE + '</td>';
+		html+='<td>' + result.LOSE_DATE + '</td>';
+		html+='</tr>';
+	}
+	return html;
+}
+function pagerList(currentPage,pageSize){
+		data1={
+			"isPagination":"true",
+			"currentPage":currentPage,
+			"pageSize":pageSize
+		}; 	
+	 $.ajax({
+		beforeSend:function(){
+			$("#listbody").html("<tr><td colspan='10'>正在加载...</td></tr>");
+		},
+		url:baseurl + "",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					$("#listbody").html(pageLoad(resultArr));
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+					iFrameHeight('myTabsFrame');
+				}else{
+					$("#listbody").html('<tr><td align="center" height="200" colspan="10">暂时没有内容</td></tr>');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				$("#listbody").html('<tr><td align="center" height="200" colspan="10">'+data.errMsg+'</td></tr>');
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+//pagerList(1,10);
+</script>
+</body>
+</html>

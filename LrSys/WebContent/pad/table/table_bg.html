@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<title>零售贷款客户调查报告 </title>
+<script type="text/JavaScript" >
+
+ function myprint(tableid){
+  var winname = window.open('', 'newwin', ''); 
+  
+  var strHTML = document.getElementById(tableid).innerHTML;
+    
+     winname.document.open('text/html', 'replace'); 
+ 
+     winname.document.writeln(strHTML); 
+     winname.document.execCommand('print'); //打印
+    winname.close();
+}
+////
+var hkey_root,hkey_path,hkey_key;
+    hkey_root="HKEY_CURRENT_USER";
+    hkey_path="\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+ 
+    //网页打印时清空页眉页脚
+    function pagesetup_null() {
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell")
+            hkey_key = "header"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+            hkey_key = "footer"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+        } catch (e) {}
+    }
+    function pagesetup_default() {
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell")
+            hkey_key = "header"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+            hkey_key = "footer"
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "")
+        } catch (e) {
+        }
+    }
+ 
+    function doPrint(printDiv) {
+        try{
+            pagesetup_null();
+            newwin = window.open("", "newwin", "height=" + window.screen.height + ",width=" + window.screen.width + ",toolbar=no,scrollbars=auto,menubar=no");
+            newwin.document.body.innerHTML = document.getElementById(printDiv).innerHTML;
+            newwin.window.print();
+            newwin.window.close();
+            pagesetup_default();
+        }catch(e){}
+    }
+</script> 
+<style type="text/css">
+</style>
+</head>
+<body> 
+<div id="tableExcel">  
+<table width="100%" cellspacing="0" cellpadding="0"style="font-family:SimSun;">
+	<tr>
+		<td>
+		<table width="100%" cellspacing="0" cellpadding="0"style="font-family:SimSun;">
+			<tr  height="80" style="font-size:20px;">
+				<th colspan="6">昌乐农商银行<br/>零售贷款客户调查报告</th>				
+			</tr>
+			<tr  height="30" style="font-size:11px;">
+				<td id="" style="text-align:center; vertical-align:middle;" width=90 >编号：</td>
+				<td id="CUST_ID" style="text-align:center; vertical-align:middle;" width=90></td>
+				<td id="" style="text-align:center; vertical-align:middle;" width=90>机构名称：</td>
+				<td id="ORG_NAME" style=" vertical-align:middle;" width=250></td>
+				<td id="" style="text-align:center; vertical-align:middle;" width=90>客户经理：</td>
+				<td id="USER_NAME" style=" vertical-align:middle;"></td>				
+			</tr>
+		</table>	
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<table width="100%" cellspacing="0" cellpadding="0" style="font-family:SimSun;font-size: 10px;">
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;"width="130" height=''  colspan="" rowspan="5" ><b>主体调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="140" height='20'  colspan="">客户名称</td>
+				<td id="CUST_NAME" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="150" height='20'  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="150" height='20' colspan="">客户类型</td>
+				<td id="CUST_TYPE" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'  colspan="3"></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >年龄(岁)</td>
+				<td id="USER_AGE" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">健康状况</td>
+				<td id="HEALTHY" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">住址</td>
+				<td id="ADDRESS" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">现住址</td>
+				<td id="ADDRESS1" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >联系方式（手机）</td>
+				<td id="TEL_NO" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >联系方式（固话）</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款主体合规</td>
+			</tr>
+			<!-- 
+			 -->
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;"rowspan="6" ><b>还款能力调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height="20">截止目前家庭收入(万)</td>
+				<td id="SR_1Y" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3" height="20"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="" height="20">截止目前家庭纯收入(万)</td>
+				<td id="CSR_1Y" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3" height="20"></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >前年家庭收入(万)</td>
+				<td id="SR_3Y" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">前年家庭纯收入(万)</td>
+				<td id="CSR_3Y" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">去年家庭收入(万)</td>
+				<td id="SR_2Y" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">去年家庭纯收入(万)</td>
+				<td id="CSR_2Y" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">近三年家庭年均收入(万)</td>
+				<td id="SNPJSR" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="">近三年家庭年均纯收入(万)</td>
+				<td id="SNPJCSR" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3"></td>				
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">经营情况</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3">正常</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">产品市场行情</td>
+				<td id="" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3">正常</td>				
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款人还款能力较强</td>
+			</tr>
+			<!-- 品行及信用状况调查 -->
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;" rowspan="3"  ><b>品行及信用状况调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height="20">社会声誉</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3" height="20">良好</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  height="20">邻里关系</td>
+				<td id="" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"  height="20">正常</td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">业务关系</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3">正常</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="">征信记录</td>
+				<td id="" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3">无不良记录</td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="140"   colspan="" rowspan="" >调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款人品行及信用状况良好</td>
+			</tr>
+			<!-- 贷款用途调查 -->
+			<tr >
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;" rowspan="3" ><b>贷款用途调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"height='20'>申请金额(万)</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"height='20'></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan=""height='20'>详细用途</td>
+				<td id="" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"height='20'></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >当前经营项目</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3">其他</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan=""></td>
+				<td id="" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"   colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款人贷款用途真实</td>
+			</tr>
+			<!--
+            	家庭基本情况调查
+            -->
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;" rowspan="4" ><b>家庭基本情况调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  height='20'  colspan="">家庭人口</td>
+				<td id="JTRK" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  height='20'  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20' colspan="">主要劳动力</td>
+				<td id="ZYLDL" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'  colspan="3"></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >家庭成员健康状况</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3">良好</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">家庭还款意愿</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3">较强</td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >家庭关系</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3">稳固</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">主要收入来源</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款人家庭基本情况正常</td>
+			</tr>
+			<!--
+            	抗风险情况调查
+            -->
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black; text-align: center;" rowspan="11" ><b>抗风险情况调查</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'>家庭总资产(万)</td>
+				<td id="ZZC" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="100" height='20'  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" width="140" height='20' colspan="">固定资产(万)</td>
+				<td id="GDZC" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'  colspan="3"></td>
+			</tr>
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >主要资产及价值</td>
+				<td id="DGZCMX" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;padding:5px 0 5px 15px;vertical-align:middle;" colspan="7"></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">资产情况分析</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">资产真实有效</td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">自有资金比例(%)</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3">30</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">家庭总负债(万)</td>
+				<td id="ZFZ" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">银行负债(万)</td>
+				<td id="BKFZ" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="">其他负债(万)</td>
+				<td id="QTFZ" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">负债情况分析</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">负债情况正常</td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">对外担保金额(万)</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;"  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="">担保不良金额(万)</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >对外担保情况分析</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7"></td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >总资金需求（万）</td>
+				<td id="XQED" style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="7"></td>		
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">自有资金说明</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">自有资金真实</td>
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;">调查结论</td>
+				<td style="border-left: 1px solid black;border-right:1px solid black;border-top: 1px solid black;text-align: left;text-indent:2em;vertical-align:middle;" colspan="7">借款人抗风险能力较好</td>
+			</tr>
+			<!-- 特色信息-->
+			<tr height=''>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black; text-align: center;" rowspan="3" ><b>特色信息</b></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20' >工作单位</td>
+				<td id="WORK_NAME" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'  colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20' >职务</td>
+				<td id="DUTY" style="border-left: 1px solid black;border-right: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" height='20'  colspan="3"></td>
+			</tr>	
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >经营范围</td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;text-align: center;vertical-align:middle;" >经营场所</td>
+				<td id="JYDZ" style="border-left: 1px solid black;border-top: 1px solid black;border-right:1px solid black;text-align: center;vertical-align:middle;" colspan="3"></td>			
+			</tr>
+			<tr height='20'>
+				<td id="" style="border-left: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;text-align: center;vertical-align:middle;">经营场所属性</td>
+				<td id="JYCD" style="border: 1px solid black;text-align: center;vertical-align:middle;" colspan="7"></td>			
+			</tr>
+		</table>
+		</td>
+	</tr>
+		
+    </table> 
+</div> 
+<div id=""style="text-align: center;">	
+	<input style ="width:60px;height: 30px;background-color: red; margin-top: 10px;" type="button" value="打印" onclick="myprint('tableExcel')"/>
+	<input style ="width:60px;height: 30px;background-color: red; margin-top: 10px;" type="button" value="返回" onclick="javaScript:location.href='printList.html?scsp=1'"/>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<script type="text/javascript">
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var CUST_ID=$("#CUST_ID"),//客户编号
+	ORG_NAME=$("#ORG_NAME"),//机构名称
+	USER_NAME=$("#USER_NAME"),//客户经理
+	CUST_NAME=$("#CUST_NAME"),//客户姓名
+	CUST_TYPE=$("#CUST_TYPE"),//客户类型
+	USER_AGE=$("#USER_AGE"),//客户年龄
+	HEALTHY=$("#HEALTHY"),//健康状况
+	ADDRESS=$("#ADDRESS"),//住址
+	ADDRESS1=$("#ADDRESS1"),
+	//////////////////
+	TEL_NO=$("#TEL_NO"),//联系方式
+	SR_1Y=$("#SR_1Y"),//目前家庭收入1
+	CSR_1Y=$("#CSR_1Y"),//目前家庭纯收入1
+	SR_2Y=$("#SR_2Y"),//目前家庭收入2
+	CSR_2Y =$("#CSR_2Y"),//目前家庭纯收入2
+	SR_3Y =$("#SR_3Y"),//目前家庭收入3
+	CSR_3Y=$("#CSR_3Y"),//目前家庭纯收入3
+	SNPJSR=$("#SNPJSR"),//均收入
+	SNPJCSR=$("#SNPJCSR"),//均纯收入
+	JTRK=$("#JTRK"),//家庭人口
+	ZYLDL=$("#ZYLDL"),//主要劳动力
+	ZZC=$("#ZZC"),//家庭总资产
+	ZFZ=$("#ZFZ"),//家庭总负债
+	GDZC=$("#GDZC"),//固定资产
+	DGZCMX=$("#DGZCMX"),//主要资产及价值
+	BKFZ=$("#BKFZ"),//银行负债	
+	QTFZ=$("#QTFZ"),//其他负债
+	XQED=$("#XQED"),//贷款需求额度
+	WORK_NAME=$("#WORK_NAME"),//工作单位
+	DUTY=$("#DUTY"),//职务
+	JYDZ=$("#JYDZ"),//经营场所
+	JYCD=$("#JYCD"),//经营场所属性
+	///////////////	
+	data1={
+			"CUST_ID":cust_id
+	}; 
+	$.ajax({
+		url:baseurl + "SCSP/Dcb",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result[0];
+						ORG_NAME.html(result.ORG_NAME);//机构名称
+						CUST_ID.html(result.CUST_ID);//客户编号
+						USER_NAME.html(result.USER_NAME);//客户经理
+						CUST_NAME.html(result.CUST_NAME);//客户姓名
+						CUST_TYPE.html(result.CUST_TYPEC);//客户类型
+						USER_AGE.html(result.USER_AGE);//客户年龄
+						HEALTHY.html(result.HEALTHYC);//健康状况
+						ADDRESS.html(result.ADDRESS);//住址
+						ADDRESS1.html(result.ADDRESS);//住址1
+						TEL_NO.html(result.TEL_NO);//联系方式
+						SR_1Y.html(result.SR_1Y);//家庭收入1					
+						CSR_1Y.html(result.CSR_1Y);//家庭纯收入1
+						SR_2Y.html(result.SR_2Y);//家庭收入2
+						CSR_2Y.html(result.CSR_2Y);//家庭纯收入2		
+						SR_3Y.html(result.SR_3Y);//家庭收入3
+						CSR_3Y.html(result.CSR_3Y);//家庭纯收入3
+						SNPJSR.html(result.SNPJSR?Number(result.SNPJSR).toFixed(2):"");//均收入
+						SNPJCSR.html(result.SNPJCSR?Number(result.SNPJCSR).toFixed(2):"");//均纯收入
+						JTRK.html(result.JTRK);//家庭人口
+						ZYLDL.html(result.ZYLDL);//主要劳动力						
+						ZZC.html(result.ZZC);//家庭总资产
+						ZFZ.html(result.ZFZ);//家庭总负债
+						GDZC.html(result.GDZC);//固定资产	
+						//主要资产及价值
+						if(result.DGZCMX!=null && result.DGZCMX.length){
+							var MX = "";
+							for(var i=0;i<result.DGZCMX.length;i++){
+								if(i==result.DGZCMX.length-1){
+									MX += "("+(i+1)+")"+result.DGZCMX[i]+";";
+								}else{
+									MX += "("+(i+1)+")"+result.DGZCMX[i]+";<br />";
+								}																
+							}
+							DGZCMX.html(MX);
+						}else{
+							DGZCMX.html("");
+						}
+						
+						BKFZ.html(result.BKFZ);//银行负债
+						QTFZ.html(result.QTFZ);//其他负债
+						XQED.html(result.XQED);//贷款需求额度
+						WORK_NAME.html(result.WORK_NAME);//工作单位
+						DUTY.html(result.DUTY);//职务
+						JYDZ.html(result.JYDZ);//经营场所						
+						//经营场所属性
+						var AREA = "";
+						if(result.OWN_AREA!=""){
+							AREA+="自有："+result.OWN_AREA+"平方米　　";
+						}
+						if(result.RENT_AREA!=""){
+							AREA+="租赁："+result.RENT_AREA+"平方米";
+						}
+						JYCD.html(AREA);
+						
+				}else{
+					console.info("无数据");
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	});
+	//保留五位小数
+	function to5(x) {    
+        var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100000)/100000;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 5) {    
+            s += '0';    
+        }    
+        return s;    
+    }    
+	//转化2位
+	function to2(x) {    
+        var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 2) {    
+            s += '0';    
+        }    
+        return s;    
+    }    
+</script>
+</body> 
+</html>

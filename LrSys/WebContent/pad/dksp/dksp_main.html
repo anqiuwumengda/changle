@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>贷款审批-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg table_wrapper">
+<div class="approveBox clearfix">
+	<div class="col-xs-3 br1">
+		
+	</div>
+	<div class="tdmiddle-Dbox">
+		<div class="tdmiddle text-center">
+			<b class="big red">3</b>
+			<div class="big">未处理项目</div>
+		</div>
+	</div>
+	<div class="col-xs-9 bl1">
+		<table class="app_table" id="example1">
+			<thead>
+				<tr>
+					<th>日期</th>
+					<th>姓名</th>
+					<th>金额</th>
+					<th>主办客户经理</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="approveBox clearfix">
+	<div class="col-xs-3 br1">
+		
+	</div>
+	<div class="tdmiddle-Dbox">
+		<div class="tdmiddle text-center">
+			<b class="big green">4</b>
+			<div class="big">已处理项目</div>
+		</div>
+	</div>
+	<div class="col-xs-9 bl1">
+		<table class="app_table" id="example2">
+			<thead>
+				<tr>
+					<th>日期</th>
+					<th>姓名</th>
+					<th>金额</th>
+					<th>主办客户经理</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+				<tr>
+					<td>2016-7-21</td>
+					<td>张三</td>
+					<td>20000</td>
+					<td>赵四</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+//查看&编辑
+$("#example1").find("tbody>tr>td").on("click",function(){
+	location.href="./daikuanshenpi_detail.html?isDeal=false";
+})
+$("#example2").find("tbody>tr>td").on("click",function(){
+	location.href="./daikuanshenpi_detail.html?isDeal=true";
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdYkhMapper">
+    <!-- 工作单位名称下拉列表查询 -->
+	<select id="querygzdwname"  resultType="String">
+		SELECT  DIC_NAME  from LRD_DIC where DIC_PARENTID='GZDW' order by DIC_SORT;
+	</select>
+	<!-- 职工单位首页查询 -->
+	<select id="queryZgdwList"  parameterType="java.util.Map" resultType="java.util.HashMap">
+		<![CDATA[select cb.CUST_ID,cb.CUST_NAME,cz.WORK_NAME,sy.ZR1_DESC,sy.ZR2_DESC,cb.CRT_DATE,cb.CREATE_TYPE 
+		from cust_base cb LEFT JOIN scsp_ykh sy on cb.ID_NO=sy.ID_NO  
+		LEFT JOIN cust_zg cz on cb.cust_id=cz.cust_id where cb.CREATE_TYPE='8' ]]>
+	</select>
+	<!-- 职工单位检索 -->
+	<select id="queryZgdwByWorkName"  parameterType="java.util.Map" resultType="java.util.HashMap">
+		select cb.CUST_ID,cb.CUST_NAME,cz.WORK_NAME,sy.ZR1_DESC,sy.ZR2_DESC,cb.CRT_DATE,cb.CREATE_TYPE 
+		from cust_base cb LEFT JOIN scsp_ykh sy on cb.ID_NO=sy.ID_NO  
+		LEFT JOIN cust_zg cz on cb.cust_id=cz.cust_id where cb.CREATE_TYPE='8' and cz.WORK_NAME like  CONCAT('%','${WORK_NAME}','%' ) 
+	</select>
+</mapper>

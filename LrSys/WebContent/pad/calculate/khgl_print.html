@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>额度计算</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/fastclick.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<script>
+$(function() {  
+    FastClick.attach(document.body);  
+});  
+</script>
+</head>
+<body class="page-bg">
+<div class="white-bg mb50">
+<div class="clearfix tab-header">
+	<input class="form-control left" name="keyword"id="keyword" style="width:268px;" placeholder="客户名/电话/证件号">
+	<a href="javascript:;" class="btn btn-primary ml10 left" id="custSearchBtn">检索</a>
+</div>
+<div class="table_wrapper">
+<table class="table table-bordered table-striped table-hover" id="example">
+<thead>
+	<tr>
+		<th>所属机构</th>
+		<th>客户名称</th>
+		<th>电话号码</th>
+		<th id="sort_type" up-down="off">客户类型</th>
+		<th id="sort_date" up-down="on">数据更新日期</th>
+		<th id="sort_jl" up-down="off">客户经理分类</th>
+		<th>管户经理</th>
+		<th style="width:10%;">操作</th>
+	</tr>
+</thead>
+<tbody id="listbody">
+	<tr><td align="center" height="300" colspan="7">暂时没有内容</td></tr>
+</tbody>
+</table>
+</div>
+<ul class="pagination pagination-sm" id="pagination">
+	<li class="prev"><a href="javascript:;">← 上一页</a></li>
+	<li class="active"><a href="javascript:;">1</a></li>
+	<li class="next"><a href="javascript:;">下一页 →</a></li>
+</ul>
+<script>
+var swc = getUrlParam("swc")||"";
+if(swc!="1"){
+	localStorage.page = "1";
+	localStorage.num = "10";
+	localStorage.url = "custmgtree/queryList";
+	localStorage.keyword = "";
+}
+
+function pageLoad(resultArr){
+	var html="";
+	for(var i=0;i<resultArr.length;i++){
+		var result = resultArr[i];
+		var jlTypec=result.JL_TYPEC||"";
+		var telNo=result.TEL_NO;
+		if(result.CUST_TYPE=="XWQY"){
+			telNo=result.LXR_TEL;
+		}
+		html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+		html+='<td>' + result.ORG_ABB + '</td>';
+		html+='<td>' + result.CUST_NAME + '</td>';
+		html+='<td>' + telNo + '</td>';
+		html+='<td>' + result.CUST_TYPEC + '</td>';
+		html+='<td>' + result.MTN_DATE + '</td>';
+		html+='<td>' + jlTypec + '</td>';
+		html+='<td>' + result.CUST_GRP_JLC + '</td>';
+		html+='<td>';
+		html+='<button  khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnEdit" >额度计算</button> ';
+		html+='</td>';
+		html+='</tr>';
+	}
+	return html;
+}
+</script>
+<script id="列表模板">
+function pagerList(currentPage,pageSize){
+	 var data2 = {};
+	 var data1 = {
+		 "isPagination":"true",
+		 "currentPage":currentPage,
+		 "pageSize":pageSize
+	 };
+	 if(localStorage.CUST_TYPE != ""||localStorage.C_ID != ""||localStorage.CUST_GRP != ""||localStorage.CUST_GRP2 != ""||localStorage.JL_TYPE != ""){
+		 data2 = {
+			"CUST_TYPE":localStorage.CUST_TYPE,
+			"C_ID":localStorage.C_ID,
+			"CUST_GRP":localStorage.CUST_GRP,
+			"CUST_GRP2":localStorage.CUST_GRP2,
+			"JL_TYPE":localStorage.JL_TYPE
+		 };
+	 }
+	 if(localStorage.keyword!=""){
+		 data2 = {
+			"keyword":localStorage.keyword	 
+		 };
+	 }
+	 $.extend(data2,data1);
+	 var URL = localStorage.url;
+	 $.ajax({
+		beforeSend:function(){
+			$("#listbody").html("<tr><td colspan='8'>正在加载...</td></tr>");
+		},
+		url:baseurl + URL ,
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					Io.on("#sort_type","click",function(){//按客户类型排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].CUST_TYPEC>resultArr[j].CUST_TYPEC){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_jl").attr("up-down","off");
+						$("#sort_date").attr("up-down","off");
+					});
+					Io.on("#sort_date","click",function(){//按时间排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].MTN_DATE>resultArr[j].MTN_DATE){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_jl").attr("up-down","off");
+						$("#sort_type").attr("up-down","off");
+					});
+					Io.on("#sort_jl","click",function(){//按经理类别排序
+						if($(this).attr("up-down")=="off"){
+							$(this).attr("up-down","on");
+							for(var i=0;i<resultArr.length;i++){
+								for(var j=i;j<resultArr.length;j++){
+									if(resultArr[i].JL_TYPEC>resultArr[j].JL_TYPEC){
+										var x = resultArr[i];
+										resultArr[i]=resultArr[j];
+										resultArr[j] = x;										
+									}
+								}
+							}
+							$("#listbody").html(pageLoad(resultArr));
+						}else{
+							$("#listbody").html(pageLoad(resultArr.reverse()));
+						}
+						$("#sort_type").attr("up-down","off");
+						$("#sort_date").attr("up-down","off");
+					});
+					$("#listbody").html(pageLoad(resultArr));
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+					localStorage.page = currentPage;
+					localStorage.num = pageSize;
+					iFrameHeight('myTabsFrame');
+				}else{
+					$("#listbody").html('<tr><td align="center" height="200" colspan="8">暂时没有内容</td></tr>');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				$("#listbody").html('<tr><td align="center" height="200" colspan="7">'+data.errMsg+'</td></tr>');
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	});
+}
+pagerList(localStorage.page,localStorage.num);
+$("#custSearchBtn").on("click",function(){
+	var keyword = $("#keyword").val();
+	localStorage.keyword = keyword;
+	if(keyword!=""){			
+		localStorage.url = "custbase/querybylike";			
+	}else{
+		localStorage.url = "custmgtree/queryList";
+	}
+	pagerList(1,10);
+});
+</script>	
+<script>
+Io.on("[name=btnEdit]","click",function(){
+	var data6={
+			"CUST_ID":$(this).attr("khid")
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"edjs/callrule",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data6),
+		success:function(data){
+			if(data.code=="00"){
+				Io.bs.alert("计算成功",function(){
+					
+					});
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+});
+</script>
+</div>
+</body>
+</html>

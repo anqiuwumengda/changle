@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustInputSumMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		
+		select t.* from 
+		(select year(crt_date) year ,case when length(month(crt_date))=1 then concat('0',month(crt_date)) else month(crt_date) end mon,
+		count(cust_id) num from cust_base 
+		 where year(crt_date)=DATE_FORMAT(NOW(), '%Y') and cust_grp_jl=#{user_id,jdbcType=VARCHAR} group by year(crt_date),month(crt_date) 
+		union 
+		select DATE_FORMAT(NOW(), '%Y') year,t_month mon,0 num  
+		from t_month where t_month not in 
+		(select distinct case when length(month(crt_date))=1 then concat('0',month(crt_date)) else month(crt_date) end mon 
+		from cust_base where year(crt_date)=DATE_FORMAT(NOW(), '%Y'))) t 
+		order by t.year,t.mon; 
+
+	</select>
+	
+</mapper>

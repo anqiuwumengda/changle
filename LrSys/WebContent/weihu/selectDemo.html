@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/common.js"></script>
+<style type="text/css">
+li {
+	float: left;
+	list-style-type: none;
+	margin-left: 30px;
+}
+
+}
+</style>
+</head>
+<body>
+	<select id="addr"  onchange="sele_Change(this)">
+	
+</select>
+	<div id="divId" class="divTable" style="height: 50px;background-color: aqua;">
+		<div style="float:left;"><h4 >智e购:</h4></div>
+		<div class="tableBody" style="line-height:50px;">
+			<ul >
+				<li ><input type="checkbox" name = "checkBox" value="501">商城用户</li>
+				<li style="margin-left: 100px;"><input type="checkbox"
+					name = "checkBox" value="502">商户</li>
+				<li style="margin-left: 100px;"><input type="checkbox"
+					name = "checkBox" id="nongzi" value="503" onclick="nongziClick()">农资用户</li>
+			</ul>
+		</div>
+		<div style="clear: left;">
+			<button id="btn" onclick="func()">按钮</button>
+		</div>
+	</div>
+	<div id="nongziDetails" style="height:200px; margin-top: 100px;background-color:aqua; " >
+		农资详情
+	</div>
+	<div style="margin-top: 50px;">
+		<button id="saveBtn" t = "tt" onclick="saveFunc(this)">保存</button>
+	</div>
+	<script type="text/javascript">
+	
+		function Dictionary() {
+			this.data = new Array();
+
+			this.put = function(key, value) {
+				this.data[key] = value;
+			};
+
+			this.get = function(key) {
+				return this.data[key];
+			};
+
+			this.remove = function(key) {
+				this.data[key] = null;
+			};
+
+			this.isEmpty = function() {
+				return this.data.length == 0;
+			};
+
+			this.size = function() {
+				return this.data.length;
+			};
+		}
+		var d = new Dictionary();
+		for (var j = 1; j <= 10; j++) {
+			d.put(j, "数据" + j);
+		}
+		var sel = document.getElementById("addr").options;
+		for (var i = 1; i <= 10; i++) {
+			sel.add(new Option(d.get(i)), i);
+		}
+	</script>
+	
+<script type="text/javascript">
+       function sele_Change(obj){
+    	   
+        /* var objS = document.getElementById("addr");
+        var get_map = objS.options[objS.selectedIndex].value; */
+        var get_map = obj.options[obj.selectedIndex].value;
+        alert(get_map);
+        
+       }
+       function showNongziDetails(info){
+    	   <!--显示农资输入控件-->
+    	   var html = "";
+    	   for(var i=0;i<info.length;i++){
+    		   if(i == 0){
+    			   html += '<div style="height:30px;">'; 
+    		   }else{
+    			   html += '<div style="clear: left;height:30px;">';
+    		   }
+    		    
+    		   html += '<p style="float:left;margin:10px;">' + info[i]+":" + '</p>';
+    		   html += '<input type="text" style="float:left;line-height:30px;" placeholder="单位：吨/瓶" id='+ i+"a" +'>';
+    		   html += '<input type="number"  style="float:left;line-height:30px;margin-left:10px;" placeholder="需求月份"  id='+ i+"b" +'>';
+    		   html += '</div>';
+    	   }
+    	  // alert(html);
+    	   $('#nongziDetails').html(html);
+    	   
+       }
+</script>
+<script type="text/javascript">
+	$('#nongziDetails').hide();
+	var data0 = ["化肥",
+		            "农药",
+		            "薄膜"
+		];
+	function func(){
+		<!-- 获取选中checkbox的值-->
+		var s= "";
+		var obj = document.getElementsByName("checkBox");
+		for (var i = 0; i < obj.length; i++) {
+			if (obj[i].checked) {
+				s += obj[i].value + '!'; //如果选中，将value添加到变量s中
+			}
+		}
+		var t = s.charAt(s.length - 1);
+		if(t == "!"){
+			s = s.substring(0, s.length - 1);
+		}
+		alert(s);
+	}
+	function nongziClick(){
+		var check = document.getElementById("nongzi");
+		var nongziDetails = document.getElementById("nongziDetails");
+		if(check.checked){
+			//DOM改变控件属性
+			//nongziDetails.style.visibility = "visible";
+			$('#nongziDetails').show();
+			
+			showNongziDetails(data0);
+		}else{
+			//nongziDetails.style.visibility = "hidden";
+			$('#nongziDetails').hide();
+		}
+	}
+	function saveFunc(obj){
+		//获取页面输入数据
+		/* var data1 = "";
+		for(i=0;i<data0.length;i++){
+			//var t = ;
+			data1 += i + "!" + $('#'+i+"a").val()+"!"+$('#'+i+"b").val()+"...";
+		}
+		alert(data1); */
+		//alert(obj.getAttribute("t")) 
+		var a = 12845;
+		var s = a/10000;
+		alert(parseFloat(s).toFixed(1));
+		var data1 = {};
+	/* 	$.ajax({
+			type:"post",
+			url:baseurl+"OperatorInfo/getNzNeedInfo",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				alert(JSON.stringify(data));
+			}
+		}); */
+	}
+	
+</script>
+</body>
+</html>

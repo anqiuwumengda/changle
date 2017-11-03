@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="jbxx-content clearfix">
+	<div class="fixed-top">
+		<div class="jbxx-header">
+			<div id="baseInfo">			
+			</div>
+		</div>
+		<ul class="navTabs1 clearfix" id="navTabs">
+			<li class="active"><a href="javascript:;" data-src="../khgl/khgl_jbxx_see.html">基本信息</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_gzqk_see.html" xw="../khgl/khgl_gzqk_see_xw.html">工作／经营情况</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_jtxx_see.html">家庭信息</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_cwxx_see.html" xw="../khgl/khgl_cwxx_see_xw.html">财务信息</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_yhjyxx_see.html">银行交易信息</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_khxq_see.html">客户需求</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_khflgl_see.html">客户分类管理</a></li>
+			<li><a href="javascript:;" data-src="../khgl/khgl_yxzl_see.html">影像资料</a></li>
+		</ul>
+	</div>
+	<div class="tab-content mt90">
+		<iframe id="myTabsFrame" name="myTabsFrame" src="../khgl/khgl_jbxx_see.html" onload="iFrameHeight('myTabsFrame')">正在加载</iframe>
+	</div>
+</div>
+
+<script type="text/javascript">
+console.log("*****see***********")
+var cust_id=getUrlParam("cust_id");
+var v=getUrlParam("v");
+var data1={};
+if(v){//查看自己客户或别人用户
+	 data1={"CUST_ID":cust_id,"VIEW":1};
+	}else{
+	 data1={"CUST_ID":cust_id};
+	}
+$("#myTabsFrame").attr("src","../khgl/khgl_jbxx_see.html?cust_id="+cust_id);
+
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		//console.log(data);
+		if(data.code=="00" && data.result.length){
+			var result=data.result[0];
+			var html='';
+			if(result.CUST_TYPE=="XWQY"){
+				var aa1=$("#navTabs").find("li").eq(1).find("a");
+				var aa3=$("#navTabs").find("li").eq(3).find("a");
+				var xw1=aa1.attr("xw");
+				var xw3=aa3.attr("xw");
+				aa1.attr("data-src",xw1);
+				aa3.attr("data-src",xw3);
+				html='<span>企业名称：'+ result.CUST_NAME +'</span>'+
+					'<span>联系人：'+ result.LXR +'</span>'+
+					'<span>电话：'+ result.LXR_TEL +'</span>';
+			}else{
+				html='<span>客户姓名：'+ result.CUST_NAME +'</span>'+
+					'<span>电话：'+ result.TEL_NO +'</span>'+
+					'<span>地址：'+ result.ADDRESS +'</span>';
+			}
+			$("#baseInfo").html(html);
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg+"00");
+		}
+	},error:function(data){
+		alert("错误");
+	}
+})
+$("#navTabs").find("li a").on("click",function(){
+	var $this=$(this);
+	$this.parent().addClass("active").siblings().removeClass("active");
+	var src=$this.attr("data-src");
+	var xw=$this.attr("xw");
+	$("#myTabsFrame").attr("src",src+"?cust_id="+cust_id);
+})
+
+</script>
+</body>
+</html>

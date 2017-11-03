@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户管理-客户移交</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg">
+<div class="white-bg pt15">
+	<form class="form-horizontal">
+	<div class="clearfix" >
+		<div class="col-md-12 clearfix bs-form-group">
+			<ul class="nav nav-pills" id="">
+				<li id='kone' class="active"><a href="#jone" data-toggle="tab">待接收</a></li>
+				<li id='ktwo' class=""><a href="#jtwo" data-toggle="tab">已移交</a></li>
+				<li  id='kthree'class=""><a href="#jthree" data-toggle="tab">已接收</a></li>				           
+			 </ul>
+		</div>
+	</div>
+	<div class="tab-content">
+		<div class="none active" id="jone">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>									
+						<th>客户名称</th>						
+						<th >客户类型</th>									
+						<th>客户经理分类</th>
+						<th>移交经理</th>
+						<th width="8%">操作</th>			
+						</tr>
+					</thead>
+					<tbody id="djs">
+							
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="none" id="jtwo">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>
+							<th>客户名称</th>							
+							<th>客户类型</th>									
+							<th>客户经理分类</th>
+							<th>接收经理</th>
+							<th>接收状态</th>			
+						</tr>
+					</thead>
+					<tbody id="yi_tj">
+									
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="none" id="jthree">
+			<div class="table_wrapper">
+				<table class="bs_table table_bg_blue">
+					<thead>
+						<tr>
+						<th>客户名称</th>						
+						<th>客户类型</th>									
+						<th>客户经理分类</th>
+						<th>管户经理</th>
+						<th width="10%">操作</th>			
+						</tr>
+					</thead>
+					<tbody id="yi_js">
+								
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+	<!-- 接受弹窗-->
+	<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >接收</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">移交经理：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" Disabled id="yjjl_name">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+				<label class="bs-sm-l control-label">客户名称：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" disabled id="CUST_NAME">
+					</div>
+				</div>			
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">是否接收：</label>
+					<div class="bs-sm-r radio checkbox">
+						<label><input type="radio" name="isagree" value="1">是</label>
+						<label><input type="radio" name="isagree" value="2">否</label>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="approve">接收</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>			
+			</div>			
+		</div>
+	</div>
+	</form>
+<script type="text/javascript">
+		Io.on("[name='receive']","click",function(){
+			$("#yjjl_name").val( $(this).attr("JL_NAME")).attr("user_id",$(this).attr("user_id"));
+			$("#CUST_NAME").val( $(this).attr("CUST_NAME")).attr("cust_id",$(this).attr("cust_id"));
+			$("#myModal").modal({
+				backdrop:false
+			})
+		})
+		Io.on("[name='btnEdit']","click",function(){
+			var id = $(this).attr("zt");
+			location.href="./kehuguanli_edit.html?cust_id="+id;
+		})
+</script>
+<script type="text/javascript">
+function start(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"/custyj/queryDjs",
+		dataType:"json",
+		async:false,
+		contentType:"application/json",
+		data:JSON.stringify(),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.JL_NAME + '</td>';
+						html+='<td>';
+						html+='<button CUST_NAME="'+result.CUST_NAME+'" user_id="'+result.USER_ID+'" JL_NAME="'+result.JL_NAME+'" cust_id="'+result.CUST_ID+'" class="btn btn-danger btn-xs" type="button" name="receive" >接收</button> ';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#djs").html(html);
+			}else{
+				$("#djs").html('<tr><td align="center" height="100" colspan="5">暂时没有内容</td></tr>');
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})
+	}
+	start();
+	$("#kone").on("click",function(){start();})
+	</script>
+	<script type="text/javascript"id="已移交">
+	$("#ktwo").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custyj/queryYtj",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(''),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var zt="";
+						result.STAT=="0"?zt="未接收":zt="已接收";
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.SQ_NAME + '</td>';
+						html+='<td>'+zt+'</td>';
+						html+='</tr>';
+					}
+					$("#yi_tj").html(html);
+			}else{
+				$("#yi_tj").html('<tr><td align="center" height="100" colspan="5">暂时没有内容</td></tr>');
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})
+	})
+	</script>
+	<script type="text/javascript"id="已接受">
+	$("#kthree").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"custyj/queryYjs",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(''),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var resultArr=data.result;
+					var html="";
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr class="btSee" zt="'+result.CUST_ID+'">';
+						html+='<td>' + result.CUST_NAME + '</td>';						
+						html+='<td>' + result.CUST_TYPEC + '</td>';						
+						html+='<td>' + result.JL_TYPEC + '</td>';
+						html+='<td>' + result.SQ_NAME + '</td>';
+						html+='<td>';
+						html+='<button zt="'+result.CUST_ID+'" class="btn btn-danger btn-xs" type="button" name="btnEdit" >编辑</button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#yi_js").html(html);
+			}else{
+				$("#yi_js").html('<tr><td align="center" height="100" colspan="5">暂时没有内容</td></tr>');
+			}
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);	
+		}
+		},error:function(data){
+			alert("错误");
+		}
+	})
+	})
+	</script>
+	<script type="text/javascript"id="接收提交">
+	$("#approve").on("click",function(){
+		var data={
+				"USER_ID":$("#yjjl_name").attr('user_id'),//移交经理
+				"CUST_ID":$("#CUST_NAME").attr("cust_id"),//客户编号
+				"STAT":$("input[name=isagree]:checked").val()//是否同意
+		};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custyj/updStat",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data),
+			success:function(data){
+				
+				if(data.code=="00"){
+					alert("成功")
+					$("#Modal1").modal("hide").on("hidden.bs.modal");	
+					$("#yjjl_name").attr("user_id","");
+					$("#CUST_NAME").attr("cust_id","");
+					//debugger;
+					start();
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+				}
+			},error:function(data){
+				alert(data);
+			}
+		})
+		})
+	</script>
+</div>
+</body>
+</html>

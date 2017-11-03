@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding='GBK'?>
+<root>
+   <!--公共信息 连接数、每个数据库连接时的最大等待时间(单位为毫秒),若为0表示一直等待、日志文件路径-->
+   <globe connCount="50" timeOut="5000" logPath="D:/logs"/>
+
+   <!--各数据源设置：分别添加各数据库的 驱动、连接字符串、自动检查连接时的错误代号、用户名、密码。-->
+   <!--JdbcOdbc桥-->
+    <db isDefault="true">
+      <dbName>vendb</dbName> 数据源名称
+      <dbDriver>com.mysql.jdbc.Driver</dbDriver> 数据库驱动
+      <!-- 项目开始默认的 -->
+    <!--  <connStr>jdbc:mysql://67.39.0.125:3306/lrd?characterEncoding=utf-8</connStr> -->
+     <!-- <connStr>jdbc:mysql://10.16.143.239:3306/iss_db_test?characterEncoding=utf-8</connStr> -->
+     <!-- <connStr>jdbc:mysql://10.16.142.40:3306/iss_db_rpt?characterEncoding=utf-8</connStr> -->
+     <!-- <connStr>jdbc:mysql://localhost:3306/iss_db?characterEncoding=utf-8</connStr> -->
+     <connStr>jdbc:mysql://localhost:3306/lrd?characterEncoding=utf-8</connStr>
+      <transactionIsolation>2</transactionIsolation>
+      0 NONE;2 READ_COMMITTED; 1 READ_UNCOMMITTED; 4 REPEATABLE_READ; 8 SERIALIZABLE
+      <dbCharset>utf-8</dbCharset>
+      <fileEncoding>utf-8</fileEncoding>
+      <user>lrd</user> 用户名
+      <password>lrd</password> 密码
+   </db>
+   
+</root>

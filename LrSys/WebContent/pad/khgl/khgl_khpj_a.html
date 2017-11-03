@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>客户评级-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">评分卡选择</label>
+			<div class="bs-sm-r">
+				<span type="text" class="form-control" name="pointcart" disabled>住房按揭</span>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">申请金额</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name="amount"/>
+			</div>
+		</div>
+	</div>
+	<!-- 住房按揭 -->
+	<div class="clearfix none" name="zfaj">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">购房时是否同时购买车位/车库</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="1">是</option>
+					<option value="0">否</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">按揭房产类别</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="商品房">商品房</option>
+				</select>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">首付比例</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name=""/>
+			</div>
+		</div>
+	</div>
+	<!-- 白领通 -->
+	<div class="clearfix none" name="blt">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">医疗保险上年度合计缴纳金额</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name=""/>
+			</div>
+		</div>
+	</div>
+	<!-- 养殖其它、养殖猪、种植其它、种植蔬菜 -->
+	<div class="clearfix none" name="zzsc">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">是否在城区购买商住商用房</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="1">是</option>
+					<option value="0">否</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<!-- 个人运输 -->
+	<div class="clearfix none" name="grys">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">营运车数量</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name=""/>
+			</div>
+		</div>
+	</div>
+	<!-- 小微企业 -->
+	<div class="clearfix none" name="xwqy">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">与下游客户的平均合作年限</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" name=""/>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">是否在固定日发放工资</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="1">是</option>
+					<option value="0">否</option>
+				</select>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">近三年实际控制人变更情况</label>
+			<div class="bs-sm-r">
+				<select class="form-control" name="">
+					<option value="" selected>--请选择--</option>
+					<option value="1">有变更</option>
+					<option value="0">无变更</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix col-xs-12 table_wrapper">
+		<table class="bs_table table_bg_blue">
+			<tr>
+				<td width="50%">近12个月POS与ATM夜间交易次数</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>近6个月日均存款</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>最近一次利息逾期距今月份数</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>近6个月本息逾期次数</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>近6个月征信查询次数</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>采集时点产品数</td>
+				<td contenteditable="true"></td>
+			</tr>
+			<tr>
+				<td>与银行交易时长</td>
+				<td contenteditable="true"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix">
+		<div class="clearfix col-sm-6 bs-form-group">
+			<label class="bs-sm-l control-label">客户评分及评级</label>
+			<div class="bs-sm-r">
+				<span type="text" class="form-control" disabled name=""></span>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-danger" type="reset">重置</button>
+		<button class="btn btn-danger" type="button">评级保存</button>
+		<button class="btn btn-danger" type="button">预评级</button>
+		<button class="btn btn-danger" type="button" onclick="javascript:history.go(-1)">返回</button>
+	</div>
+</form>
+
+<script>
+var pointcart=$("[name=pointcart]");
+if(pointcart.text()=="住房按揭"){
+	$("[name=zfaj]").show();
+}else if(pointcart.text()=="白领通"){
+	$("[name=blt]").show();
+}else if(pointcart.text()=="种植蔬菜"||pointcart.text()=="种植其它"||pointcart.text()=="养殖猪"||pointcart.text()=="养殖其它"){
+	$("[name=zzsc]").show();
+}else if(pointcart.text()=="个人运输"){
+	$("[name=grys]").show();
+}else if(pointcart.text()=="小微企业"){
+	$("[name=xwqy]").show();
+}
+
+</script>
+</body>
+</html>

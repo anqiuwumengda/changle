@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.StandardLrdDicMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		DIC_ID,DIC_NAME 'name',DIC_PARENTID,DIC_DESC,DIC_ISENABLE,DIC_SORT,CRT_DATE,MTN_DATE,CORP_CD
+		from lrd_dic
+		<where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<select id="queryByPK" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT DIC_ID,DIC_NAME 'name',DIC_PARENTID,DIC_DESC,DIC_ISENABLE,DIC_SORT,CRT_DATE,MTN_DATE,CORP_CD FROM lrd_dic 
+	 		<where> 
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+		</where>
+		
+	</select>
+	<select id="queryBefore" parameterType="java.util.Map" resultType="java.util.HashMap">
+			SELECT DIC_ID 'id',DIC_PARENTID 'pId',DIC_NAME 'name' ,DIC_ISENABLE FROM lrd_dic  
+			WHERE DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR} and DIC_ID=#{DIC_ID,jdbcType=VARCHAR} and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}
+		
+	</select>
+	
+	<select id="queryPK" parameterType="java.util.Map" resultType="java.util.HashMap">
+		   SELECT DIC_ID,DIC_NAME  FROM lrd_dic  
+	  <where>
+	 		<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			
+		</where>
+	</select>
+	<select id="queryTree" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT DIC_ID 'id',DIC_PARENTID 'pId',DIC_PARENTID 'pid',DIC_NAME 'name' 
+		FROM `lrd_dic` WHERE
+	 isleaf ='1' and DIC_ISENABLE='1' order by DIC_SORT desc
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_dic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="DIC_ID != null ">DIC_ID,</if>
+			<if test="DIC_NAME != null ">DIC_NAME,</if>
+			<if test="DIC_PARENTID != null ">DIC_PARENTID,</if>
+			<if test="DIC_DESC != null ">DIC_DESC,</if>
+			<if test="DIC_ISENABLE != null ">DIC_ISENABLE,</if>
+			<if test="DIC_SORT != null and DIC_SORT!='' ">DIC_SORT,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="CORP_CD != null ">CORP_CD,</if>
+			<if test="ISLEAF != null ">ISLEAF,</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="DIC_ID != null">#{DIC_ID,jdbcType=VARCHAR},</if>
+			<if test="DIC_NAME != null">#{DIC_NAME,jdbcType=VARCHAR},</if>
+			<if test="DIC_PARENTID != null">#{DIC_PARENTID,jdbcType=VARCHAR},</if>
+			<if test="DIC_DESC != null">#{DIC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DIC_ISENABLE != null">#{DIC_ISENABLE,jdbcType=CHAR},</if>
+			<if test="DIC_SORT != null and DIC_SORT!=''">#{DIC_SORT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="CORP_CD != null">#{CORP_CD,jdbcType=VARCHAR},</if>
+			<if test="ISLEAF != null">#{ISLEAF,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_dic
+		<set>
+			<if test="DIC_NAME != null ">DIC_NAME=#{DIC_NAME,jdbcType=VARCHAR},</if>
+			<if test="DIC_DESC != null ">DIC_DESC=#{DIC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DIC_PARENTID != null ">DIC_PARENTID=#{DIC_PARENTID,jdbcType=CHAR},</if>
+			<if test="DIC_ISENABLE != null ">DIC_ISENABLE=#{DIC_ISENABLE,jdbcType=CHAR},</if>
+			<if test="DIC_SORT != null and DIC_SORT!='' ">DIC_SORT=#{DIC_SORT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="ISLEAF != null">ISLEAF=#{ISLEAF,jdbcType=VARCHAR},</if>
+		</set>
+	  <where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</update>
+	<delete id="deleteByPk">delete from lrd_dic where
+		DIC_ID=#{DIC_ID,jdbcType=VARCHAR} and
+		DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR} and
+		CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_dic
+		<where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+</mapper>

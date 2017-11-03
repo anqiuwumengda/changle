@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乐融易贷客户关系管理系统</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/AdminLTE.min.css">
+<link rel="stylesheet" href="./css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="./css/font-awesome.min.css">
+    <link href="css/style.min862f.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/demo.css">
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/app.min.js"></script>
+<script src="./js/jquery.slimscroll.min.js"></script>
+
+<script src="js/jquery.metisMenu.js"></script>
+<script src="js/hplus.min.js"></script>
+<script src="./js/common.js"></script>
+<style>
+.main-header .logo{
+	font-size:15px;
+	padding:0 7px;
+	
+}
+.nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus {
+color: #fff;
+    background: #1e282c;
+    border-left-color: #dd4b39;}
+    .nav>li.active {
+    border-left: 4px solid #dd4b39;
+    background: #293846;
+}
+.text-success {
+    color:#3c763d;
+}
+#headermsg{
+	background-color: #d73925;
+    width: 220px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000000;
+    height: 50px;
+}
+.logo{
+	font-size:15px;
+	line-height:50px;
+	color:#fff;
+	margin-left:10px;
+}
+.nav.navbar-right>li>a.ibutton{
+color:#fff;
+padding:15px 10px;
+}
+.nav.navbar-right>li>a.ibutton:hover{
+	color:#fff;
+	background-color: #d73925;
+	heigth:50px;
+}
+.pt-11{
+
+}
+.nav-header{
+padding: 60px 25px;
+    background: url(./img/user2-160x1601111.jpg) no-repeat;
+}
+.pull-left.info{
+margin-left:20px;
+}
+#username{
+	    font-weight: 600;
+    margin-bottom: 9px;
+    color:#fff;
+}
+.none{
+display:none;
+}
+.logo-element {
+background-color: #d73925;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    display: none;
+    padding: 11px 0;
+}
+.content-tabs{background-color: #ecf0f5 !important;}
+.content-header>.breadcrumb{
+padding:0 5px;
+top:10px !important;
+}
+.main-footer{
+   
+    position: fixed;
+    bottom: 0;
+    
+    z-index: 10000000;
+   width:100%;
+}
+@media screen and (max-width:768px) and (min-width:0px){
+
+	#headermsg,#arrow {
+	    display: none;
+	}
+}
+@media (min-width: 991px)
+{
+	.content-header {
+	    padding:0;
+	}
+	#curColumn{
+	float:left;
+	}
+}
+@media screen and (max-width:991px) and (min-width:769px){
+
+	.content-header>.breadcrumb{
+	float: right;
+    background: transparent;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 0px 5px;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    border-radius: 2px;
+	}
+}
+@media screen and (max-width:2009px) and (min-width:991px){
+
+	.content-header h4{
+	margin:8px;
+	}
+}
+#side-menu>li>a{
+	color:#fff;
+}
+</style>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden;">
+<div id="headermsg">
+    <span class="logo"><img src="./img/logo.png" width="26">乐融易贷客户关系管理系统</span>
+</div>
+ 
+<div class="wrapper" style="padding:0;">
+	<!-- Main Header -->
+	 <nav class="navbar-default navbar-static-side" role="navigation" style="background: #222d32;">
+	  <div class="nav-close"><i class="fa fa-times-circle"></i></div>
+	   <div class="sidebar-collapse">
+	   	<ul class="nav" id="side-menu">
+            <li class="nav-header">
+              <div class="dropdown profile-element">
+              	
+              	<div class="pull-left image" id="one">
+               		<span><img alt="image" class="img-circle" src="./img/user2-160x160.jpg" style="width:45px;height:45px;"/></span>
+                </div>
+                <div class="pull-left info">
+	              <p id="username">系统管理员</p>
+	              <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+	            </div>
+               
+              </div>
+              <div class="logo-element"><img src="./img/logo.png" width="26"></div>
+            </li>
+            <li id="tbsA">
+                        <a href="javascript:;">
+                            <i class="fa fa-cogs"></i>
+                            <span class="">统一权限管理</span>
+                            <i class="fa fa-angle-left pull-right" id="arrow"></i>
+                        </a>
+                        <ul class="nav nav-second-level" id="treeview-menu">
+                        </ul>
+                    </li>      
+        </ul>
+	   </div>
+	 </nav>
+	 <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom" id="ht0" style="max-height:50px;">
+                <nav class="navbar navbar-static-top" role="navigation" style="background-color: #dd4b39;margin:0; max-height:50px;" >
+                    <div class="navbar-header">
+                    	<a  id='bar'style="color:#fff;line-height:16px;" class="navbar-minimalize minimalize-styl-2 " href="#"><i class="fa fa-bars"></i> </a>
+                        <div class="mainTitle" style=""></div>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        
+                        <li class="">
+                            <a href="setting/modifyPsw.html" target="tabFrame" class="ibutton" data-index="0"><i class="fa fa-edit"></i> 修改密码</a>
+                        </li>
+                         
+		                
+                        <li >
+                        	<a id="logout" href="#" class="ibutton"><i class="fa fa fa-sign-out"></i> 注销</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="row content-tabs"id="ht1">
+                <div id="ht1">
+	    	<section class="content-header" >
+	    		<ol class="breadcrumb">
+		            <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+		            <li>权限管理</li>
+		            <li class="active" id="curColumnS">欢迎登录</li>
+		        </ol>
+		        <h4 id="curColumn">欢迎登录</h4>
+	    	</section>
+    	</div>   
+                
+            </div>
+            <div class="row J_mainContent" id="content-main">
+            <footer class="main-footer"  id="ht2">
+	    	<div class="text-center small">Copyright © 2016管理系统</div>
+			</footer>
+             <!--  <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="./start.html" frameborder="0" data-id="./start.html" seamless></iframe>-->
+                <iframe id="tabFrame" name="tabFrame" src="./pad/schedule/schedule.html" style="width: 100%;border: none;overflow-y: scroll;">正在加载</iframe>
+               
+            </div>
+            
+        </div>
+    
+	        
+</div>
+<script type="text/javascript">
+Io.on("#treeview-menu>li>a","click",function(){	
+	var $this=$(this);
+	$this.parent().addClass("active").siblings().removeClass("active");
+	$("#curColumn,#curColumnS").text($this.text());
+	var src=$this.attr("data-src");
+	$("#tabFrame").attr("src",src);
+});
+Io.on(".tsgA","click",function(){
+	var $this=$(this);
+	//$this.siblings().removeClass("active");
+	$("#tbsA").removeClass("active");
+	$("#tbsA").find("li.active").removeClass("active");
+	//$("#treeview-menu").hide();
+	$("#curColumn,#curColumnS").text($this.text());
+	var src=$this.attr("data-src");
+	$("#tabFrame").attr("src",src);
+});
+$.ajax({
+	type:"post",
+	url:baseurl+"Login/getUserMeg",
+	dataType:"json",
+	contentType:"application/json",
+	success:function(data){
+		if(data.code=="00"){
+			$("#username").text(data.result.USER_NAME);
+		}
+	},error:function(data){
+		
+	}
+})
+//查询菜单
+var data1;
+if(isPC()){
+	var data1={'ip':''};
+}else{
+	var data1={'ip':baseurl};
+}
+
+$.ajax({
+		type:"post",
+		url:baseurl+"lrdmenu/querymenu",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				var htm1="";
+				var htm2="";
+				if(data.result&&data.result!==null){
+					for(var i=0;i<data.result.length;i++){
+						if(data.result[i].SYS_CD=="01"){
+							htm1+='<li><a href="javascript:;"class="J_menuItem" data-src="'+data.result[i].FUNC_URL+'"><i class="fa fa-circle-o"></i> '+data.result[i].FUNC_NAME+'</a></li>';
+						}else{
+							htm2+='<li><a href="javascript:;" class="tsgA J_menuItem" data-src="'+data.result[i].FUNC_URL+'"><i class="fa fa-circle-o text-red"></i> <span>'+data.result[i].FUNC_NAME+'</span></a></li>';
+						}
+					}
+					$("#treeview-menu").append(htm1);
+					$("#side-menu").append(htm2);
+					if(htm2==""){
+						$("#tbsA").addClass("active");
+						$("#treeview-menu").addClass("menu-open");
+					}
+				}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);				
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+	
+//退出登录
+$("#logout").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"Login/logout",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(' '),
+		success:function(data){
+			window.top.location.href=baseurl+"login.html";
+		},error:function(data){
+			window.top.location.href=baseurl+"login.html";
+		}
+	})
+})
+function getH(){
+	var bHeight = $("body").height();
+	var ht0 = $("#ht0").height();
+	var ht1 = $("#ht1").height();
+	var ht2 = $("#ht2").height();
+	var ht = bHeight -ht0 - ht1 -ht2;
+	$("#tabFrame").height(ht);
+}
+$(getH);
+Io.on("#bar","click",function(){	
+	$("#headermsg,#arrow").toggleClass("none");
+});
+window.addEventListener("orientationchange",getH, false);
+/*jQuery(document).ready(function ($) {
+    $("#inner-content").slimScroll({
+        height: '600px'
+    });
+});*/
+</script>
+</body>
+</html>

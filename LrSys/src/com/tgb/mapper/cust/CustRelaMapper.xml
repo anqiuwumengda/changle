@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustRelaMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CUST_ID,SEQ_NO,VS_NAME,RELA_TYPE,ID_TYPE,ID_NO,TEL_NO,VOCATION,WORK_INFO,OTH_DESC,JH_FLAG,INCOME_Y,CRT_DATE,MTN_DATE
+		from cust_rela
+		<where>
+			<if test="SEQ_NO != null and SEQ_NO!=''"> and SEQ_NO=#{SEQ_NO,jdbcType=INTEGER}</if>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_rela
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="SEQ_NO != null and SEQ_NO!='' ">SEQ_NO,</if>
+			<if test="VS_NAME != null ">VS_NAME,</if>
+			<if test="RELA_TYPE != null ">RELA_TYPE,</if>
+			<if test="ID_TYPE != null ">ID_TYPE,</if>
+			<if test="ID_NO != null ">ID_NO,</if>
+			<if test="TEL_NO != null ">TEL_NO,</if>
+			<if test="VOCATION != null ">VOCATION,</if>
+			<if test="WORK_INFO != null ">WORK_INFO,</if>
+			<if test="OTH_DESC != null ">OTH_DESC,</if>
+			<if test="JH_FLAG != null ">JH_FLAG,</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},
+			</if>
+			<if test="SEQ_NO != null and SEQ_NO!=''">#{SEQ_NO,jdbcType=INTEGER},
+			</if>
+			<if test="VS_NAME != null">#{VS_NAME,jdbcType=VARCHAR},</if>
+			<if test="RELA_TYPE != null">#{RELA_TYPE,jdbcType=VARCHAR},</if>
+			<if test="ID_TYPE != null">#{ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ID_NO != null">#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO != null">#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="VOCATION != null">#{VOCATION,jdbcType=VARCHAR},</if>
+			<if test="WORK_INFO != null">#{WORK_INFO,jdbcType=VARCHAR},</if>
+			<if test="OTH_DESC != null">#{OTH_DESC,jdbcType=VARCHAR},</if>
+			<if test="JH_FLAG != null">#{JH_FLAG,jdbcType=CHAR},</if>
+			<if test="INCOME_Y != null and INCOME_Y!=''">#{INCOME_Y,jdbcType=DECIMAL},
+			</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_rela
+		<set>
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID=#{CUST_ID,jdbcType=INTEGER},</if>
+			<if test="VS_NAME != null ">VS_NAME=#{VS_NAME,jdbcType=VARCHAR},</if>
+			<if test="RELA_TYPE != null ">RELA_TYPE=#{RELA_TYPE,jdbcType=VARCHAR},</if>
+			<if test="ID_TYPE != null ">ID_TYPE=#{ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ID_NO != null ">ID_NO=#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO != null ">TEL_NO=#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="VOCATION != null ">VOCATION=#{VOCATION,jdbcType=VARCHAR},</if>
+			<if test="WORK_INFO != null ">WORK_INFO=#{WORK_INFO,jdbcType=VARCHAR},</if>
+			<if test="OTH_DESC != null ">OTH_DESC=#{OTH_DESC,jdbcType=VARCHAR},</if>
+			<if test="JH_FLAG != null ">JH_FLAG=#{JH_FLAG,jdbcType=CHAR},</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y=#{INCOME_Y,jdbcType=DECIMAL},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where SEQ_NO=#{SEQ_NO,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByPk">delete from cust_rela where
+		SEQ_NO=#{SEQ_NO,jdbcType=INTEGER}</delete>
+	<delete id="delete">
+		delete from cust_rela
+		<where>
+			<if test="SEQ_NO != null and SEQ_NO!=''"> and SEQ_NO=#{SEQ_NO,jdbcType=INTEGER}</if>
+		</where>
+	</delete>
+</mapper>

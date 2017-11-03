@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.login.lrdUserMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CORP_CD,USER_ID,ORG_CD,DEPT_CD,USER_NAME,PASSWORD,SEX,TEL_NO,EMAIL,CRT_DATE,MTN_DATE,JL_FLAG,ID_NO
+		from LRD_USER
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<select id="queryMap" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CORP_CD,USER_ID,ORG_CD,DEPT_CD,USER_NAME,PASSWORD,SEX,TEL_NO,EMAIL,CRT_DATE,MTN_DATE,JL_FLAG,ID_NO,PW_MTN_DATE
+		from LRD_USER
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into LRD_USER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null ">CORP_CD,</if>
+			<if test="USER_ID != null ">USER_ID,</if>
+			<if test="ORG_CD != null ">ORG_CD,</if>
+			<if test="DEPT_CD != null ">DEPT_CD,</if>
+			<if test="USER_NAME != null ">USER_NAME,</if>
+			<if test="PASSWORD != null ">PASSWORD,</if>
+			<if test="SEX != null ">SEX,</if>
+			<if test="TEL_NO != null ">TEL_NO,</if>
+			<if test="EMAIL != null ">EMAIL,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="JL_FLAG != null ">JL_FLAG,</if>
+			<if test="ID_NO != null ">ID_NO,</if>
+			<if test="PW_MTN_DATE != null ">PW_MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CORP_CD != null">#{CORP_CD,jdbcType=VARCHAR},</if>
+			<if test="USER_ID != null">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="ORG_CD != null">#{ORG_CD,jdbcType=VARCHAR},</if>
+			<if test="DEPT_CD != null">#{DEPT_CD,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null">#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="PASSWORD != null">#{PASSWORD,jdbcType=VARCHAR},</if>
+			<if test="SEX != null">#{SEX,jdbcType=CHAR},</if>
+			<if test="TEL_NO != null">#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="EMAIL != null">#{EMAIL,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="JL_FLAG != null">#{JL_FLAG,jdbcType=CHAR},</if>
+			<if test="ID_NO != null">#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="PW_MTN_DATE != null">#{PW_MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update LRD_USER
+		<set>
+			<if test="ORG_CD != null ">ORG_CD=#{ORG_CD,jdbcType=VARCHAR},</if>
+			<if test="DEPT_CD != null ">DEPT_CD=#{DEPT_CD,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null ">USER_NAME=#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="PASSWORD != null ">PASSWORD=#{PASSWORD,jdbcType=VARCHAR},</if>
+			<if test="SEX != null ">SEX=#{SEX,jdbcType=CHAR},</if>
+			<if test="TEL_NO != null ">TEL_NO=#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="EMAIL != null ">EMAIL=#{EMAIL,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="JL_FLAG != null ">JL_FLAG=#{JL_FLAG,jdbcType=CHAR},</if>
+			<if test="ID_NO != null ">ID_NO=#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="PW_MTN_DATE != null ">PW_MTN_DATE=#{PW_MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		USER_ID=#{USER_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateXinPass" parameterType="java.util.Map">
+		update LRD_USER
+		set    XD_PASS = #{xinPass,jdbcType=VARCHAR}
+		where  USER_ID=#{USER_ID,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="deleteByPk">delete from LRD_USER where
+		CORP_CD=#{CORP_CD,jdbcType=VARCHAR} and
+		USER_ID=#{USER_ID,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from LRD_USER
+		<where>
+			<if test="CORP_CD != null"> and CORP_CD=#{CORP_CD,jdbcType=VARCHAR}</if>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+	<select id="queryFunc" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select f.FUNC_CD
+			  from lrd_rolefunc f,
+			       (select a.ROLE_ID, a.CORP_CD
+			          from lrd_userrole a, lrd_user b
+			         where a.CORP_CD = b.CORP_CD
+			           and a.USER_ID = b.USER_ID
+			           and b.USER_ID = #{USER_ID,jdbcType=VARCHAR}) b
+			 where f.ROLE_CD = b.ROLE_ID
+			   and f.CORP_CD = b.CORP_CD
+
+	</select>
+	
+	
+	<select id="queryRole" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select b.ROLE_ID ,c.ROLE_FW from lrd_user a,lrd_userrole b ,lrd_role c where a.USER_ID=#{USER_ID,jdbcType=VARCHAR} and a.USER_ID=  b.USER_ID and a.CORP_CD = b.CORP_CD and b.role_id=c.role_cd
+
+	</select>
+	
+	<select id="queryCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+			select count(*) cun
+			  from lrd_rolefunc a,
+			       (select b.ROLE_ID, a.CORP_CD
+			          from lrd_user a, lrd_userrole b
+			         where a.USER_ID = #{USER_ID,jdbcType=VARCHAR}
+			           and a.USER_ID = b.USER_ID
+			           and a.CORP_CD = b.CORP_CD) b
+			 where a.FUNC_CD = #{funcCd,jdbcType=VARCHAR}
+			   and a.CORP_CD = b.CORP_CD
+			   and a.ROLE_CD = b.ROLE_ID
+			   
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

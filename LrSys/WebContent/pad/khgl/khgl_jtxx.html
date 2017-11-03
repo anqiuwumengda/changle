@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>家庭信息-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../css/pages.css">
+<style>
+.form-group{ margin-bottom:12px; }
+</style>
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">婚姻状况：</label>
+			<div class="bs-sm-r">
+				<select id="isMarriage" class="form-control">					
+				</select> 
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+	
+			<label class="bs-sm-l control-label"><b class="red none" id="mdatepicker">*</b>结婚证登记日期：</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" id="datepicker" name="marriedate" />
+			</div>
+		</div>
+	</div>
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">有无子女：</label>
+			<div class="bs-sm-r pt7 checkbox">
+				<label><input type="radio" name="isChildren" value="1" /> 有</label>
+				<label><input type="radio" name="isChildren" value="0" /> 无</label>
+			</div>
+		</div>
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label small">客户及家庭成员工作情况：</label>
+			<div class="bs-sm-r">
+				<select id="workCondition" class="form-control">					
+				</select> 
+			</div>
+		</div>
+	</div>
+	<div class="table_wrapper">
+		<table class="table table-bordered small" style="min-width:674px;">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>年龄</th>
+					<th>家庭关系</th>
+					<th>证件类型</th>
+					<th>证件号码</th>
+					<th>联系电话</th>
+					<th>职业</th>
+					<th>婚姻状况</th>
+					<th>年收入(万元)</th>
+					<th width="5%">
+						<button class="btn btn-xs" type="button" id="btnAdd">
+							<i class="glyphicon glyphicon-plus"></i> 新增
+						</button>
+					</th>
+				</tr>
+			</thead>
+			
+			<tbody id="jtxxlist">				
+			</tbody>
+			
+		</table>
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="reset">重置</button>
+		<button class="btn btn-md btn-danger" type="button" id="btnbasesave">保存</button>
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+</form>
+<!-- 弹窗modal -->
+<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel">家庭信息</h5>
+			</div>
+			<form id="familyForm">
+			<div class="modal-body clearfix">
+				<input type="hidden" name="SEQ_NO" id="SEQ_NO">
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">姓名：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" name="VS_NAME" id="VS_NAME">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">家庭关系：</label>
+					<div class="bs-sm-r col-md-8">
+						<select id="RELA_TYPE" name="RELA_TYPE" class="form-control">							
+						</select> 
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">证件类型：</label>
+					<div class="bs-sm-r col-md-8">
+						<select id="cartType" name="cartType" class="form-control">
+							<option value="01" selected>身份证</option>
+							<option value="02">军官证</option>
+							<option value="03">护照</option>
+							<option value="04">港澳台通行证</option>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">证件号码：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" name="ID_NO" id="ID_NO" />
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">联系电话：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" name="TEL_NO" id="TEL_NO" onkeyup="value=value.replace(/[^\d]/g,'')">
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">职业：</label>
+					<div class="bs-sm-r col-md-8">
+						<select id="VOCATION" name="VOCATION" class="form-control">
+							<option value="" selected>-请选择-</option>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">婚姻状况：</label>
+					<div class="bs-sm-r col-md-8">
+						<select id="JH_FLAG" name="JH_FLAG" class="form-control">							
+						</select>
+					</div>
+				</div>
+				<div class="clearfix form-group">
+					<label class="bs-sm-l control-label">年收入(万元)：</label>
+					<div class="bs-sm-r col-md-8">
+						<input type="text" class="form-control" name="INCOME_Y" id="INCOME_Y" onkeyup="value=value.replace(/[^\d.]/g,'')">
+					</div>
+				</div>
+			</div>
+			</form>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<script id="列表模板">
+function callback(){
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var isMarriage = $("#isMarriage"),
+	datepicker = $("#datepicker"),
+	workCondition = $("#workCondition");
+var data1={"CUST_ID":cust_id};
+
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+	if(data.code=="00"){ 
+		//显示客户信息
+		if(data.result!=null && data.result.length){
+			var result=data.result[0];
+			isMarriage.val(result.JH_FLAG);
+			datepicker.val(result.JH_DATE);
+			workCondition.val(result.JK_JT_STATUS);
+			$("input[name=isChildren]").each(function(){
+				var $this=$(this);
+				if($this.val()==result.CHILD_FLAG){
+					$this.attr("checked",true);
+				}
+			});
+		}
+	}else if (data.code=="88"){
+		eval(data.reLoad);
+	}else{
+		alert(data.errMsg);
+	}
+},error:function(data){
+	alert("错误");
+}
+})
+
+function pagerList(){
+	var data2={
+			"CUST_ID":cust_id
+		};  
+	 $.ajax({
+		beforeSend:function(){
+			$("#jtxxlist").html("<tr><td colspan='11'>正在加载...</td></tr>");
+		},
+		url:baseurl+"custrela/query",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				var resultArr=data.result;
+				var html="",isex,iage;
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					if(result.ID_NO){
+						var id_no=result.ID_NO;
+						var sexStr=id_no.substring(16,17);
+						var ageStr=id_no.substring(6,10);
+						var date=new Date();
+						var isYear=date.getFullYear();
+						isex=(sexStr%2 ==0) ?"女":"男";
+						iage=isYear-parseInt(ageStr);
+					}else{
+						isex="";
+						iage="";
+					}
+					html+='<tr>';
+					html+='<td>' + result.VS_NAME + '</td>';
+					html+='<td>' + isex + '</td>';
+					html+='<td>' + iage + '</td>';
+					html+='<td>' + result.RELA_TYPEC + '</td>';
+					html+='<td>' + result.ID_TYPEC + '</td>';
+					html+='<td>' + result.ID_NO + '</td>';
+					html+='<td>' + result.TEL_NO + '</td>';
+					html+='<td>' + result.VOCATIONC + '</td>';
+					html+='<td>' + result.JH_FLAGC + '</td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='<td>';
+					html+='<button class="btn btn-xs btn-danger" type="button" name="btnEdit" zt='+result.SEQ_NO+'><i class="glyphicon glyphicon-pencil"></i></button> ';
+					html+='<button class="btn btn-xs btn-danger" type="button" name="btnDel"  zt='+result.SEQ_NO+'><i class="glyphicon glyphicon-trash"></i></button>';
+					html+='</td>';
+					html+='</tr>';
+				}
+				$("#jtxxlist").html(html);
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+			
+		},error:function(data){
+			alert("错误");
+		}
+	})
+}
+pagerList();
+Io.on("[name=btnEdit]","click",function(){
+var seq_no = $(this).attr("zt");
+var SEQ_NO = $("#SEQ_NO"),
+	VS_NAME = $("#VS_NAME"),
+	RELA_TYPE = $("#RELA_TYPE"),
+	cartType = $("#cartType"),
+	ID_NO = $("#ID_NO"),
+	TEL_NO = $("#TEL_NO"),
+	VOCATION = $("#VOCATION"),
+	JH_FLAG = $("#JH_FLAG"),
+	INCOME_Y = $("#INCOME_Y");
+	
+	$("#myModal").modal({
+		backdrop:false
+	})
+	var data3={"SEQ_NO":seq_no};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custrela/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data3),
+		success:function(data){
+		if(data.code=="00"){
+			//显示客户信息
+			var result=data.result[0];
+			VS_NAME.val(result.VS_NAME);
+			RELA_TYPE.val(result.RELA_TYPE);
+			cartType.val(result.ID_TYPE);
+			ID_NO.val(result.ID_NO);
+			TEL_NO.val(result.TEL_NO);
+			VOCATION.val(result.VOCATION);
+			JH_FLAG.val(result.JH_FLAG);
+			INCOME_Y.val(result.INCOME_Y);
+			SEQ_NO.val(result.SEQ_NO);
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+	})
+})
+
+Io.on("[name=btnDel]","click",function(){
+	var seq_no = $(this).attr("zt");
+	if(confirm("确定删除？")){
+		console.log("点击了确定！")
+	}else{
+		return;
+	}
+	var data3={"SEQ_NO":seq_no};
+	$.ajax({
+		type:"post",
+		url:baseurl+"custrela/delete",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data3),
+		success:function(data){
+		if(data.code=="00"){
+			pagerList();
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+	})
+})
+
+//增加
+$("#btnAdd").on("click",function(){
+	$("#myModal").modal({
+		"backdrop":false
+	});
+	$("#familyForm").data('bootstrapValidator').destroy();
+	$('#familyForm').data('bootstrapValidator', null);
+	familyForm();
+	$('#familyForm').find("input,select").val("");
+	//$("#VS_NAME").val("");
+	//$("#RELA_TYPE").val("");
+	//$("#cartType").val("");
+	//$("#ID_NO").val("");
+	//$("#TEL_NO").val("");
+	//$("#VOCATION").val("");
+	//$("#JH_FLAG").val("");
+	//$("#INCOME_Y").val("");
+	$("#SEQ_NO").val("");
+})
+//保存
+$("#btnsave").on("click",function(){
+	$('#familyForm').bootstrapValidator('validate',"fields");
+	if($('#familyForm').data('bootstrapValidator').isValid()){
+		var SEQ_NO = $("#SEQ_NO").val(),
+			VS_NAME = $("#VS_NAME").val(),
+			RELA_TYPE = $("#RELA_TYPE").val(),
+			cartType = $("#cartType").val(),
+			ID_NO = $("#ID_NO").val(),
+			TEL_NO = $("#TEL_NO").val(),
+			VOCATION = $("#VOCATION").val(),
+			JH_FLAG = $("#JH_FLAG").val(),
+			INCOME_Y = $("#INCOME_Y").val();
+		var data4 = {"CUST_ID":cust_id,
+					 "SEQ_NO":SEQ_NO,
+				  	 "VS_NAME":VS_NAME,
+				  	 "RELA_TYPE":RELA_TYPE,
+				  	 "ID_TYPE":cartType,
+				  	 "ID_NO":ID_NO,
+				  	 "TEL_NO":TEL_NO,
+				  	 "VOCATION":VOCATION,
+				  	 "JH_FLAG":JH_FLAG,
+				  	 "INCOME_Y":INCOME_Y
+		  			};
+		$.ajax({
+			type:"post",
+			url:baseurl+"custrela/save",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data4),
+			success:function(data){
+			if(data.code=="00"){
+				$("#familyForm").data('bootstrapValidator').destroy();
+				$('#familyForm').data('bootstrapValidator', null);
+				familyForm();
+				$(this).find("input,select").val("");
+				$("#myModal").modal('hide');
+				//alert("保存成功！");
+				pagerList();
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			alert("错误");
+		}
+		})
+	}
+})
+familyForm();
+function familyForm(){
+$("#familyForm").bootstrapValidator({
+	message:"This value is not valid",
+	feedbackIcons:{
+		valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+	},
+	 fields: {
+		 VS_NAME: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '姓名不能为空'
+	            }
+	        }
+	    },
+	    RELA_TYPE: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '家庭关系不能为空'
+	            }
+	        }
+	    },
+	    VOCATION: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '职业不能为空'
+	            }
+	        }
+	    },
+	    INCOME_Y: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '年收入不能为空'
+	            }
+	        }
+	    }
+	 }
+});
+}
+$("#isMarriage").change(function(){
+	if(this.value=="2"){
+		$("#mdatepicker").show();//css("display","inline-block");
+	}else{$("#mdatepicker").hide()}
+});
+//保存
+$("#btnbasesave").on("click",function(){
+	 var isChildren = $("[name=isChildren]:checked").val(),
+		isMarriage = $("#isMarriage").val(),
+		datepicker = $("#datepicker").val(),
+		workCondition = $("#workCondition").val();
+	 if(($("#isMarriage").val()=="2") && ($("#datepicker").val()=="")){
+		 Io.bs.alert("结婚证登记日期必须填写！");
+			return false;
+	 }
+	var data5 = {"CUST_ID":cust_id,
+				 "CHILD_FLAG":isChildren,
+			  	 "JH_FLAG":isMarriage,
+			  	 "JH_DATE":datepicker,
+			  	 "JK_JT_STATUS":workCondition
+	  			};
+	$.ajax({
+		beforeSend:function(){
+			if(true){$("#loadgif").fadeIn(200);};
+		},
+		type:"post",
+		url:baseurl+"custbase/updateCustBase",
+		dataType:"json",
+		async: true,
+		contentType:"application/json",
+		data:JSON.stringify(data5),
+		success:function(data){
+			$("#loadgif").fadeOut(100);
+		if(data.code=="00"){
+			alert("保存成功！");
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			$("#loadgif").fadeOut(100);
+		}
+	},error:function(data){
+		$("#loadgif").fadeOut(100);
+		alert("错误");
+	}
+	}) 
+})
+$("#datepicker").datepicker();
+} 
+var json={
+		"isMarriage":"JH_FLAG",//婚姻状况
+		"workCondition":"JK_JT_STATUS",//借款人及家庭成员工作情况
+		"RELA_TYPE":"RELA_TYPE",//家庭关系
+		"cartType":"ID_TYPE",//证件类型
+		"VOCATION":"OCCPUATION",//职业
+		"JH_FLAG":"JH_FLAG"//婚姻状况
+		}
+selectOnload({"json":json,"func":callback,"length":6,"isDefault":false});//婚姻状况
+</script>
+</body>
+</html>

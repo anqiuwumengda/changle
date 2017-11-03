@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加参数</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+<link rel="stylesheet" href="../css/demo.css">
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/common.js"></script>
+</head>
+<body class="pbody">
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">添加参数</h3>
+		</div>
+		<form class="form-horizontal" id="form">
+			<div class="box-body pt-30">
+				<div class="form-group">
+					<label class="col-md-4 control-label">法人编号:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="CORP_CD" value="907"  disabled="disabled" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">系统参数标识符:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text"name="CHPARAKEY" id="CHPARAKEY" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">系统参数值:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text"name="CHPARAVALUE" id="CHPARAVALUE" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">系统参数说明:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="CHPARADESC"id="CHPARADESC" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">是否可见:</label>
+					<div class="col-md-6 checkbox">
+						<label><input type="radio" name="CHPARAVISIBLE" value="1" checked>是</label>
+						<label><input type="radio" name="CHPARAVISIBLE" value="2">否</label>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-md-4 control-label">是否可维护:</label>
+					<div class="col-md-6 checkbox">
+						<label><input type="radio" name="CHPARAMAINTAIN" value="1" checked>是</label>
+						<label><input type="radio" name="CHPARAMAINTAIN" value="2">否</label>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-md-4 control-label">前后台参数:</label>
+					<div class="col-md-6 checkbox">
+						<label><input type="radio" name="CHPARALOCALE" value="1" checked>前台参数</label>
+						<label><input type="radio" name="CHPARALOCALE" value="2">后台参数</label>
+						<label><input type="radio" name="CHPARALOCALE" value="3">前后台参数</label>
+					</div>
+				</div>					
+				
+			</div>
+			<div class="clearfix text-center btn-footr">
+				<button id="btnSave" class="btn btn-danger" type="button">保　存</button>
+				<button id="btnBack" class="btn btn-primary" type="button">返回</button>
+			</div>
+		</form>
+	</div>
+<script>
+
+var CORP_CD = $("#CORP_CD"),
+CHPARAKEY = $("#CHPARAKEY"),
+CHPARAVALUE=$("#CHPARAVALUE"),
+CHPARADESC = $("#CHPARADESC");
+Io.on("#btnSave","click",function(){
+	$('#form').bootstrapValidator('validate',"fields");
+	if($('#form').data('bootstrapValidator').isValid()){
+	var data0 = {
+		"CHPARAVISIBLE":$("input[name=CHPARAVISIBLE]:checked").val(),//是否可见
+		"CHPARAMAINTAIN":$("input[name=CHPARAMAINTAIN]:checked").val(),//是否可维护
+		"CHPARALOCALE":$("input[name=CHPARALOCALE]:checked").val(),//前台或后台参数
+		"CORP_CD":CORP_CD.val(),//
+		"CHPARAKEY":CHPARAKEY.val(),
+		"CHPARAVALUE":CHPARAVALUE.val(),
+		"CHPARADESC":CHPARADESC.val()
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"lrdsyspara/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功")
+				CORP_CD.val("");
+				CHPARAKEY.val("");
+				CHPARAVALUE.val("");
+				CHPARADESC.val("");
+				location.href="./sysParameter.jsp";
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+	}
+});
+Io.on("#btnBack","click",function(){
+	location.href="./sysParameter.jsp";
+});
+$("#form").bootstrapValidator({
+	 fields: {
+		 CHPARAKEY: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '不能为空'
+	            }
+	        }
+	    },
+	    CHPARAVALUE: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '不能为空'
+	            }
+	        }
+	    },
+	    CHPARADESC: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '不能为空'
+	            }
+	        }
+	    }
+	    
+	 }
+});
+</script>
+</body>
+</html>

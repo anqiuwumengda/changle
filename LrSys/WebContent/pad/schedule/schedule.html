@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>日程日志</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+
+</head>
+<body>
+<div class="page-inner">
+			<div class="widget">
+			
+				<div class="work-calendar" id="calendar"></div>
+				<div class="workLog">
+					<div class="widget-header">
+						<a href="javascript:;" class="icon-plus" id="addSchedule"><img src="../img/plus.png"/></a>
+						<h4>工作日程</h4>
+						<span class="right" id="htmlDate"></span>
+					</div>
+					<div class="widget-content" style="max-height:607px;overflow:auto;">
+						<table class="table">
+						<thead>
+							<tr>
+								<th width=60%>工作事项</th>
+								<th>日程状态</th>
+								<th width="70">操作</th>
+							</tr>
+						</thead>
+						<tbody id="tBody">							
+						</tbody>
+						</table>
+						
+					</div>
+				</div>
+				
+			</div>
+			<div class="widget">
+				<div class="widget-header">
+					<h4>客户提醒</h4>
+					<span class="right htmlDate"></span>
+				</div>
+				<div class="widget-content">
+					<table class="table">
+					<thead>
+						<tr>
+							<td>姓名</td>
+							<td>电话</td>
+							<td>提醒日期</td>
+							<td>内容</td>
+						</tr>
+					</thead>
+					<tbody id="tixibody">
+						<!--  <tr>
+							<td>张三</td>
+							<td>13131313131</td>
+							<td>2016-8-25</td>
+							<td>生日</td>
+						</tr>
+						<tr>
+							<td>张三</td>
+							<td>13131313131</td>
+							<td>2016-8-25</td>
+							<td>生日</td>
+						</tr>-->
+					</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="widget">
+				<div class="widget-header">
+					<h4>工作日志</h4>
+					<span class="right htmlDate"></span>
+				</div>
+				<div class="widget-content mb50">
+					<div id="logCont">
+							<textarea class="form-control textarea" rows="7" id="DAILY"></textarea>
+							<div class="clearfix mt10">
+								<button class="btn btn-sm btn-primary" id="savelog">保存</button>
+								<button class="btn btn-sm btn-danger" id="resetlog">清除</button>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 弹窗modal -->
+<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel">工作日程</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">日程日期：</label>
+					<div class="bs-sm-r">
+						<input class="form-control date-readonly" readonly="readonly" id="WORK_DATE">
+					</div>
+				</div>				
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">工作事项：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" size="200" id="WORK_CONT">
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">日程状态：</label>
+					<div class="bs-sm-r radio">
+						<label><input type="radio" name="state" value="0" checked/>未完成</label>
+						<label><input type="radio" name="state" value="1" />已完成</label>
+					</div>
+				</div>				
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$("#custSearchBtn").on("click",function(){
+	var keyword=$("[name=keyword]").val();
+	location.href="kehuguanli.html?s="+keyword;
+})
+</script>
+<script>
+var WORK_DATE = $("#WORK_DATE"),//日期
+	WORK_CONT = $("#WORK_CONT"),//工作事项
+	USER_ID="1";//死ID
+function gDate(){
+	WORK_DATE.val(typeof(wDate)=='string'?wDate:y+'/'+geTime(m)+'/'+geTime(d))
+}
+$.ajax({
+	type:"post",
+	url:baseurl + "Login/getUserMeg",
+	success:function(data){
+		if(data.code=="00"){
+			USER_ID=data.result.USER_ID;
+		}
+	}
+});
+
+//日程
+Io.on("#addSchedule","click",function(){
+	$("#myModal").modal();
+	$("#btnsave").removeAttr("zt");	
+})
+
+//日志
+Io.on("#addLogCancel","click",function(){
+	$("#addLog").popover("hide");
+})
+Io.on("#addLogAdd","click",function(){
+	$("#addLog").popover("hide");
+})
+
+//日历
+$(function(){
+	/*显示今天日期*/
+	$("#logoDate").html(
+		y+'年'+m+'月'+d+'日'
+	);
+	$("#htmlDate").html(
+		y+'年'+m+'月'+d+'日  星期'+"日一二三四五六".charAt(DD)
+	);
+	$(".htmlDate").html(
+		y+'年'+m+'月'+d+'日'
+	);
+	$("#WORK_DATE").datepicker("update",y+'/'+geTime(m)+'/'+geTime(d));
+	/***********/
+	$("[name=addLogCancel]").on("click",function(){
+		$("#addLog").popover("hide");
+	});
+	
+	$("#calendar").datepicker({
+		todayBtn:1,
+		templates: {
+            leftArrow: "<span><i class='glyphicon glyphicon-chevron-left'></i></span>",
+            rightArrow: "<span><i class='glyphicon glyphicon-chevron-right'></i></span>"
+        }
+	}).datepicker("update",newDate).on("changeDate",function (e){
+		var date=e.dates[0];
+		var y=date.getFullYear();
+		var m=date.getMonth()+1;
+		var d=date.getDate();
+		var DD=date.getDay();
+		var newDate=y+"年"+m+"月"+d+"日";
+		wDate = y+'/'+geTime(m)+'/'+geTime(d);		
+		$("#htmlDate").html(
+			y+'年'+m+'月'+d+'日  星期'+"日一二三四五六".charAt(DD)
+		);
+		$(".htmlDate").html(
+			y+'年'+m+'月'+d+'日'
+		);
+		$("#WORK_DATE").val(wDate);
+		xList();
+		numList(y+"/"+geTime(m));
+	});
+	
+	$(".table-condensed").find(".today").on("click",function(){
+		$("#calendar").datepicker("update",newDate);
+	})
+	$(".prev").on("click",function(){
+		var arr=$(".datepicker-switch").html().split(" ");
+		var mm="";
+		//console.log(arr);
+		switch (arr[0]){
+	 	 case "一月":mm="12";
+	   	 break;
+	 	case "二月":mm="01";
+	   	 break;
+	 	case "三月":mm="02";
+	   	 break;
+	 	case "四月":mm="03";
+	   	 break;
+	 	case "五月":mm="04";
+	   	 break;
+	 	case "六月":mm="05";
+	   	 break;
+	 	case "七月":mm="06";
+	   	 break;
+	 	case "八月":mm="07";
+	   	 break;
+	 	case "九月":mm="08";
+	   	 break;
+	 	case "十月":mm="09";
+	   	 break;
+	 	case "十一月":mm="10";
+	   	 break;
+	 	case "十二月":mm="11";
+	   	 break;
+		}
+		numList(arr[1]+"/"+mm);
+	})
+	$(".next").on("click",function(){
+		var arr=$(".datepicker-switch").html().split(" ");
+		var mm="";
+		switch (arr[0]){
+	 	 case "一月":mm="02";
+	   	 break;
+	 	case "二月":mm="03";
+	   	 break;
+	 	case "三月":mm="04";
+	   	 break;
+	 	case "四月":mm="05";
+	   	 break;
+	 	case "五月":mm="06";
+	   	 break;
+	 	case "六月":mm="07";
+	   	 break;
+	 	case "七月":mm="08";
+	   	 break;
+	 	case "八月":mm="09";
+	   	 break;
+	 	case "九月":mm="10";
+	   	 break;
+	 	case "十月":mm="11";
+	   	 break;
+	 	case "十一月":mm="12";
+	   	 break;
+	 	case "十二月":mm="01";
+	   	 break;
+		}
+		numList(arr[1]+"/"+mm);
+	})
+})
+Io.on("#btnsave","click",function(){
+	if(WORK_DATE.val()=="")	gDate();
+	var data1={
+			"USER_ID":USER_ID,
+			"WORK_CONT":WORK_CONT.val(),
+			"FINISH_FLAG":$("[name=state]:checked").val(),
+			"WORK_DATE":WORK_DATE.val()
+	};
+	if($(this).attr("zt")){
+		var zt = $(this).attr("zt");
+		data1.SCHEDULE_ID = zt;
+	}
+	$.ajax({
+		type:"post",
+		url:baseurl+"schedule/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$("#myModal").modal("hide").on("hidden.bs.modal",function(){
+					$(this).find("input[type=text]").val("");
+				});
+				xList();
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+})
+function xList(){
+	gDate();
+	var data0={
+			"USER_ID":USER_ID,
+			"WORK_DATE":WORK_DATE.val()
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"schedule/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					var html='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						var _FLAG = '';
+						switch(result.FINISH_FLAG){
+							case '0':_FLAG = '未完成';
+							break;
+							case '1':_FLAG = '已完成';
+							break;
+							default:_FLAG = '未知';													
+						}
+						html+='<tr>';
+						html+='<td>'+ result.WORK_CONT +'</td>';
+						html+='<td>'+ _FLAG +'</td>';
+						html+='<td style="text-align:right;">';
+						html+='<button class="btn btn-xs btn-primary" type="button" name="btnEdit" zt='+ result.SCHEDULE_ID +'><i class="glyphicon glyphicon-pencil"></i></button> ';
+						html+='<button class="btn btn-xs btn-danger" type="button" name="btnDel" zt='+ result.SCHEDULE_ID +'><i class="glyphicon glyphicon-trash"></i></button>';
+						html+='</td>';
+						html+='</tr>';
+					}
+					$("#tBody").html(html);
+				}else{
+					$("#tBody").html('');
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}
+			else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");	
+		}
+	})	
+	$.ajax({
+		type:"post",
+		url:baseurl+"dailylog/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result[0];				
+					$("#DAILY").val(result.DAILY);
+				}else{
+					$("#DAILY").val("");
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})	
+}
+xList();
+Io.on("[name=btnEdit]","click",function(){
+	$("#myModal").modal();
+	var zt=$(this).attr("zt");
+	$("#btnsave").attr("zt",zt);
+	var data1={"USER_ID":USER_ID,"SCHEDULE_ID":zt};
+	$.ajax({
+		type:"post",
+		url:baseurl+"schedule/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				var result=data.result[0];
+				WORK_DATE.val(result.WORK_DATE);
+				WORK_CONT.val(result.WORK_CONT);
+				$("[name=state]").each(function(){
+					var $this=$(this);
+					if($this.val()==result.FINISH_FLAG){
+						$this.prop("checked",true);
+					}
+				});			
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	}) 
+})
+Io.on("[name=btnDel]","click",function(){//删除
+	var zt=$(this).attr("zt");
+	Io.bs.alert("确定删除吗？", function(){
+		var data1={"USER_ID":USER_ID,"SCHEDULE_ID":zt};
+		$.ajax({
+			type:"post",
+			url:baseurl+"schedule/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					$(this).removeData("bs.modal");
+					xList();
+					//alert("删除成功")
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	})
+})
+</script>
+<script id="工作日志">
+var savelog=$("#savelog");//保存
+savelog.on("click",function(){//保存工作日志
+	gDate();
+	var DAILY=$("#logCont textarea");	
+	var data1={
+			"USER_ID":USER_ID,
+			"WORK_DATE":WORK_DATE.val(),
+			"DAILY":DAILY.val()
+	        };
+	$.ajax({
+		type:"post",
+		url:baseurl+"dailylog/save",
+		dataType:"json",
+		async: false,
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				alert("保存成功");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		}
+	}) 
+})
+Io.on("#resetlog","click",function(){//清除
+	gDate();
+	var data1={
+			"USER_ID":USER_ID,
+			"WORK_DATE":WORK_DATE.val()
+	        };
+	$.ajax({
+		type:"post",
+		url:baseurl+"dailylog/delete",
+		dataType:"json",
+		async: false,
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				alert("删除成功");
+				$("#DAILY").val("");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		}
+	}) 
+})
+function txList(){//客户提醒
+	$.ajax({
+		type:"post",
+		url:baseurl+"custimpdate/querytx ",
+		dataType:"json",
+		contentType:"application/json",
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null){
+					var resultArr=data.result;
+					console.log(resultArr)
+					var html='';
+					for(var i=0;i<resultArr.length;i++){
+						var result = resultArr[i];
+						html+='<tr>';
+						html+='<td>'+ result.CUST_NAME+'</td>';
+						html+='<td>'+ result.TEL_NO +'</td>';
+						html+='<td>'+ result.DATE_YM+'</td>';
+						html+='<td>'+ result.WARN_DESC+'</td>';
+						html+='</tr>';
+					}
+					$("#tixibody").html(html);
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");}
+	})
+}	
+txList();
+function numList(d){
+	var data1 = {"DATE":d};
+	$.ajax({
+		type:"post",
+		url:baseurl+"schedule/queryNum",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var resultArr=data.result;
+					for(var i=0;i<resultArr.length;i++){
+						$("td.day").each(function(){
+							if($(this).attr("class")=="day"||$(this).attr("class")=="day active"){
+								if(Number($(this).html())==Number(resultArr[i].DATE)){
+									$(this).html($(this).html()+"<span><i>.</i>"+resultArr[i].NUM+"</span>");
+								}
+							}						
+						})
+					}
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");}
+	})
+}
+$(function(){numList(y+"/"+geTime(m));})
+</script>
+<script type="text/javascript" id="退出">
+$("#exit").on("click",function(){
+	$.ajax({
+		type:"post",
+		url:baseurl+"Login/logout",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(' '),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功")
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);				
+			}
+		},error:function(data){
+			window.top.location.href="/LrSys/login.html";
+		}
+	})
+})
+</body>
+</html>

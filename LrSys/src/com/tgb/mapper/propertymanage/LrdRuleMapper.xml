@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdRuleMapper">
+	<select id="queryById" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select  RULE_NO, 
+				RULE_NAME, 
+				DATE_FORMAT(PUB_DATE,'%Y/%m/%d') PUB_DATE, 
+				PUB_DEPT, 
+				RULE_TYPE, 
+				FILE_NAME, 
+				FILE_PATH, 
+				RULE_DESC, 
+				DATE_FORMAT(CRT_DATE,'%Y/%m/%d') CRT_DATE, 
+				DATE_FORMAT(MTN_DATE,'%Y/%m/%d') MTN_DATE
+				from rule_def
+		<where>
+					<if test="RULE_NO != null"> and RULE_NO=#{RULE_NO,jdbcType=VARCHAR}</if>
+		</where>
+
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into rule_def
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			
+			<if test="RULE_NAME != null ">RULE_NAME,</if>
+			<if test="PUB_DATE != null ">PUB_DATE,</if>
+			<if test="PUB_DEPT != null ">PUB_DEPT,</if>
+			<if test="RULE_TYPE != null ">RULE_TYPE,</if>
+			<if test="FILE_NAME != null ">FILE_NAME,</if>
+			<if test="FILE_PATH != null ">FILE_PATH,</if>
+			<if test="RULE_DESC != null ">RULE_DESC,</if>
+			CRT_DATE
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="RULE_NAME != null">#{RULE_NAME,jdbcType=VARCHAR},</if>
+			<if test="PUB_DATE != null">DATE_FORMAT(#{PUB_DATE,jdbcType=VARCHAR},'%Y%m%d'),</if>
+			<if test="PUB_DEPT != null">#{PUB_DEPT,jdbcType=CHAR},</if>
+			<if test="RULE_TYPE != null">#{RULE_TYPE,jdbcType=VARCHAR},</if>
+			<if test="FILE_NAME != null">#{FILE_NAME,jdbcType=VARCHAR},</if>
+			<if test="FILE_PATH != null">#{FILE_PATH,jdbcType=INTEGER},</if>
+			<if test="RULE_DESC != null">#{RULE_DESC,jdbcType=VARCHAR},</if>
+			DATE_FORMAT(now(),'%Y%m%d')
+
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update rule_def
+		<set>
+			<if test="RULE_NAME != null ">RULE_NAME=#{RULE_NAME,jdbcType=VARCHAR},</if>
+			<if test="PUB_DATE != null ">PUB_DATE=DATE_FORMAT(#{PUB_DATE,jdbcType=VARCHAR},'%Y%m%d'),</if>
+			<if test="PUB_DEPT != null ">PUB_DEPT=#{PUB_DEPT,jdbcType=CHAR},</if>
+			<if test="RULE_TYPE != null ">RULE_TYPE=#{RULE_TYPE,jdbcType=VARCHAR},</if>
+			<if test="FILE_NAME != null ">FILE_NAME=#{FILE_NAME,jdbcType=VARCHAR},</if>
+			<if test="FILE_PATH != null ">FILE_PATH=#{FILE_PATH,jdbcType=INTEGER},</if>
+			<if test="RULE_DESC != null ">RULE_DESC=#{RULE_DESC,jdbcType=VARCHAR},</if>
+			MTN_DATE=DATE_FORMAT(now(),'%Y%m%d')
+		</set>
+		where RULE_NO=#{RULE_NO,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		delete from rule_def  where RULE_NO=#{RULE_NO,jdbcType=VARCHAR}
+		
+	</delete>
+	
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select  RULE_NO, 
+				RULE_NAME, 
+				DATE_FORMAT(PUB_DATE,'%Y/%m/%d') PUB_DATE, 
+				PUB_DEPT, 
+				RULE_TYPE, 
+				FILE_NAME, 
+				FILE_PATH, 
+				RULE_DESC, 
+				DATE_FORMAT(CRT_DATE,'%Y/%m/%d') CRT_DATE, 
+				DATE_FORMAT(MTN_DATE,'%Y/%m/%d') MTN_DATE
+				from rule_def
+	</select>
+	
+</mapper>

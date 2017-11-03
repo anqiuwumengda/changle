@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>工作经营情况-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix" id="jzero">
+		<div class="col-md-12 clearfix bs-form-group">
+			<ul class="nav nav-pills" id="custType">
+                <li class="active"><a href="#jone" data-toggle="tab">职工</a></li>
+                <li class=""><a href="#jtwo" data-toggle="tab">种植</a></li>
+                <li class=""><a href="#jthree" data-toggle="tab">养殖</a></li>
+                <li class=""><a href="#jfour" data-toggle="tab">打工</a></li>
+                <li class=""><a href="#jfive" data-toggle="tab">经商</a></li>
+                <li class=""><a href="#jfiveS" data-toggle="tab">主营项目</a></li>
+            </ul>
+		</div>
+	</div>
+	<div class="tab-content">
+	<div class="none active" id="jone">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">工作单位名称：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="companyName"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">单位部门：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="department"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职务：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="position" disabled>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">工作开始年份：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="workYear"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">职工性质：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" id="zgType" disabled>
+						<option value="" selected>--请选择--</option>
+						<option value="01">正式在编</option>
+						<option value="02">合同制</option>
+						<option value="03">临时工</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">医疗保险上年度合计缴纳金额(元)：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="YLBXAMT"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">年收入(万元)：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="YEARAMT"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="none" id="jtwo">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue" style="min-width:520px;">
+			<thead>
+				<tr>
+					<th>作物种类</th>
+					<th>种植亩数</th>
+					<th>种植模式</th>
+					<th>亩产（斤）</th>
+					<th>下架时间</th>
+					<th>经营年限</th>
+					<th>年收入(万元)</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyZz">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jthree">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue">
+			<thead>
+				<tr>
+					<th>养殖种类</th>
+					<th>数量</th>
+					<th>出栏时间</th>
+					<th>经营年限</th>
+					<th>年收入(万元)</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyYz">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jfour">
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue">
+			<thead>
+				<tr>
+					<th>外出地</th>
+					<th>务工年限</th>
+					<th>年收入(万元)</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyDg">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jfive">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">商铺名称：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="storeName"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">营业执照名称：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="licenseName"></span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">营业执照注册号：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="licenseNumber"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">经营地址：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="storeAddress"></span>
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">员工总数量：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="WORKERS" name="WORKERS"></span>					
+				</div>
+			</div>
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">有人身意外伤害保险或工伤保险的员工数量：</label>
+				<div class="bs-sm-r">
+					<span class="form-control" id="BX_CNT" name="BX_CNT"></span>
+				</div>
+			</div>
+		</div>
+		<div class="table_wrapper">
+			<table class="bs_table table_bg_blue" style="min-width:520px;">
+			<thead>
+				<tr>
+					<th>经营行业</th>
+					<th>经营项目</th>
+					<th>经营年限</th>
+					<th colspan="2">经营场所建筑面积（㎡）</th>
+					<th>年收入(万元)</th>
+					<th>年利润(万元)</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyJs">
+				
+			</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="none" id="jfiveS">
+		<div class="clearfix">
+			<div class="col-md-6 clearfix bs-form-group">
+				<label class="bs-sm-l control-label">主营项目：</label>
+				<div class="bs-sm-r">
+					<select class="form-control" name="JTZYXM" disabled="disabled" id="JTZYXM">
+						<option value="">-请选择-</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	</div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+	
+</form>
+<script>
+//禁止单选框
+$("input[type=radio]").attr("disabled",true);
+function callback(){
+//职工&小微企业&&经商
+var cust_id=getUrlParam("cust_id")||"";
+var companyName=$("#companyName"),//工作单位名称
+	department=$("#department"),//单位部门
+	position=$("#position"),//职务
+	zgType=$("#zgType"),//职工性质
+	YLBXAMT=$("#YLBXAMT"),//医疗保险上年度合计缴纳金额
+	YEARAMT=$("#YEARAMT"),//年收入
+	workYear=$("#workYear");//工作开始年份
+var DP_NAME=$("#storeName"),//店铺名称
+	LICENCE_NO=$("#licenseNumber"),//营业执照号
+	LICENCE_NAME=$("#licenseName"),//营业执照名称	
+	JS_ADDRESS=$("#storeAddress");//经营地址
+	WORKERS=$("#WORKERS");//员工总数量
+	BX_CNT=$("#BX_CNT");//有人身意外伤害保险或工伤保险的员工数量
+var data0={"CUST_ID":cust_id};
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(null!=data.result && data.result.length){
+				var result=data.result[0];
+				DP_NAME.html(result.DP_NAME);
+				LICENCE_NO.html(result.LICENCE_NO);
+				LICENCE_NAME.html(result.LICENCE_NAME);
+				JS_ADDRESS.html(result.JS_ADDRESS);
+				WORKERS.html(result.WORKERS);
+				BX_CNT.html(result.BX_CNT);
+				$("#JTZYXM").val(result.JTZYXM);
+				}
+			}
+		
+	}
+}) 
+$.ajax({
+	type:"post",
+	url:baseurl+"custzg/queryCustZgList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(null!=data.result && data.result.length){
+				var result=data.result[0];
+				companyName.text(result.WORK_NAME);
+				department.text(result.DEPT);
+				position.val(result.DUTY);
+				workYear.text(result.WORK_DATE);
+				zgType.val(result.ZB_FLAG);
+				YLBXAMT.text(result.YLBXAMT);
+				YEARAMT.text(result.YEARAMT);
+			}
+		}
+	}
+})
+
+//种植
+var data1={"CUST_ID":cust_id};
+$.ajax({
+	type:"post",
+	url:baseurl+"custzz/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.ZW_TYPEC + '</td>';
+					html+='<td>' + result.ZZ_MS + '</td>';
+					html+='<td>' + result.ZZ_MODEL + '</td>';
+					html+='<td>' + result.MC + '</td>';
+					html+='<td>' + result.XJ_SJ + '</td>';
+					html+='<td>' + result.BIZ_YEARS + '</td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='</tr>';
+				}
+				$("#tbodyZz").html(html);
+			}
+			
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+})
+	
+//养殖
+$.ajax({
+	type:"post",
+	url:baseurl+"custyz/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.YZ_TYPEC + '</td>';
+					html+='<td>' + result.YZ_CNT + '</td>';
+					html+='<td>' + result.CL_SJ + '</td>';
+					html+='<td>' + result.BIZ_YEARS + '</td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='</tr>';
+				}
+				$("#tbodyYz").html(html);
+			}
+			
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+}) 
+	
+//打工
+$.ajax({
+	type:"post",
+	url:baseurl+"custdg/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.DG_WCD + '</td>';
+					html+='<td>' + result.DG_YEARS + '</td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='</tr>';
+				}
+				$("#tbodyDg").html(html);
+			}
+			
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+}) 
+	
+//经商
+
+$.ajax({
+	type:"post",
+	url:baseurl+"custjs/query",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data1),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null && data.result.length){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.BIZ_HY + '</td>';
+					html+='<td>' + result.BIZ_XM + '</td>';
+					html+='<td>' + result.BIZ_YEARS + '</td>';
+					html+='<td>自有：<span>' + result.OWN_AREA + '</span></td>';
+					html+='<td>租赁：<span>' + result.RENT_AREA + '</span></td>';
+					html+='<td>' + result.INCOME_Y + '</td>';
+					html+='<td>' + result.PROFIT_Y + '</td>';
+					html+='</tr>';
+				}
+				$("#tbodyJs").html(html);
+			}
+			
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+			console.log(data.errMsg);
+		}
+	},error:function(data){
+		alert("错误");
+	}
+}) 
+}//
+//字典
+var json = {
+		"zgType":"ZGXZ",//职工性质
+		"JTZYXM":"JTZYXM",//家庭主营项目
+		"position":"ZGZW"//职务
+		//''"position":"DUTY"//职务
+}
+selectOnload({"json":json,"func":callback,"length":3});
+</script>
+</body>
+</html>

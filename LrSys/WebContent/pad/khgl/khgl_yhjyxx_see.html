@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>银行交易信息-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label" style="text-align: left;padding-left:8px;">行内信息：</label>
+			<div class="bs-sm-r">
+				<select id="information" class="form-control" name="information" >
+				<option value="">--请选择--</option>
+				<option value="01">近6个月</option>
+				<option value="02">近12个月</option>	
+				<option value="03">近24个月</option>								
+			</select>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="col-xs-12 table_wrapper">
+<table class="table table-bordered" style="min-width:430px;">
+		<thead>
+			<tr>
+				<th>客户姓名</th>
+				<th>身份证号</th>
+				<th>日均存款</th>
+				<th>逾期信息</th>
+			</tr>
+		</thead>
+		<tbody id="infor">
+		</tbody>
+	</table>
+</div>
+<p class="col-md-12 col-xs-12 ">合作银行信息</p>
+<div class="col-xs-12 table_wrapper">
+	<table class="table table-bordered" style="min-width:430px;">
+		<thead>
+			<tr>
+				<th>合作银行</th>
+				<th>业务类别</th>
+				<th>金额</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+		<tbody id="yhjyxxlist">
+			<tr><td align="center" height="300" colspan="7">暂时没有内容</td></tr>
+		</tbody>
+	</table>
+</div>
+<div class="clear"></div>
+<div class="clearfix text-center tab-footer">
+	<button class="btn btn-md btn-danger" type="button" onclick="backkhgl()">返回</button>
+</div>
+<script id="列表模板">
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+var data1={"CUST_ID":cust_id};
+
+function pagerList(){
+	var data2={"CUST_ID":cust_id};  
+	 $.ajax({
+		beforeSend:function(){
+			$("#yhjyxxlist").html("<tr><td colspan='7'>正在加载...</td></tr>");
+		},
+		url:baseurl+"fintrans/query",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.BANK_NAMEC + '</td>';
+					html+='<td>' + result.TRANS_TYPEC + '</td>';
+					html+='<td>' + result.TRANS_AMT + '</td>';
+					html+='<td>' + result.TRANS_DESC + '</td>';
+					html+='</tr>';
+				}
+				$("#yhjyxxlist").html(html);
+				if(resultArr.length>10){
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+				}				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);	
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+pagerList();
+</script>
+<script id="行内信息">
+Io.on("#information","change",function(){
+	var month=$("#information").val();
+	var info='';
+	switch(month){
+	case '01':
+		info="6";
+		break;
+	case '02':
+		info="12";
+		break;
+	case '03':
+		info="24";
+		break;
+	default:
+		info="";
+} 
+		var data5 = {
+				"YF":info,
+				"CUST_ID":getUrlParam("cust_id")
+				};
+		if(data5.YF!=""){
+		$.ajax({
+			type:"post",
+			url:baseurl+"SCSP/queryHn",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data5),
+			success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;
+					var html="";
+						html+='<tr>';
+						html+='<td>' + result.CUST_NAME + '</td>';
+						html+='<td>' + result.ID_NO + '</td>';
+						html+='<td>' + result.BHVERDUETERM + '</td>';
+						html+='<td>' + result.BHVERDUENUM + '</td>';
+						html+='</tr>';
+					$("#infor").html(html);
+				}else{
+					$("#infor").html("<tr><td colspan='4' class='text-center'>暂无信息</td></tr>");
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+		})
+		}else{
+			alert("请选择具体时间段");
+		}
+	});
+</script>
+<script id="字典">
+var json={
+		"information":"BANK_INFORMATION"//行内信息
+		}
+selectOnload({"json":json,"length":1,"isDefault":false});
+</script>
+</body>
+</html>

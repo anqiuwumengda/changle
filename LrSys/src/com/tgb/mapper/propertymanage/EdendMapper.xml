@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.EdendMapper">
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select * from ed_end
+	</select>
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select * from ed_end 
+		<where>
+			<if test="PJ != null"> and PJ=#{PJ,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	
+	<update id="update" parameterType="java.util.Map">
+		<if test="PJ != null"> 
+			update ed_end
+		<set>
+			<if test="ED_XY_DZ != null ">ED_XY_DZ=#{ED_XY_DZ,jdbcType=VARCHAR},</if>
+			<if test="ED_XY_NH != null ">ED_XY_NH=#{ED_XY_NH,jdbcType=VARCHAR},</if>
+			<if test="ED_XY_GT != null ">ED_XY_GT=#{ED_XY_GT,jdbcType=VARCHAR},</if>
+			<if test="ED_XY_QT != null ">ED_XY_QT=#{ED_XY_QT,jdbcType=VARCHAR},</if>
+			
+			<if test="ED_JT_DZ != null ">ED_JT_DZ=#{ED_JT_DZ,jdbcType=VARCHAR},</if>
+			<if test="ED_JT_NH != null ">ED_JT_NH=#{ED_JT_NH,jdbcType=VARCHAR},</if>
+			<if test="ED_JT_GT != null ">ED_JT_GT=#{ED_JT_GT,jdbcType=VARCHAR},</if>
+			<if test="ED_JT_QT != null ">ED_JT_QT=#{ED_JT_QT,jdbcType=VARCHAR},</if>
+			
+			<if test="LV_XY_NH != null ">LV_XY_NH=#{LV_XY_NH,jdbcType=VARCHAR},</if>
+			<if test="LV_XY_GT != null ">LV_XY_GT=#{LV_XY_GT,jdbcType=VARCHAR},</if>
+			<if test="LV_XY_QT != null ">LV_XY_QT=#{LV_XY_QT,jdbcType=VARCHAR},</if>
+			<if test="LV_JT_NH != null ">LV_JT_NH=#{LV_JT_NH,jdbcType=VARCHAR},</if>
+			
+			<if test="LV_JT_GT != null ">LV_JT_GT=#{LV_JT_GT,jdbcType=VARCHAR},</if>
+			<if test="LV_JT_QT != null ">LV_JT_QT=#{LV_JT_QT,jdbcType=VARCHAR},</if>
+		</set>
+		where PJ=#{PJ,jdbcType=VARCHAR}
+		</if>
+	</update>
+	
+</mapper>

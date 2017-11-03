@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>操作员管理</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/demo.css">
+<link rel="stylesheet" href="../css/bootstrapValidator.css">
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/common.js"></script>
+</head>
+<body class="pbody">
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">添加操作员</h3>
+		</div>
+		<form class="form-horizontal" id="form">
+			<div class="box-body pt-30">
+				<div class="form-group">
+					<label class="col-md-4 control-label">法人行号:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="CORP_CD" value="907" disabled="disabled" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户编号:</label>
+					<div class="col-md-6">
+						<input class="form-control"name="USER_ID" type="text"  value="" id="USER_ID" />
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户姓名:</label>
+					<div class="col-md-6">
+						<input class="form-control" type="text" id="USER_NAME" name="USER_NAME"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">所属机构:</label>
+					<div class="col-md-6">
+						<input class="form-control" name='ORG_NAME' type="text" id="ORG_NAME" disabled="disabled" />
+						<span id="ssjg" class="form-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">用户角色:</label>
+					<div class="col-md-6">
+						<input class="form-control" name="ROLE_NAME" type="text" id="ROLE_NAME" disabled="disabled"/>
+						<span id="yhjs" class="form-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">其他情况:</label>
+					<div class="col-md-6">
+						<textarea class="form-control"  id="others"></textarea>
+					</div>
+				</div>					
+				
+			</div>
+			<div class="clearfix text-center btn-footr">
+				<button id="btnSave" class="btn btn-danger" type="button">保　存</button>
+				<button id="btnBack" class="btn btn-primary" type="button">返回</button>
+			</div>
+		</form>
+	</div>
+	<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >所属机构</h5>
+			</div>
+			<div class="">
+				<ul id="tree1" class="ztree"></ul>
+			</div>
+				
+			<div class="modal-footer">
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModa2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >用户角色</h5>
+			</div>
+			<div>
+				<table class="table table-bordered table-hover no-margin">
+				<thead>
+					<tr>
+						<th><input type="checkbox"/></th>
+						<th>序号</th>
+						<th>角色代码</th>
+						<th>角色名称</th>
+						<th>角色说明</th>
+					</tr>
+				</thead>
+				<tbody id="tree2">
+				</tbody>
+				</table>
+			</div>
+				
+			<div class="modal-footer">
+			 	<button class="btn btn-default" id="take_back">选择带回</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+Io.on("#take_back","click",function(){
+	var checkboxs=$("[name=checkBox]:checked");
+	var roleStr="",roleNameStr="";
+	if(checkboxs.size()>0){
+		if(checkboxs.size()==1){
+			roleStr=checkboxs.attr("role_id");
+			roleNameStr=checkboxs.attr("role_name");
+			}else{
+				for(var i=0;i<checkboxs.size();i++){
+					if(i==checkboxs.size()-1){
+						roleStr+=checkboxs.eq(i).attr("role_id");
+						roleNameStr+=checkboxs.eq(i).attr("role_name");
+					}else{
+						roleStr+=checkboxs.eq(i).attr("role_id")+",";
+						roleNameStr+=checkboxs.eq(i).attr("role_name")+",";
+					}
+					
+				}
+			}
+		
+		$("#ROLE_NAME").val(roleNameStr).attr("role_id",roleStr);
+		$("#myModa2").modal("hide");
+	}
+})
+$("#ssjg").on("click",function(){
+	$("#myModal1").modal({
+		backdrop:false
+	});
+})
+$("#yhjs").on("click",function(){
+	$("#myModa2").modal({
+		backdrop:false
+	});
+})
+var setting = {
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			beforeClick: function(treeId, treeNode) {
+				var zTree = $.fn.zTree.getZTreeObj("tree");
+				/* if (treeNode.isParent) {
+					return false;
+				} else {
+					$("#ORG_NAME").val(treeNode.name).attr('org_cd',treeNode.id);
+					$("#myModal1").modal("hide").on("hidden.bs.modal");;
+					return true;
+				} */
+				$("#ORG_NAME").val(treeNode.name).attr('org_cd',treeNode.id);
+				$("#myModal1").modal("hide").on("hidden.bs.modal");;
+				return true;
+			}
+		}
+	};
+var data0 = {
+		"ORG_RELA_TYPE":"00"
+	};
+$.ajax({
+	type:"post",
+	url:baseurl+"lrduser/queryinsert",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			var ORG=data.result.ORG;
+			var ROLE=data.result.ROLE;
+			$.fn.zTree.init($("#tree1"), setting, ORG);
+			var html="";
+			for(var i=0;i<ROLE.length;i++){
+				var result = ROLE[i];
+				html+='<tr>';
+				html+='<td><input type="checkbox" name="checkBox" role_id="'+result.ROLE_CD+'" role_name="'+result.name+'"/></td>';
+				html+='<td class="text-center">' + (i+1)+ '</td>';						
+				html+='<td>' + result.ROLE_CD + '</td>';						
+				html+='<td>' + result.name + '</td>';
+				html+='<td>' + result.DESC + '</td>';
+				html+='</tr>';
+			}
+			$("#tree2").html(html);
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		console.log("错误");
+	}
+})
+var CORP_CD = $("#CORP_CD"),
+USER_NAME = $("#USER_NAME"),
+USER_ID=$("#USER_ID"),
+ORG_NAME = $("#ORG_NAME"),
+ROLE_NAME = $("#ROLE_NAME"),
+others = $("#others");
+Io.on("#btnSave","click",function(){
+	
+	$('#form').bootstrapValidator('validate',"fields");
+	if($('#form').data('bootstrapValidator').isValid()){
+	if(ORG_NAME.val()&&ROLE_NAME.val()){
+	var data0 = {
+		"CORP_CD":CORP_CD.val(),
+		"USER_NAME":ROLE_NAME.val(),
+		"ORG_CD":ORG_NAME.attr("org_cd"),
+		"USER_ID":USER_ID.val(),
+		//"ROLE_ID":ROLE_NAME.attr("role_id")
+		"role_id":ROLE_NAME.attr("role_id")
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"lrduser/insert",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				alert("成功")
+				CORP_CD.val("");
+				USER_NAME.val("");
+				ORG_NAME.val();
+				ROLE_NAME.val("");
+				location.href="./operator.jsp";
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+	}else{Io.bs.alert("所属机构和用户角色不能为空")}
+	}
+});
+Io.on("#btnBack","click",function(){
+	location.href="./operator.jsp";
+});
+$("#form").bootstrapValidator({
+	 fields: {
+		 USER_NAME: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '用户姓名不能为空'
+	            }
+	        }
+	    },
+	    USER_ID: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '用户编号不能为空'
+	            }
+	        }
+	    },
+	    ORG_NAME: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '不能为空'
+	            }
+	        }
+	    },
+	    ROLE_NAME: {
+	        message: 'The username is not valid',
+	        validators: {
+	            notEmpty: {
+	            message: '不能为空'
+	            }
+	        }
+	    }
+	    
+	 }
+});
+</script>
+</body>
+</html>

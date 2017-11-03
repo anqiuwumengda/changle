@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdRoleMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select ROLE_CD,ROLE_NAME,ROLE_FW,ORG_NAME,ROLE_ORG,lrd_role.DESC,lrd_org.CRT_DATE,lrd_org.MTN_DATE from
+		lrd_role LEFT JOIN lrd_org on lrd_org.ORG_CD=lrd_role.ROLE_ORG
+		<where>
+			
+			<if test="ORG_CD != null"> and (lrd_org.ORG_CD=#{ORG_CD,jdbcType=VARCHAR} or lrd_org.ORG_PCD=#{ORG_CD,jdbcType=VARCHAR})</if>
+			<if test="ROLE_CD != null"> and ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}</if>
+			<if test="ROLE_FW!= null"> and ROLE_FW=#{ROLE_FW,jdbcType=VARCHAR}</if>
+			<if test="ROLE_NAME!= null">and ROLE_NAME  like CONCAT('%',#{ROLE_NAME,jdbcType=VARCHAR},'%')</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ROLE_CD != null ">ROLE_CD,</if>
+			<if test="ROLE_NAME != null ">ROLE_NAME,</if>
+			<if test="ROLE_FW != null ">ROLE_FW,</if>
+			<if test="ROLE_ORG != null ">ROLE_ORG,</if>
+			<if test="DESC != null ">lrd_role.DESC,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ROLE_CD != null">#{ROLE_CD,jdbcType=VARCHAR},</if>
+			<if test="ROLE_NAME != null">#{ROLE_NAME,jdbcType=VARCHAR},</if>
+			<if test="ROLE_FW != null">#{ROLE_FW,jdbcType=VARCHAR},</if>
+			<if test="ROLE_ORG != null">#{ROLE_ORG,jdbcType=VARCHAR},</if>
+			<if test="DESC != null">#{DESC,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_role
+		<set>
+			<if test="ROLE_NAME != null ">ROLE_NAME=#{ROLE_NAME,jdbcType=VARCHAR},</if>
+			<if test="ROLE_FW != null ">ROLE_FW=#{ROLE_FW,jdbcType=VARCHAR},</if>
+			<if test="ROLE_ORG != null ">ROLE_ORG=#{ROLE_ORG,jdbcType=VARCHAR},</if>
+			<if test="DESC != null ">lrd_role.DESC=#{DESC,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_role where
+		ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete a.*,b.* from lrd_role a LEFT JOIN lrd_userrole b on a.ROLE_CD=b.ROLE_ID
+		<where>
+			<if test="ROLE_CD != null"> and a.ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select ROLE_CD,r.ROLE_NAME 'name',r.`DESC` from
+		lrd_role r
+		<!-- ,lrd_userrole u -->
+		<!-- where r.ROLE_CD=u.ROLE_ID
+		and u.USER_ID=#{USER_ID,jdbcType=VARCHAR};
+	 -->
+		<where>
+			<if test="ordIds != null">  
+			ROLE_ORG in  ${ordIds}
+				<!-- <foreach collection="ordIds" index="index" item="item" open="(" separator="," close=")">  
+	           		#{item}  
+	      		</foreach> --> 
+			</if>
+		</where>
+	</select>
+	<select id="queryFunc" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT lrd_function.FUNC_CD,SYS_CD
+		FROM `lrd_function` LEFT JOIN lrd_rolefunc ON lrd_rolefunc.FUNC_CD=lrd_function.FUNC_CD
+		where lrd_rolefunc.ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR};
+	</select>
+	<update id="updateFunc" parameterType="java.util.Map">
+		 insert into LRD_ROLEFUNC
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ROLE_CD != null ">ROLE_CD,</if>
+			<if test="FUNC_CD != null ">FUNC_CD,</if>
+			<if test="CORP_CD != null ">CORP_CD,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ROLE_CD != null">#{ROLE_CD,jdbcType=VARCHAR},</if>
+			<if test="FUNC_CD != null">#{FUNC_CD,jdbcType=VARCHAR},</if>
+			<if test="CORP_CD != null">#{CORP_CD,jdbcType=VARCHAR},</if>
+		</trim>
+	</update>
+	<delete id="deleteFunc">
+		delete from LRD_ROLEFUNC
+		<where>
+			<if test="ROLE_CD != null"> and ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+	<select id="queryUserRole" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select a.ROLE_ID,b.ROLE_NAME ,b.ROLE_FW from lrd_userrole a,lrd_role b where a.ROLE_ID = b.ROLE_CD and a.USER_ID=#{USER_ID,jdbcType=VARCHAR}
+	</select>
+	<select id="queryMap" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select ROLE_CD,ROLE_NAME,ROLE_FW,ROLE_ORG,lrd_role.DESC,CRT_DATE,MTN_DATE from
+		lrd_role
+		<where>
+			<if test="ROLE_CD != null"> and ROLE_CD=#{ROLE_CD,jdbcType=VARCHAR}</if>
+			<if test="ROLE_FW!= null"> and ROLE_FW=#{ROLE_FW,jdbcType=VARCHAR}</if>
+			<if test="ROLE_NAME!= null">and ROLE_NAME  like CONCAT('%',#{ROLE_NAME,jdbcType=VARCHAR},'%')</if>
+		</where>
+	</select>
+</mapper>

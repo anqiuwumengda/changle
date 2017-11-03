@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.DailyLogMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select USER_ID,USER_NAME,WORK_DATE,DAILY from DAILY_LOG
+		<where>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="WORK_DATE != null"> and WORK_DATE=#{WORK_DATE,jdbcType=CHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into DAILY_LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null ">USER_ID,</if>
+			<if test="USER_NAME != null ">USER_NAME,</if>
+			<if test="WORK_DATE != null ">WORK_DATE,</if>
+			<if test="DAILY != null ">DAILY,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null">#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="WORK_DATE != null">#{WORK_DATE,jdbcType=CHAR},</if>
+			<if test="DAILY != null">#{DAILY,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update DAILY_LOG
+		<set>
+			<if test="USER_NAME != null ">USER_NAME=#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="DAILY != null ">DAILY=#{DAILY,jdbcType=VARCHAR},</if>
+		</set>
+		where USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		WORK_DATE=#{WORK_DATE,jdbcType=CHAR}
+	</update>
+	<delete id="deleteByPk">delete from DAILY_LOG where
+		USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		WORK_DATE=#{WORK_DATE,jdbcType=CHAR}</delete>
+	<delete id="delete">
+		delete from DAILY_LOG
+		<where>
+			<if test="USER_ID != null"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="WORK_DATE != null"> and WORK_DATE=#{WORK_DATE,jdbcType=CHAR}</if>
+		</where>
+	</delete>
+</mapper>

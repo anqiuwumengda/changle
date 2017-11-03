@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.tgb.mapper.cust.CustBaseMapper">
+	<!-- 客户列表，编辑，查看 统一入口 -->
+<select id="queryByLike" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		<!-- select * from cust_base cb -->
+ 		<![CDATA[select cb.*,cg.JL_TYPE,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,lrdu.ORG_CD,cs.CREALIMIT from cust_base  cb
+		LEFT JOIN cust_grade  cg on cb.CUST_ID=cg.CUST_ID 
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN scsp cs on cb.CUST_ID=cs.CUST_ID
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='') 
+		]]>
+		<!-- <where> -->
+			<if test="keyword!=null"> and ( cb.CUST_NAME like CONCAT('%','${keyword}','%')</if>
+			<if test="keyword!=null"> OR cb.TEL_NO like CONCAT('%','${keyword}','%' )  </if>
+			<if test="keyword!=null"> OR cb.ID_NO like  CONCAT('%','${keyword}','%' ))</if>
+			<!-- <if test="CUST_GRP_JL != null"><![CDATA[and cb.CUST_GRP_JL = #{CUST_GRP_JL,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL1 != null"><![CDATA[and cb.CUST_GRP_JL1 = #{CUST_GRP_JL1,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL2 != null"><![CDATA[and cb. CUST_GRP_JL2 = #{CUST_GRP_JL2,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL3 != null"><![CDATA[and cb.CUST_GRP_JL3 = #{CUST_GRP_JL3,jdbcType=VARCHAR}]]></if> -->
+		<!-- </where> -->
+ 		<![CDATA[order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+
+	</select>
+	<!-- <select id="queryByLike" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select * from cust_base cb
+ 		<![CDATA[select cb.*,cg.JL_TYPE,lrdu.USER_NAME as CUST_GRP_JLC from cust_base  cb LEFT JOIN cust_grade  cg on cb.CUST_ID=cg.CUST_ID LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID]]>
+		<where>
+			<if test="CUST_NAME!=null"> AND cb.CUST_NAME like CONCAT('%','${CUST_NAME}','%')</if>
+			<if test="TEL_NO!=null">AND cb.TEL_NO like CONCAT('%','${TEL_NO}','%' )  </if>
+			<if test="ID_NO!=null">AND cb.ID_NO like  CONCAT('%','${ID_NO}','%' )</if>
+			<if test="CUST_GRP_JL != null"><![CDATA[and cb.CUST_GRP_JL = #{CUST_GRP_JL,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL1 != null"><![CDATA[and cb.CUST_GRP_JL1 = #{CUST_GRP_JL1,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL2 != null"><![CDATA[and cb. CUST_GRP_JL2 = #{CUST_GRP_JL2,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_GRP_JL3 != null"><![CDATA[and cb.CUST_GRP_JL3 = #{CUST_GRP_JL3,jdbcType=VARCHAR}]]></if>
+		</where>
+ 		<![CDATA[order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+
+	</select> -->
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		<!-- select * from cust_base cb -->
+ 		<![CDATA[select cb.*,cg.JL_TYPE,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cs.CREALIMIT from cust_base  cb
+		LEFT JOIN cust_grade  cg on cb.CUST_ID=cg.CUST_ID 
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN scsp cs on cb.CUST_ID=cs.CUST_ID
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD  where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' ) 
+		]]>
+		<!-- <where> -->                    
+			<if test="CUST_ID != null and CUST_ID!=''"> <![CDATA[ and cb.cust_id = #{CUST_ID,jdbcType=INTEGER}]]></if>
+			
+				<if test="CUST_NAME != null and CUST_NAME != '' "><![CDATA[ and cb.cust_name = #{CUST_NAME,jdbcType=VARCHAR}]]></if>
+				<if test="USER_ROLE==null or USER_ROLE != 0000  "> 
+					<if test="CUST_GRP_JL != null and CUST_GRP_JL != '' "><![CDATA[ and cb.cust_grp_jl = #{CUST_GRP_JL,jdbcType=VARCHAR}]]></if>
+				</if>
+				<if test="CUST_GRP_JL1 != null and CUST_GRP_JL1 != '' "><![CDATA[ and cb.CUST_GRP_JL1 = #{CUST_GRP_JL1,jdbcType=VARCHAR}]]></if>
+				<if test="CUST_GRP_JL2 != null and CUST_GRP_JL2 != '' "><![CDATA[ and cb.CUST_GRP_JL2 = #{CUST_GRP_JL2,jdbcType=VARCHAR}]]></if>
+				<if test="CUST_GRP_JL3 != null and CUST_GRP_JL3 != ''"><![CDATA[ and cb.CUST_GRP_JL3 = #{CUST_GRP_JL3,jdbcType=VARCHAR}]]></if>
+				<if test="USER_NAME != null and USER_NAME != '' "><![CDATA[ and cb.user_name = #{USER_NAME,jdbcType=VARCHAR}]]></if>
+				<if test="TEL_NO != null and TEL_NO != '' "><![CDATA[ and cb.tel_no = #{TEL_NO,jdbcType=VARCHAR}]]></if>
+				<if test="TEL_NO_BY != null and TEL_NO_BY != '' "><![CDATA[ and cb.tel_no_by = #{TEL_NO_BY,jdbcType=VARCHAR}]]></if>
+				<if test="ID_NO != null and ID_NO != ''"><![CDATA[ and cb.id_no = #{ID_NO,jdbcType=VARCHAR}]]></if>
+				<if test="CRED_CODE != null and CRED_CODE != '' "><![CDATA[ and cb.cred_code = #{CRED_CODE,jdbcType=VARCHAR}]]></if>
+				<if test="CUST_TYPE != null and CUST_TYPE != '' "><![CDATA[ and cb.CUST_TYPE = #{CUST_TYPE,jdbcType=VARCHAR}]]></if>
+				<if test="AREA_CD != null and AREA_CD != '' "><![CDATA[ and cb.AREA_CD = #{AREA_CD,jdbcType=VARCHAR}]]></if>
+				<if test="AREA_CD2 != null and AREA_CD2 != '' "><![CDATA[ and cb.AREA_CD2 = #{AREA_CD2,jdbcType=VARCHAR}]]></if>
+				<if test="CUST_GRP != null and CUST_GRP != ''"><![CDATA[ and cb.CUST_GRP = #{CUST_GRP,jdbcType=VARCHAR}]]></if>
+				<if test="CUST_GRP2 != null and CUST_GRP2 != '' "><![CDATA[ and cb.CUST_GRP2 = #{CUST_GRP2,jdbcType=VARCHAR}]]></if>
+				<if test="JL_TYPE != null and JL_TYPE!='' "><![CDATA[ and cg.JL_TYPE = #{JL_TYPE,jdbcType=VARCHAR}]]></if>
+			
+		<!-- </where> -->
+		
+ 		
+ 		<![CDATA[ order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+
+	</select>
+	<!-- 验证客户是否存在三种情况 ，1不存在，2存在并且是当前客户经理录入过的客户，3存在但是已经由其他客户经理录入过； -->
+	<select id="isExistCust" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select CUST_GRP_JL,CUST_ID from cust_base 
+		<where>
+			<if test="CUST_NAME != null"> <![CDATA[and cust_name = #{CUST_NAME,jdbcType=INTEGER}]]></if>
+			<if test="TEL_NO != null"><![CDATA[and TEL_NO = #{TEL_NO,jdbcType=VARCHAR}]]></if>
+			<if test="CUST_TYPE != null"><![CDATA[and CUST_TYPE = #{CUST_TYPE,jdbcType=VARCHAR}]]></if>
+		</where>
+		LIMIT 1
+		<!-- <where> <if test="user_name != null">and </if> <if test="tel_no != 
+			null"></if> </where> -->
+
+	</select>
+	<update id="updCustBaseMtnData" parameterType="java.util.Map">
+		update cust_base
+		set mtn_date=#{CUSTBASEMTN_DATE,jdbcType=VARCHAR} where
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER};
+	</update>
+	<!-- 保存客户基本信息 -->
+	<insert id="saveCust" parameterType="java.util.Map">
+		insert into cust_base
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="CUST_NAME != null ">CUST_NAME,</if>
+			<if test="USER_NAME != null ">USER_NAME,</if>
+			<if test="USER_AGE != null and USER_AGE!='' ">USER_AGE,</if>
+			<if test="BIRTH_DATE != null ">BIRTH_DATE,</if>
+			<if test="ID_TYPE != null ">ID_TYPE,</if>
+			<if test="ID_NO != null ">ID_NO,</if>
+			<if test="SEX != null ">SEX,</if>
+			<if test="CUST_TYPE != null ">CUST_TYPE,</if>
+			<if test="EDU_LEVEL != null ">EDU_LEVEL,</if>
+			<if test="VOCATION != null ">VOCATION,</if>
+			<if test="TEL_NO != null ">TEL_NO,</if>
+			<if test="TEL_NO_BY != null ">TEL_NO_BY,</if>
+			<if test="DP_NAME != null ">DP_NAME,</if>
+			<if test="LICENCE_NO != null ">LICENCE_NO,</if>
+			<if test="LICENCE_NAME != null ">LICENCE_NAME,</if>
+			<if test="ADDRESS != null ">ADDRESS,</if>
+			<if test="SHXY != null ">SHXY,</if>
+			<if test="HEALTHY != null ">HEALTHY,</if>
+			<if test="CUST_GRP_JL != null ">CUST_GRP_JL,</if>
+			<if test="CUST_GRP != null ">CUST_GRP,</if>
+			<if test="CUST_GRP2 != null ">CUST_GRP2,</if>
+			<if test="AREA_CD != null ">AREA_CD,</if>
+			<if test="AREA_CD2 != null ">AREA_CD2,</if>
+			<if test="WFWJ_FLAG != null ">WFWJ_FLAG,</if>
+			<if test="JH_FLAG != null ">JH_FLAG,</if>
+			<if test="JH_DATE != null ">JH_DATE,</if>
+			<if test="CHILD_FLAG != null ">CHILD_FLAG,</if>
+			<if test="CAPITAL_AMT != null and CAPITAL_AMT!='' ">CAPITAL_AMT,
+			</if>
+			<if test="FR_NAME != null ">FR_NAME,</if>
+			<if test="FR_ID_TYPE != null ">FR_ID_TYPE,</if>
+			<if test="FR_ID_NO != null ">FR_ID_NO,</if>
+			<if test="ACT_JL != null ">ACT_JL,</if>
+			<if test="ACT_ID_TYPE != null ">ACT_ID_TYPE,</if>
+			<if test="ACT_ID_NO != null ">ACT_ID_NO,</if>
+			<if test="LXR != null ">LXR,</if>
+			<if test="LXR_TEL != null ">LXR_TEL,</if>
+			<if test="BANK_NAME != null ">BANK_NAME,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="JK_JT_STATUS != null ">JK_JT_STATUS,</if>
+			<if test="CREATE_TYPE != null ">CREATE_TYPE,</if>
+			<if test="CUST_GRP_JL1 != null ">CUST_GRP_JL1,</if>
+			<if test="CUST_GRP_JL2 != null ">CUST_GRP_JL2,</if>
+			<if test="CUST_GRP_JL3 != null ">CUST_GRP_JL3,</if>
+			<if test="CRED_CODE != null ">CRED_CODE,</if>
+			<if test="JTZYXM != null ">JTZYXM,</if>
+			<if test="WORKERS != null ">WORKERS,</if>
+			<if test="BX_CNT != null ">BX_CNT,</if>
+			<if test="ISDEL != null ">ISDEL,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},
+			</if>
+			<if test="CUST_NAME != null">#{CUST_NAME,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null">#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="USER_AGE != null and USER_AGE!=''">#{USER_AGE,jdbcType=INTEGER},
+			</if>
+			<if test="BIRTH_DATE != null">#{BIRTH_DATE,jdbcType=VARCHAR},</if>
+			<if test="ID_TYPE != null">#{ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ID_NO != null">#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="SEX != null">#{SEX,jdbcType=CHAR},</if>
+			<if test="CUST_TYPE != null">#{CUST_TYPE,jdbcType=CHAR},</if>
+			<if test="EDU_LEVEL != null">#{EDU_LEVEL,jdbcType=VARCHAR},</if>
+			<if test="VOCATION != null">#{VOCATION,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO != null">#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO_BY != null">#{TEL_NO_BY,jdbcType=VARCHAR},</if>
+			<if test="DP_NAME != null">#{DP_NAME,jdbcType=VARCHAR},</if>
+			<if test="LICENCE_NO != null">#{LICENCE_NO,jdbcType=VARCHAR},</if>
+			<if test="LICENCE_NAME != null">#{LICENCE_NAME,jdbcType=VARCHAR},
+			</if>
+			<if test="ADDRESS != null">#{ADDRESS,jdbcType=VARCHAR},</if>
+			<if test="SHXY != null">#{SHXY,jdbcType=VARCHAR},</if>
+			<if test="HEALTHY != null">#{HEALTHY,jdbcType=CHAR},</if>
+			<if test="CUST_GRP_JL != null">#{CUST_GRP_JL,jdbcType=VARCHAR},
+			</if>
+			<if test="CUST_GRP != null">#{CUST_GRP,jdbcType=VARCHAR},</if>
+			<if test="CUST_GRP2 != null">#{CUST_GRP2,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD != null">#{AREA_CD,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD2 != null">#{AREA_CD2,jdbcType=VARCHAR},</if>
+			<if test="WFWJ_FLAG != null">#{WFWJ_FLAG,jdbcType=CHAR},</if>
+			<if test="JH_FLAG != null">#{JH_FLAG,jdbcType=CHAR},</if>
+			<if test="JH_DATE != null">#{JH_DATE,jdbcType=VARCHAR},</if>
+			<if test="CHILD_FLAG != null">#{CHILD_FLAG,jdbcType=CHAR},</if>
+			<if test="CAPITAL_AMT != null and CAPITAL_AMT!=''">#{CAPITAL_AMT,jdbcType=DECIMAL},
+			</if>
+			<if test="FR_NAME != null">#{FR_NAME,jdbcType=VARCHAR},</if>
+			<if test="FR_ID_TYPE != null">#{FR_ID_TYPE,jdbcType=CHAR},</if>
+			<if test="FR_ID_NO != null">#{FR_ID_NO,jdbcType=VARCHAR},</if>
+			<if test="ACT_JL != null">#{ACT_JL,jdbcType=VARCHAR},</if>
+			<if test="ACT_ID_TYPE != null">#{ACT_ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ACT_ID_NO != null">#{ACT_ID_NO,jdbcType=VARCHAR},</if>
+			<if test="LXR != null">#{LXR,jdbcType=VARCHAR},</if>
+			<if test="LXR_TEL != null">#{LXR_TEL,jdbcType=VARCHAR},</if>
+			<if test="BANK_NAME != null">#{BANK_NAME,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="JK_JT_STATUS != null">#{JK_JT_STATUS,jdbcType=VARCHAR},
+			</if>
+			<if test="CREATE_TYPE != null">#{CREATE_TYPE,jdbcType=CHAR},</if>
+			<if test="CUST_GRP_JL1 != null">#{CUST_GRP_JL1,jdbcType=VARCHAR},
+			</if>
+			<if test="CUST_GRP_JL2 != null">#{CUST_GRP_JL2,jdbcType=VARCHAR},
+			</if>
+			<if test="CUST_GRP_JL3 != null">#{CUST_GRP_JL3,jdbcType=VARCHAR},
+			</if>
+			<if test="CRED_CODE != null">#{CRED_CODE,jdbcType=VARCHAR},
+			</if>
+			<if test="JTZYXM != null">#{JTZYXM,jdbcType=VARCHAR},
+			</if>
+			<if test="WORKERS != null">#{WORKERS,jdbcType=INTEGER},
+			</if>
+			<if test="BX_CNT != null">#{BX_CNT,jdbcType=INTEGER},
+			</if>
+			<if test="ISDEL != null">#{ISDEL,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<!-- 修改客户基本信息 -->
+	<update id="updateCustBase" parameterType="java.util.Map">
+		update cust_base
+		<set>
+			<if test="CUST_NAME != null ">CUST_NAME=#{CUST_NAME,jdbcType=VARCHAR},</if>
+			<if test="USER_NAME != null ">USER_NAME=#{USER_NAME,jdbcType=VARCHAR},</if>
+			<if test="USER_AGE != null and USER_AGE!='' ">USER_AGE=#{USER_AGE,jdbcType=INTEGER},</if>
+			<if test="BIRTH_DATE != null ">BIRTH_DATE=#{BIRTH_DATE,jdbcType=VARCHAR},</if>
+			<if test="ID_TYPE != null ">ID_TYPE=#{ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ID_NO != null ">ID_NO=#{ID_NO,jdbcType=VARCHAR},</if>
+			<if test="SEX != null ">SEX=#{SEX,jdbcType=CHAR},</if>
+			<if test="CUST_TYPE != null ">CUST_TYPE=#{CUST_TYPE,jdbcType=CHAR},</if>
+			<if test="EDU_LEVEL != null ">EDU_LEVEL=#{EDU_LEVEL,jdbcType=VARCHAR},</if>
+			<if test="VOCATION != null ">VOCATION=#{VOCATION,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO != null ">TEL_NO=#{TEL_NO,jdbcType=VARCHAR},</if>
+			<if test="TEL_NO_BY != null ">TEL_NO_BY=#{TEL_NO_BY,jdbcType=VARCHAR},</if>
+			<if test="DP_NAME != null ">DP_NAME=#{DP_NAME,jdbcType=VARCHAR},</if>
+			<if test="LICENCE_NO != null ">LICENCE_NO=#{LICENCE_NO,jdbcType=VARCHAR},</if>
+			<if test="LICENCE_NAME != null ">LICENCE_NAME=#{LICENCE_NAME,jdbcType=VARCHAR},</if>
+			<if test="ADDRESS != null ">ADDRESS=#{ADDRESS,jdbcType=VARCHAR},</if>
+			<if test="SHXY != null ">SHXY=#{SHXY,jdbcType=VARCHAR},</if>
+			<if test="HEALTHY != null ">HEALTHY=#{HEALTHY,jdbcType=CHAR},</if>
+			<if test="CUST_GRP_JL != null ">CUST_GRP_JL=#{CUST_GRP_JL,jdbcType=VARCHAR},</if>
+			<if test="CUST_GRP != null ">CUST_GRP=#{CUST_GRP,jdbcType=VARCHAR},</if>
+			<if test="CUST_GRP2 != null ">CUST_GRP2=#{CUST_GRP2,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD != null ">AREA_CD=#{AREA_CD,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD2 != null ">AREA_CD2=#{AREA_CD2,jdbcType=VARCHAR},</if>
+			<if test="WFWJ_FLAG != null ">WFWJ_FLAG=#{WFWJ_FLAG,jdbcType=CHAR},</if>
+			<if test="JH_FLAG != null ">JH_FLAG=#{JH_FLAG,jdbcType=CHAR},</if>
+			<if test="JH_DATE != null ">JH_DATE=#{JH_DATE,jdbcType=VARCHAR},</if>
+			<if test="CHILD_FLAG != null ">CHILD_FLAG=#{CHILD_FLAG,jdbcType=CHAR},</if>
+			<if test="CAPITAL_AMT != null and CAPITAL_AMT!='' ">CAPITAL_AMT=#{CAPITAL_AMT,jdbcType=DECIMAL},</if>
+			<if test="FR_NAME != null ">FR_NAME=#{FR_NAME,jdbcType=VARCHAR},</if>
+			<if test="FR_ID_TYPE != null ">FR_ID_TYPE=#{FR_ID_TYPE,jdbcType=CHAR},</if>
+			<if test="FR_ID_NO != null ">FR_ID_NO=#{FR_ID_NO,jdbcType=VARCHAR},</if>
+			<if test="ACT_JL != null ">ACT_JL=#{ACT_JL,jdbcType=VARCHAR},</if>
+			<if test="ACT_ID_TYPE != null ">ACT_ID_TYPE=#{ACT_ID_TYPE,jdbcType=CHAR},</if>
+			<if test="ACT_ID_NO != null ">ACT_ID_NO=#{ACT_ID_NO,jdbcType=VARCHAR},</if>
+			<if test="LXR != null ">LXR=#{LXR,jdbcType=VARCHAR},</if>
+			<if test="LXR_TEL != null ">LXR_TEL=#{LXR_TEL,jdbcType=VARCHAR},</if>
+			<if test="BANK_NAME != null ">BANK_NAME=#{BANK_NAME,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="JK_JT_STATUS != null ">JK_JT_STATUS=#{JK_JT_STATUS,jdbcType=VARCHAR},</if>
+			<if test="CREATE_TYPE != null ">CREATE_TYPE=#{CREATE_TYPE,jdbcType=CHAR},</if>
+			<if test="CUST_GRP_JL1 != null ">CUST_GRP_JL1=#{CUST_GRP_JL1,jdbcType=VARCHAR},</if>
+			<if test="CUST_GRP_JL2 != null ">CUST_GRP_JL2=#{CUST_GRP_JL2,jdbcType=VARCHAR},</if>
+			<if test="CUST_GRP_JL3 != null ">CUST_GRP_JL3=#{CUST_GRP_JL3,jdbcType=VARCHAR},</if>
+			<if test="CRED_CODE != null ">CRED_CODE=#{CRED_CODE,jdbcType=VARCHAR},</if>
+			<if test="JTZYXM != null ">JTZYXM=#{JTZYXM,jdbcType=VARCHAR},</if>
+			<if test="WORKERS != null and WORKERS!='' ">WORKERS=#{WORKERS,jdbcType=INTEGER},</if>
+			<if test="BX_CNT != null and BX_CNT!='' ">BX_CNT=#{BX_CNT,jdbcType=INTEGER},</if>
+			<if test="ISDEL != null ">ISDEL=#{ISDEL,jdbcType=VARCHAR},</if>
+			<if test="JS_ADDRESS != null ">JS_ADDRESS=#{JS_ADDRESS,jdbcType=VARCHAR},</if>
+		</set>
+		where CUST_ID=#{CUST_ID,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteCustBase">
+		delete from cust_base where and
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER}
+
+	</delete>
+
+	<!-- 客户区域临时表 -->
+	<select id="queryAreaTmp" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select CUST_JL_ID,AREA_CD,AREA_CD2 from CUST_AREA_TMP
+		<where>
+			<if test="CUST_JL_ID != null and CUST_JL_ID!=''"> and CUST_JL_ID=#{CUST_JL_ID,jdbcType=INTEGER}</if>
+		</where>
+	</select>
+	<insert id="saveAreaTmp" parameterType="java.util.Map">
+		insert into CUST_AREA_TMP
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_JL_ID != null and CUST_JL_ID!='' ">CUST_JL_ID,</if>
+			<if test="AREA_CD != null ">AREA_CD,</if>
+			<if test="AREA_CD2 != null ">AREA_CD2,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_JL_ID != null and CUST_JL_ID!=''">#{CUST_JL_ID,jdbcType=INTEGER},
+			</if>
+			<if test="AREA_CD != null">#{AREA_CD,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD2 != null">#{AREA_CD2,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="updateAreaTmp" parameterType="java.util.Map">
+		update CUST_AREA_TMP
+		<set>
+			<if test="AREA_CD != null ">AREA_CD=#{AREA_CD1,jdbcType=VARCHAR},</if>
+			<if test="AREA_CD2 != null ">AREA_CD2=#{AREA_CD2,jdbcType=VARCHAR},</if>
+		</set>
+		where CUST_JL_ID=#{CUST_JL_ID,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByPkAreaTmp">delete from CUST_AREA_TMP where
+		CUST_JL_ID=#{CUST_JL_ID,jdbcType=INTEGER}</delete>
+		
+	<delete id="deleteAll">
+	<if test="CUST_ID != null ">
+		DELETE a.*,b.*,c.*,d.*,e.*,f.*,h.*,i.*,j.*,k.*,l.*,m.*,n.*,o.*FROM cust_base a 
+		LEFT JOIN apply_his b ON a.CUST_ID=b.CUST_ID
+		LEFT JOIN apply_state_new c ON a.CUST_ID=c.CUST_ID
+		LEFT JOIN CUST_ZG d ON a.CUST_ID=d.CUST_ID
+		LEFT JOIN cust_zg e ON a.CUST_ID=e.CUST_ID
+		LEFT JOIN CUST_JS f ON a.CUST_ID=f.CUST_ID
+		LEFT JOIN CUST_ZZ h ON a.CUST_ID=h.CUST_ID
+		LEFT JOIN CUST_YZ i ON a.CUST_ID=i.CUST_ID
+		LEFT JOIN FIN_RPT j ON a.CUST_ID=j.CUST_ID
+		LEFT JOIN RPT_DTL k ON a.CUST_ID=k.CUST_ID
+		LEFT JOIN FIN_TRANS l ON a.CUST_ID=l.CUST_ID
+		LEFT JOIN CUST_FEEDBACK m ON a.CUST_ID=m.CUST_ID
+		LEFT JOIN CUST_EVENT_DATE n ON a.CUST_ID=n.CUST_ID
+		LEFT JOIN CUST_DOC o ON a.CUST_ID=o.CUST_ID
+		where a.CUST_ID=#{CUST_ID,jdbcType=INTEGER};
+	</if>
+	</delete>
+</mapper>

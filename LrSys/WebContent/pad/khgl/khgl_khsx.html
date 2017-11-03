@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>客户筛选</title>
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<script src="../js/showPages.js"></script>
+
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body>
+	<div id="select_type">
+		<button class="btn btn-md btn-danger" id="KHXQ">客户需求</button>
+		<button class="btn btn-md btn-danger" id="ZZXM">种植项目</button>
+	</div>
+	<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >农资需求详情</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					
+					<p class=""  id="NZ_DETAILS"></p>
+				</div>
+							
+			</div>
+		</div>
+	</div>
+</div>
+	<div id="khxqDiv">
+		<div>
+			<div style="float:left;">
+				<select id="KHXQ_SELECT" onchange="sele_Change_khxq()"
+					class="form-control" name="KHXQ_SELECT"
+					style="width: 200px; margin: 10px;"></select>
+			</div>
+			<form method="get" id="khxqForm" class="clearfix tab-header">
+				<input id="exportToExcel_khxq" class="btn btn-primary btn-sm"
+					type="button" value="导出数据" /> 
+					<input id="exportParams_khxq" type="hidden" name="exportParams_khxq" />
+			</form>
+		</div>
+		<div>
+			<span style="float: right; margin-right: 10px;">单位：万元</span>
+		</div>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th width="130">机构</th>
+					<th>姓名</th>
+					<th>电话</th>
+					<th>需求项目</th>
+					<th>数量</th>
+					<th >客户经理</th>
+					<th id="oper">操作</th>
+				</tr>
+			</thead>
+			<tbody id="tBody">		
+			</tbody>
+		</table>
+		<ul class="pagination pagination-sm" id="pagination">
+			<li class="prev"><a href="javascript:;">← 上一页</a></li>
+			<li class="active"><a href="javascript:;">1</a></li>
+			<li class="next"><a href="javascript:;">下一页 →</a></li>
+		</ul>
+	</div>
+	<div id="zzDiv" >
+		<div>
+			<div style="float:left;">
+				<select id="ZZ_SELECT" onchange="sele_Change_zz()" class="form-control" name="ZZ_SELECT" style="width:200px;margin: 10px;"></select>
+			</div>
+			<form method="get" id="zzForm" class="clearfix tab-header">
+				<input id="exportToExcel_zz" class="btn btn-primary btn-sm"
+					type="button" value="导出数据" /> 
+					<input id="exportParams_zz" type="hidden" name="exportParams_zz" />
+			</form>
+		</div>
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th width="130">机构</th>
+					<th>姓名</th>
+					<th>电话</th>
+					<th>作物种类</th>
+					<th>作物亩数</th>
+					<th >种植模式</th>
+					<th >亩产(斤)</th>
+					<th >下架时间</th>
+					<th >年收入(万元)</th>
+					<th id="oper">操作</th>
+				</tr>
+			</thead>
+			<tbody id="tBody_zz">		
+			</tbody>
+		</table>
+		<ul class="pagination pagination-sm" id="pagination_zz">
+			<li class="prev"><a href="javascript:;">← 上一页</a></li>
+			<li class="active"><a href="javascript:;">1</a></li>
+			<li class="next"><a href="javascript:;">下一页 →</a></li>
+		</ul>
+	</div>
+	<script id="初始化变量">
+	
+		localStorage.page = "1";
+		localStorage.num = "10";
+		select_khxq_value = "XQED";//客户需求选中的value
+		select_khxq_text = "贷款需求";//客户需求选中的text
+		select_zz_value = "01";
+		select_zz_text = "大蒜";
+		//默认显示客户需求模块
+		$("#zzDiv").hide();
+		function loadNeedSelect() {
+			var sel = document.getElementById("KHXQ_SELECT").options;
+			sel.add(new Option("贷款需求", "XQED"));
+			sel.add(new Option("商城用户", "SCYH_DESC"));
+			sel.add(new Option("商户", "SH_DESC"));
+			sel.add(new Option("农资用户", "NZYH_DESC"));
+			sel.add(new Option("借记卡", "BANK_CD"));
+			sel.add(new Option("贷记卡", "DJ_DESC"));
+			sel.add(new Option("存款", "CK_DESC"));
+			sel.add(new Option("理财", "LC_DESC"));
+			sel.add(new Option("电子银行", "DZ_DESC"));
+			sel.add(new Option("POS机", "POS_DESC"));
+			sel.add(new Option("外汇", "WH_DESC"));
+			sel.add(new Option("代发工资", "DFGZ_DESC"));
+		}
+		
+		loadNeedSelect();
+	</script>
+	<script id="加载列表">
+		function getNeedInfo(currentPage,pageSize){
+			var data0 = {
+					"isPagination":"true",
+					 "currentPage":currentPage,
+					 "pageSize":pageSize
+			};
+			var data1 = {
+					"selectItem":select_khxq_value
+			};
+			 $.extend(data1,data0);//合并参数，并赋值给data1
+			$.ajax({
+				type:"post",
+				url:baseurl+"custmgtree/filterQuery",
+				dataType:"json",
+				async:false,
+				contentType:"application/json",
+				data:JSON.stringify(data1),
+				success:function(data){
+					//console.log("信息列表："+JSON.stringify(data));
+					if(data.code=="00"){
+						var result = data.result;
+						//console.log(JSON.stringify(result));
+						loadKhxqList(result);
+						$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'getNeedInfo');
+						localStorage.page = currentPage;
+						localStorage.num = pageSize; 
+					}else if(data.code=="88"){
+						eval(data.reLoad);
+						$("#tBody").html('<tr><td align="center" height="200" colspan="9">暂时没有内容</td></tr>');
+					}
+				}
+			});
+		}
+		function getZzInfo(currentPage,pageSize){
+			var data0 = {
+					"isPagination":"true",
+					 "currentPage":currentPage,
+					 "pageSize":pageSize
+			};
+			var data1 = {
+					"selectItem":select_zz_value
+			};
+			 $.extend(data1,data0);//合并参数，并赋值给data1
+			 $.ajax({
+					type:"post",
+					url:baseurl+"custzz/filterQuery",
+					dataType:"json",
+					async:false,
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						if(data.code=="00"){
+							var result = data.result;
+							//console.log(JSON.stringify(result));
+							loadZzList(result);
+							$.showPages('pagination_zz',data.page.totalRows,pageSize,currentPage,'getZzInfo');
+							localStorage.page = currentPage;
+							localStorage.num = pageSize; 
+						}else if(data.code=="88"){
+							eval(data.reLoad); 
+							$("#tBody_zz").html('<tr><td align="center" height="200" colspan="9">暂时没有内容</td></tr>');
+						}
+					}
+				});
+		}
+		
+		getNeedInfo(localStorage.page,localStorage.num); 
+		//加载客户需求..
+		function loadKhxqList(info){
+			var selectItem = $("#KHXQ_SELECT").val();
+			var html = '';
+			for(var i=0;i<info.length;i++){
+				var result = info[i];
+				html += '<tr>';
+				html += '<td>' + result.ORG_ABB + '</td>';
+				html += '<td>' + result.CUST_NAME + '</td>';
+				html += '<td>' + result.TEL_NO + '</td>';
+				html += '<td>' + select_khxq_text + '</td>';
+				if(select_khxq_value == "XQED"){//需求额度，显示额度数值
+					html += '<td>' + result.XQED + '</td>';
+				}else if(select_khxq_value == "NZYH_DESC"){
+					html+='<td>';
+					html += '<button crt="'+result.bf_date+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnSee" >'+"查看"+'</button>';
+					html+='</td>';
+				}else{
+					html += '<td>' + "暂无" + '</td>';
+				}
+				html += '<td>' + result.CUST_GRP_JLC + '</td>';
+				html+='<td>';
+				html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnEdit" >'+"编辑"+'</button>';
+				html+='</td>';
+				html += '</tr>'
+			}
+			$("#tBody").html(html);
+		} 
+		//加载种植项目
+		function loadZzList(info){
+			console.log(JSON.stringify(info));
+			var selectItem = $("#ZZ_SELECT").val();
+			var html = '';
+			for(var i=0;i<info.length;i++){
+				var result = info[i];
+				html += '<tr>';
+				html += '<td>' + result.ORG_ABB + '</td>';
+				html += '<td>' + result.CUST_NAME + '</td>';
+				html += '<td>' + result.TEL_NO + '</td>';
+				html += '<td>' + result.ZW_TYPEC + '</td>';
+				html += '<td>' + result.ZZ_MS + '</td>';
+				html += '<td>' + result.ZZ_MODELC + '</td>';
+				html += '<td>' + result.MC + '</td>';
+				html += '<td>' + result.XJ_SJ + '</td>';
+				html += '<td>' + result.INCOME_Y + '</td>';
+				html+='<td>';
+				html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnEdit_zz" >'+"编辑"+'</button>';
+				html+='</td>';
+				html += '</tr>';
+			}
+			$("#tBody_zz").html(html);
+		}
+	</script>
+	<script id="事件监听">
+	function sele_Change_khxq(){
+        var sel = document.getElementById("KHXQ_SELECT");
+        select_khxq_value = sel.options[sel.selectedIndex].value;//js
+        select_khxq_text = $("#KHXQ_SELECT option:selected").text();//jquery
+        //alert(select_khxq_value); 
+        
+        getNeedInfo(1,10);
+       }
+	function sele_Change_zz(){
+        var sel = document.getElementById("ZZ_SELECT");
+        select_zz_value = sel.options[sel.selectedIndex].value;//js
+        select_zz_text = $("#ZZ_SELECT option:selected").text();//jquery
+        //alert(select_khxq_text); 
+        getZzInfo(1,10);
+       }
+	Io.on("[name=btnSee]", "click", function() {
+		var crt_date = $(this).attr("crt")
+		var cust_id = $(this).attr("khid");
+		//alert("查看"+crt_date+","+cust_id);
+		var data1 = {
+			"CRT_DATE" : crt_date,
+			"CUST_ID" : cust_id
+		};
+		$.ajax({
+			type : "post",
+			url : baseurl + "custnzneed/query",
+			dataType : "json",
+			async : false,
+			contentType : "application/json",
+			data : JSON.stringify(data1),
+			success : function(data) {
+				if (data.code == "00") {
+					console.log("农资需求：" + JSON.stringify(data));
+					if (data.result != null && data.result.length) {
+						var html = "";
+						for (var i = 0; i < data.result.length; i++) {
+							var result = data.result[i];
+							//alert(JSON.stringify(result));
+							html += result.dic_name
+									+ ":&nbsp&nbsp&nbsp&nbsp数量:&nbsp&nbsp"
+									+ result.NUM + "吨/瓶，需求月份：  " + result.MONTH
+									+ "</br>";
+						}
+						$("#NZ_DETAILS").html(html);
+						$("#myModal2").modal({
+							backdrop : false
+						});
+					} else {
+						alert("此次拜访客户没有农资需求.");
+					}
+				}
+
+			}
+		});
+
+	});
+	
+	Io.on("[name=btnEdit]","click",function(){
+		var cust_id = $(this).attr("khid");
+		//alert(cust_id);
+		location.href="kehuguanli_edit.html?cust_id="+cust_id;
+	});
+	//客户需求按钮
+	Io.on("#KHXQ","click",function(){
+		$("#khxqDiv").show();
+		$("#zzDiv").hide();
+		getNeedInfo(1,10);
+		
+	});
+	//种植项目按钮
+	Io.on("#ZZXM","click",function(){
+		$("#khxqDiv").hide();
+		$("#zzDiv").show();
+		getZzInfo(1,10);
+	});
+	Io.on("[name=btnEdit_zz]","click",function(){
+		var cust_id = $(this).attr("khid");
+		location.href="kehuguanli_edit.html?cust_id="+cust_id;
+	});
+	
+	$("#exportToExcel_khxq").on("click", function(){
+		//alert(select_khxq_value);   
+		//绑定到导出form
+        $("#exportParams_khxq").val(select_khxq_value);
+		$("#khxqForm").attr("action",baseurl+"custExport/exportKhxq");
+		$("#khxqForm").submit();
+	});
+	$("#exportToExcel_zz").on("click", function(){
+		//alert(select_zz_value);   
+		//绑定到导出form
+        $("#exportParams_zz").val(select_zz_value);
+		$("#zzForm").attr("action",baseurl+"custExport/exportZz");
+		$("#zzForm").submit();
+	});
+	</script>
+	<script >
+	//键：控件ID，值：字典项DIC_PARENTID
+	var json={//(字典枚举)筛选
+			
+			"ZZ_SELECT":"ZW_TYPE"//作物种类
+	};
+	selectOnload({"json":json,"isDefault":false,"isElse":false});
+	</script>
+</body>
+</html>

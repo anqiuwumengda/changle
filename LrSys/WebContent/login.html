@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>乐融易贷客户管理系统-登录</title>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/bootstrapValidator.js"></script>
+<link rel="stylesheet" href="./pad/css/bootstrapValidator.css">
+<link rel="stylesheet" href="./pad/css/bootstrap.min.css">
+<link rel="stylesheet" href="./pad/css/pages.css">
+<style>
+body{
+	background:#fff;
+}
+.loginMain{
+	background:url(./img/loginBg1.jpg) no-repeat;
+	background-size:cover;
+	min-height:378px;
+	height:600px;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	box-shadow:0 1px 5px 0 rgba(0,0,0,.2);
+}
+.loginLogo{
+	padding:10px;
+}
+.loginMain .login-box{
+	float:right;
+	margin:35px 20px 10px;
+	margin-top:70px;
+	margin-right:5%;
+	width:420px;
+	background:#fff;
+	border:1px solid #ddd;
+	box-shadow: 1px 1px 3px rgba(0,0,0,.1);
+	
+}
+.login-box .login-title{
+	background:transparent;
+	margin:8px 15px 0;
+	border-bottom:1px solid #eee;
+}
+
+.login-box .login-title h2{
+	margin:0;
+	color:#396abb;
+	padding:5px;
+	text-align:left;
+	font-size:26px;
+}
+.form{
+	margin:0;
+	height:auto;
+}
+.form .form-group{
+	margin:0 5px;
+}
+.login-content{ 
+	background-color:inherit;
+	height:auto;
+}
+.mb25{ margin-bottom:25px; }
+#login_btn{
+	padding:8px 24px;
+	font-size:16px;
+}
+#footer{
+	padding:15px;
+	font-size:12px;
+	text-align:center;
+}
+</style>
+</head>
+<body class="loginBg">
+<div id="mH1">
+<div class="loginLogo">
+	<img alt="昌乐农商银行" src="./img/loginLogo2.png" height="60">
+</div>
+</div>
+<div class="loginMain" id="mH2">
+		<div class="login-box clearfix">
+			<div class="login-title">
+				<h2>用户登录</h2>
+			</div>
+			<div class="login-content ">
+			<div class="form">
+			<form action="#" method="post">
+				<div class="form-group clearfix">
+					<div class="col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							<input type="text" id="username" name="username" class="form-control" placeholder="用户名">
+						</div>
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							<input type="password" id="password" name="password" class="form-control" placeholder="密码">
+						</div>
+					</div>
+				</div>
+				<div class="form-group clearfix form-actions">
+					<div class="col-xs-12 text-center mb25">
+						<button type="button" class="btn btn-primary" id="login_btn">登录</button>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="mH3">
+<div id="footer">版权所有 © 2016昌乐农商银行</div>
+</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="./img/loading.gif" width="32" height="32"/></div>
+<div id="myModa0" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >修改密码</h5>
+			</div>
+			<div class="modal-body">
+			<form class="form-horizontal" id="form_pwd">
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">原密码:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="password" id="oPd" name="oPd" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">新密码:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="password" id="xPd" name="xPd"  />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label no-padding">确认密码:</label>
+					<div class="col-md-6">
+						<input class="bs-form-control" type="password" id="nPd" name="nPd"  />
+					</div>
+				</div>
+			</form>
+			</div>				
+			<div class="modal-footer">
+			 	<button class="btn btn-default" id="uPwd">确认</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModa1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >提示</h5>
+			</div>
+			<div class="modal-body">
+			<p>您的密码还有*天过期请尽快修改密码！</p>
+			</div>				
+			<div class="modal-footer">
+			 	<button class="btn btn-default" id="goRepassword">修改密码</button>
+			    <button class="btn btn-default" data-dismiss="modal" id="mLogin">暂不修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var mh1=$("#mH1").height(),
+	mh3=$("#mH3").height(),
+	$win=$(window).height(),
+	mh2=$win-mh1-mh3;
+	$("#mH2").height(mh2);
+var loginbox=$(".login-box").height();
+var mtH=Math.floor((mh2-loginbox)/2) > 0 ? Math.floor((mh2-loginbox)/2) : "20";
+$(".login-box").css("margin-top", mtH+"px");
+var username=$("#username"),
+	password=$("#password");
+Io.on("#login_btn","click",function(){
+	var data = {"USER_ID":username.val(),"PASSWORD":password.val()};
+	//alert(data);
+	$.ajax({
+		beforeSend:function(){
+			$("#loadgif").fadeIn(200);
+		},
+		type:"post",
+		url:baseurl+"Login/login",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data),
+		success:function(data){
+			$("#loadgif").fadeOut(100);
+			//console.log(data);
+			if(data.code=="00"){
+				if(data.errMsg=="77"){//密码过期修改密码并重新登录
+					Io.bs.alert("您的密码已过期,请修改密码！",function (){
+						$("#myModa0").modal({
+							backdrop:false
+						});
+					})
+					
+				}else if(data.result.PW_MSG){
+					//Io.bs.alert(data.result.PW_MSG+",是否确认修改？",function (){
+						//alert("Jj")
+						//})
+					$("#myModa1 p").html("您的"+data.result.PW_MSG+",请尽快修改！");
+					$("#myModa1").modal({
+						backdrop:false
+					});
+					
+				}else{eval("window.top.location.href='index.html'");}
+				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				Io.bs.alert(data.errMsg);				
+			}
+		},error:function(data){
+			$("#loadgif").fadeOut(100);
+			console.log("错误");
+		}
+	})
+})
+var loginBtn=$("#login_btn");
+function enterPress(){
+	if(event.keyCode==13){
+		loginBtn.click();
+	}
+}
+$("body").keydown(function(event) {
+    enterPress();
+});
+$("#uPwd").on("click",function(){
+	$('#form_pwd').bootstrapValidator('validate',"fields");
+	if($('#form_pwd').data('bootstrapValidator').isValid()){
+		var data0 = {"USER_ID":$("#username").val(),"OLD_PASSWORD":$("#oPd").val(),"NEW_PASSWORD":$("#nPd").val()};
+		$.ajax({
+			type:"post",
+			url:baseurl+"Login/resetPwd",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data0),
+			success:function(data){
+				if(data.code=="00"){					
+					$("#myModa0").modal("hide").on("hidden.bs.modal");
+					window.location.reload(true);
+					// window.navigate(location);
+					//eval("window.top.location.href='login.html'");
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					console.log(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		}) 
+	}
+});
+$("#mLogin").on("click",function(){
+	eval("window.top.location.href='index.html'");
+});
+$("#goRepassword").on("click",function(){
+	$("#myModa1").modal("hide").on("hidden.bs.modal");
+	$("#myModa0").modal({
+		backdrop:false
+	});
+});
+$("#form_pwd").bootstrapValidator({
+	message:"This value is not valid",
+	fields:{
+		oPd:{
+			validators:{
+				notEmpty:{
+					message:'原密码不能为空'
+				}
+			}
+		},	
+		xPd:{
+			validators:{
+				notEmpty:{
+					message:'新密码不能为空'
+				},
+				 different: {
+                     field: 'oPd',
+                     message: '不能和原密码相同'
+                 },
+                 regexp:{
+                	 regexp:/^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,18}$/,
+                	 message: '密码过于简单，请输入（包括大写、小写字母，特殊字符和数字，长度在8-18位）'
+                 }
+			}
+		},	
+		nPd:{
+			validators:{
+				notEmpty:{
+					message:'确认密码不能为空'
+				},
+				identical: {
+					field: 'xPd',
+					message: '两次输入密码不一致'
+				}
+			}
+		}
+	}
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.propertymanage.LrdSysMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select SYS_CD,SYS_NAME,SYS_DES,CRT_DATE,MTN_DATE from lrd_sys
+		<where>
+			<if test="SYS_CD != null"> and SYS_CD=#{SYS_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_sys
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="SYS_CD != null ">SYS_CD,</if>
+			<if test="SYS_NAME != null ">SYS_NAME,</if>
+			<if test="SYS_DES != null ">SYS_DES,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="SYS_CD != null">#{SYS_CD,jdbcType=VARCHAR},</if>
+			<if test="SYS_NAME != null">#{SYS_NAME,jdbcType=VARCHAR},</if>
+			<if test="SYS_DES != null">#{SYS_DES,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_sys
+		<set>
+			<if test="SYS_NAME != null ">SYS_NAME=#{SYS_NAME,jdbcType=VARCHAR},</if>
+			<if test="SYS_DES != null ">SYS_DES=#{SYS_DES,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where SYS_CD=#{SYS_CD,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_sys where
+		SYS_CD=#{SYS_CD,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_sys
+		<where>
+			<if test="SYS_CD != null"> and SYS_CD=#{SYS_CD,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+</mapper>

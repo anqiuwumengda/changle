@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.ReportManager.ReportManagerMapper">
+
+
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT BBID, BBZWMC, LJ, WJM, TJQLX, BZKXBZ, KFWJGJB, BZ, BSPL, YXSJJG, SQL1, HLKZBZ, SFSJBL, 
+		BBFLDM, BBLX, BSLG, INVERSION, STARTDATE, ENDDATE, DWKXBZ, FOLDERID, DATASOURCE, SAVE_PERIOD, 
+		IE, TERMINAL, CORPORATION, CALFLAG, MAINTAIN, GENORGLEVEL, GENTYPE, GENORGCODE, GENORGNAME, 
+		SUBTYPE, SUB_1, SUB_2, SUB_3, `INDEX`, HASRPTHEAD, COMPFLAG, DATEFLAG, TSFLAG, DEPFLAG, 
+		EMPFLAG FROM `hirp_bbqd`
+		<where>
+			<if test="BBID != null and CUST_ID!=''"> and BBID=#{BBID,jdbcType=INTEGER}</if>
+			<if test="BBIDTOLIKE != null and BBIDTOLIKE!=''"> and BBID like CONCAT('%','${BBIDTOLIKE}','%')</if>
+			<if test="NAMETOLIKE != null and NAMETOLIKE!=''"> and BBZWMC like CONCAT('%','${BBZWMC}','%')</if>
+			<if test="BBLX != null and BBLX!=''"> and BBLX like CONCAT('%','${BBLX}','%')</if>
+			<if test="STARTDATE != null and STARTDATE!=''"> and STARTDATE like CONCAT('%','${STARTDATE}','%')</if>
+		</where>
+	</select>
+	
+	
+	<insert id="save" parameterType="java.util.Map">
+		insert into hirp_bbqd
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="BBID != null ">BBID,</if>
+			<if test="BBZWMC != null ">BBZWMC,</if>
+			<if test="LJ != null ">LJ,</if>
+			<if test="WJM != null ">WJM,</if>
+			<if test="TJQLX != null ">TJQLX,</if>
+			<if test="BZKXBZ != null ">BZKXBZ,</if>
+			<if test="KFWJGJB != null ">KFWJGJB,</if>
+			<if test="BZ != null ">BZ,</if>
+			<if test="BSPL != null ">BSPL,</if>
+			<if test="YXSJJG != null ">YXSJJG,</if>
+			<if test="SQL1 != null ">SQL1,</if>
+			<if test="HLKZBZ != null ">HLKZBZ,</if>
+			<if test="SFSJBL != null ">SFSJBL,</if>
+			<if test="BBFLDM != null ">BBFLDM,</if>
+			<if test="BBLX != null ">BBLX,</if>
+			<if test="BSLG != null ">BSLG,</if>
+			<if test="INVERSION != null ">INVERSION,</if>
+			<if test="STARTDATE != null ">STARTDATE,</if>
+			<if test="ENDDATE != null ">ENDDATE,</if>
+			<if test="DWKXBZ != null ">DWKXBZ,</if>
+			<if test="FOLDERID != null ">FOLDERID,</if>
+			<if test="DATASOURCE != null ">DATASOURCE,</if>
+			<if test="SAVE_PERIOD != null ">SAVE_PERIOD,</if>
+			<if test="IE != null ">IE,</if>
+			<if test="TERMINAL != null ">TERMINAL,</if>
+			<if test="CORPORATION != null ">CORPORATION,</if>
+			<if test="CALFLAG != null ">CALFLAG,</if>
+			<if test="MAINTAIN != null ">MAINTAIN,</if>
+			<if test="GENORGLEVEL != null ">GENORGLEVEL,</if>
+			<if test="GENTYPE != null ">GENTYPE,</if>
+			<if test="GENORGCODE != null ">GENORGCODE,</if>
+			<if test="GENORGNAME != null ">GENORGNAME,</if>
+			<if test="SUBTYPE != null ">SUBTYPE,</if>
+			<if test="SUB_1 != null ">SUB_1,</if>
+			<if test="SUB_2 != null ">SUB_2,</if>
+			<if test="SUB_3 != null ">SUB_3,</if>
+			<if test="INDEX != null ">INDEX,</if>
+			<if test="HASRPTHEAD != null ">HASRPTHEAD,</if>
+			<if test="COMPFLAG != null ">COMPFLAG,</if>
+			<if test="DATEFLAG != null ">DATEFLAG,</if>
+			<if test="TSFLAG != null ">TSFLAG,</if>
+			<if test="DEPFLAG != null ">DEPFLAG,</if>
+			<if test="EMPFLAG != null ">EMPFLAG,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="BBID != null ">#{BBID,jdbcType=INTEGER},</if>
+			<if test="BBZWMC != null ">#{BBZWMC,jdbcType=INTEGER},</if>
+			<if test="LJ != null ">#{LJ,jdbcType=INTEGER},</if>
+			<if test="WJM != null ">#{WJM,jdbcType=INTEGER},</if>
+			<if test="TJQLX != null ">#{TJQLX,jdbcType=INTEGER},</if>
+			<if test="BZKXBZ != null ">#{BZKXBZ,jdbcType=INTEGER},</if>
+			<if test="KFWJGJB != null ">#{KFWJGJB,jdbcType=INTEGER},</if>
+			<if test="BZ != null ">#{BZ,jdbcType=INTEGER},</if>
+			<if test="BSPL != null ">#{BSPL,jdbcType=INTEGER},</if>
+			<if test="YXSJJG != null ">#{YXSJJG,jdbcType=INTEGER},</if>
+			<if test="SQL1 != null ">#{SQL1,jdbcType=INTEGER},</if>
+			<if test="HLKZBZ != null ">#{HLKZBZ,jdbcType=INTEGER},</if>
+			<if test="SFSJBL != null ">#{SFSJBL,jdbcType=INTEGER},</if>
+			<if test="BBFLDM != null ">#{BBFLDM,jdbcType=INTEGER},</if>
+			<if test="BBLX != null ">#{BBLX,jdbcType=INTEGER},</if>
+			<if test="BSLG != null ">#{BSLG,jdbcType=INTEGER},</if>
+			<if test="INVERSION != null ">#{INVERSION,jdbcType=INTEGER},</if>
+			<if test="STARTDATE != null ">#{STARTDATE,jdbcType=INTEGER},</if>
+			<if test="ENDDATE != null ">#{ENDDATE,jdbcType=INTEGER},</if>
+			<if test="DWKXBZ != null ">#{DWKXBZ,jdbcType=INTEGER},</if>
+			<if test="FOLDERID != null ">#{FOLDERID,jdbcType=INTEGER},</if>
+			<if test="DATASOURCE != null ">#{DATASOURCE,jdbcType=INTEGER},</if>
+			<if test="SAVE_PERIOD != null ">#{SAVE_PERIOD,jdbcType=INTEGER},</if>
+			<if test="IE != null ">#{IE,jdbcType=INTEGER},</if>
+			<if test="TERMINAL != null ">#{TERMINAL,jdbcType=INTEGER},</if>
+			<if test="CORPORATION != null ">#{CORPORATION,jdbcType=INTEGER},</if>
+			<if test="CALFLAG != null ">#{CALFLAG,jdbcType=INTEGER},</if>
+			<if test="MAINTAIN != null ">#{MAINTAIN,jdbcType=INTEGER},</if>
+			<if test="GENORGLEVEL != null ">#{GENORGLEVEL,jdbcType=INTEGER},</if>
+			<if test="GENTYPE != null ">#{GENTYPE,jdbcType=INTEGER},</if>
+			<if test="GENORGCODE != null ">#{GENORGCODE,jdbcType=INTEGER},</if>
+			<if test="GENORGNAME != null ">#{GENORGNAME,jdbcType=INTEGER},</if>
+			<if test="SUBTYPE != null ">#{SUBTYPE,jdbcType=INTEGER},</if>
+			<if test="SUB_1 != null ">#{SUB_1,jdbcType=INTEGER},</if>
+			<if test="SUB_2 != null ">#{SUB_2,jdbcType=INTEGER},</if>
+			<if test="SUB_3 != null ">#{SUB_3,jdbcType=INTEGER},</if>
+			<if test="INDEX != null ">#{INDEX,jdbcType=INTEGER},</if>
+			<if test="HASRPTHEAD != null ">#{HASRPTHEAD,jdbcType=INTEGER},</if>
+			<if test="COMPFLAG != null ">#{COMPFLAG,jdbcType=INTEGER},</if>
+			<if test="DATEFLAG != null ">#{DATEFLAG,jdbcType=INTEGER},</if>
+			<if test="TSFLAG != null ">#{TSFLAG,jdbcType=INTEGER},</if>
+			<if test="DEPFLAG != null ">#{DEPFLAG,jdbcType=INTEGER},</if>
+			<if test="EMPFLAG != null ">#{EMPFLAG,jdbcType=INTEGER},</if>
+
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update hirp_bbqd
+		<set>
+			<!-- <if test="BBID != null ">BBID=#{BBID,jdbcType=INTEGER},</if> -->
+			<if test="BBZWMC != null ">BBZWMC=#{BBZWMC,jdbcType=INTEGER},</if>
+			<if test="LJ != null ">LJ=#{LJ,jdbcType=INTEGER},</if>
+			<if test="WJM != null ">WJM=#{WJM,jdbcType=INTEGER},</if>
+			<if test="TJQLX != null ">TJQLX=#{TJQLX,jdbcType=INTEGER},</if>
+			<if test="BZKXBZ != null ">TJQLX=#{BZKXBZ,jdbcType=INTEGER},</if>
+			<if test="KFWJGJB != null ">KFWJGJB=#{KFWJGJB,jdbcType=INTEGER},</if>
+			<if test="BZ != null ">BZ=#{BZ,jdbcType=INTEGER},</if>
+			<if test="BSPL != null ">BSPL=#{BSPL,jdbcType=INTEGER},</if>
+			<if test="YXSJJG != null ">YXSJJG=#{YXSJJG,jdbcType=INTEGER},</if>
+			<if test="SQL1 != null ">SQL1=#{SQL1,jdbcType=INTEGER},</if>
+			<if test="HLKZBZ != null ">HLKZBZ=#{HLKZBZ,jdbcType=INTEGER},</if>
+			<if test="SFSJBL != null ">SFSJBL=#{SFSJBL,jdbcType=INTEGER},</if>
+			<if test="BBFLDM != null ">BBFLDM=#{BBFLDM,jdbcType=INTEGER},</if>
+			<if test="BBLX != null ">BBLX=#{BBLX,jdbcType=INTEGER},</if>
+			<if test="BSLG != null ">BSLG=#{BSLG,jdbcType=INTEGER},</if>
+			<if test="INVERSION != null ">INVERSION=#{INVERSION,jdbcType=INTEGER},</if>
+			<if test="STARTDATE != null ">STARTDATE=#{STARTDATE,jdbcType=INTEGER},</if>
+			<if test="ENDDATE != null ">ENDDATE=#{ENDDATE,jdbcType=INTEGER},</if>
+			<if test="DWKXBZ != null ">DWKXBZ=#{DWKXBZ,jdbcType=INTEGER},</if>
+			<if test="FOLDERID != null ">FOLDERID=#{FOLDERID,jdbcType=INTEGER},</if>
+			<if test="DATASOURCE != null ">DATASOURCE=#{DATASOURCE,jdbcType=INTEGER},</if>
+			<if test="SAVE_PERIOD != null ">SAVE_PERIOD=#{SAVE_PERIOD,jdbcType=INTEGER},</if>
+			<if test="IE != null ">IE=#{IE,jdbcType=INTEGER},</if>
+			<if test="TERMINAL != null ">TERMINAL=#{TERMINAL,jdbcType=INTEGER},</if>
+			<if test="CORPORATION != null ">CORPORATION=#{CORPORATION,jdbcType=INTEGER},</if>
+			<if test="CALFLAG != null ">CALFLAG=#{CALFLAG,jdbcType=INTEGER},</if>
+			<if test="MAINTAIN != null ">MAINTAIN=#{MAINTAIN,jdbcType=INTEGER},</if>
+			<if test="GENORGLEVEL != null ">GENORGLEVEL=#{GENORGLEVEL,jdbcType=INTEGER},</if>
+			<if test="GENTYPE != null ">GENTYPE=#{GENTYPE,jdbcType=INTEGER},</if>
+			<if test="GENORGCODE != null ">GENORGCODE=#{GENORGCODE,jdbcType=INTEGER},</if>
+			<if test="GENORGNAME != null ">GENORGNAME=#{GENORGNAME,jdbcType=INTEGER},</if>
+			<if test="SUBTYPE != null ">SUBTYPE=#{SUBTYPE,jdbcType=INTEGER},</if>
+			<if test="SUB_1 != null ">SUB_1=#{SUB_1,jdbcType=INTEGER},</if>
+			<if test="SUB_2 != null ">SUB_2=#{SUB_2,jdbcType=INTEGER},</if>
+			<if test="SUB_3 != null ">SUB_3=#{SUB_3,jdbcType=INTEGER},</if>
+			<if test="INDEX != null ">INDEX=#{INDEX,jdbcType=INTEGER},</if>
+			<if test="HASRPTHEAD != null ">HASRPTHEAD=#{HASRPTHEAD,jdbcType=INTEGER},</if>
+			<if test="COMPFLAG != null ">COMPFLAG=#{COMPFLAG,jdbcType=INTEGER},</if>
+			<if test="DATEFLAG != null ">DATEFLAG=#{DATEFLAG,jdbcType=INTEGER},</if>
+			<if test="TSFLAG != null ">TSFLAG=#{TSFLAG,jdbcType=INTEGER},</if>
+			<if test="DEPFLAG != null ">DEPFLAG=#{DEPFLAG,jdbcType=INTEGER},</if>
+			<if test="EMPFLAG != null ">EMPFLAG=#{EMPFLAG,jdbcType=INTEGER},</if>
+		</set>
+		where BBID=#{BBID,jdbcType=INTEGER} and
+	</update>
+	
+	<delete id="delete">
+		<if test="BBID !=null">
+			delete from hirp_bbqd
+			<where>
+				<if test="BBID != null and BBID''"> and BBID=#{BBID,jdbcType=INTEGER}</if>
+				
+			</where>
+		</if>
+	</delete>
+	
+	<delete id="deleteBBRole">
+		<if test="BBID !=null">
+			delete from hirp_role
+			<where>
+				<if test="BBID != null and BBID''"> and BBID=#{BBID,jdbcType=INTEGER}</if>
+			</where>
+		</if>
+	</delete>
+	
+	<insert id="reportToRole" parameterType="java.util.Map">
+		insert into hirp_bbqd
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CORPORATION != null ">BBID,</if>
+			<if test="ROLE_ID != null ">BBID,</if>
+			<if test="BBID != null ">BBID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CORPORATION != null ">#{BBID,jdbcType=INTEGER},</if>
+			<if test="ROLE_ID != null ">#{BBID,jdbcType=INTEGER},</if>
+			<if test="BBID != null ">#{BBID,jdbcType=INTEGER},</if>
+		</trim>
+	</insert>
+	
+	<select id="reportToView" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT b.* from hirp_bbqd b LEFT JOIN hirp_role r on b.BBID=r.BBID where r.ROLE_ID=#{ROLE_ID,jdbcType=INTEGER}
+	
+	</select>
+	
+	
+</mapper>

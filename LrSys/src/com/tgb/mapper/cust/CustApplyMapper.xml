@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustApplyMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		ca.USER_ID,ca.USER_ID_SQ,ca.CUST_ID,ca.DATE_SH,ca.CONTENT,ca.STAT,ca.VALID_DAY,ca.CRT_DATE,ca.UPD_DATE,cb.CUST_NAME,cb.CUST_TYPE,cg.JL_TYPE,lrdu.USER_NAME
+		,lrdu2.USER_NAME USER_ID_SQ_NAME from CUST_APPLY ca LEFT JOIN
+		cust_base cb on cb.CUST_ID=ca.CUST_ID LEFT JOIN cust_grade cg on
+		ca.CUST_ID=cg.CUST_ID LEFT JOIN lrd_user lrdu on
+		lrdu.USER_ID=ca.USER_ID LEFT JOIN lrd_user lrdu2 on
+		lrdu2.USER_ID=ca.USER_ID_SQ
+		<where>
+			<if test="USER_ID != null and USER_ID != ''"> and ca.USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="USER_ID_SQ != null and USER_ID_SQ != ''"> and ca.USER_ID_SQ=#{USER_ID_SQ,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null and CUST_ID != ''"> and ca.CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="STAT != null and STAT != ''"> and ca.STAT=#{STAT,jdbcType=VARCHAR}</if>
+			<if test="noSTAT != null and noSTAT != ''"> and ca.STAT!=#{noSTAT,jdbcType=VARCHAR}</if>
+			<if test="newDate != null and newDate != ''"> and ca.CRT_DATE>#{newDate,jdbcType=INTEGER}</if>
+		</where>
+		ORDER BY ca.CRT_DATE DESC
+	</select>
+	<select id="queryOne" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		ca.USER_ID,ca.USER_ID_SQ,ca.CUST_ID,ca.DATE_SH,ca.CONTENT,ca.STAT,ca.VALID_DAY,ca.CRT_DATE,ca.UPD_DATE
+		from CUST_APPLY ca
+		<where>
+			<if test="USER_ID != null and USER_ID != ''"> and ca.USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null and CUST_ID != ''"> and ca.CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into CUST_APPLY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null and USER_ID != ''">USER_ID,</if>
+			<if test="USER_ID_SQ != null and USER_ID_SQ != ''">USER_ID_SQ,</if>
+			<if test="CUST_ID != null and CUST_ID != ''">CUST_ID,</if>
+			<if test="DATE_SH != null ">DATE_SH,</if>
+			<if test="CONTENT != null ">CONTENT,</if>
+			<if test="STAT != null ">STAT,</if>
+			<if test="VALID_DAY != null and VALID_DAY!='' ">VALID_DAY,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="UPD_DATE != null ">UPD_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="USER_ID != null and USER_ID != ''">#{USER_ID,jdbcType=VARCHAR},</if>
+			<if test="USER_ID_SQ != null and USER_ID_SQ != ''">#{USER_ID_SQ,jdbcType=VARCHAR},</if>
+			<if test="CUST_ID != null and CUST_ID != '' ">#{CUST_ID,jdbcType=VARCHAR},</if>
+			<if test="DATE_SH != null">#{DATE_SH,jdbcType=VARCHAR},</if>
+			<if test="CONTENT != null">#{CONTENT,jdbcType=VARCHAR},</if>
+			<if test="STAT != null">#{STAT,jdbcType=CHAR},</if>
+			<if test="VALID_DAY != null and VALID_DAY!=''">#{VALID_DAY,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="UPD_DATE != null">#{UPD_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update CUST_APPLY
+		<set>
+			<if test="USER_ID_SQ != null and USER_ID_SQ !=''">USER_ID_SQ=#{USER_ID_SQ,jdbcType=VARCHAR},</if>
+			<if test="DATE_SH != null ">DATE_SH=#{DATE_SH,jdbcType=VARCHAR},</if>
+			<if test="CONTENT != null ">CONTENT=#{CONTENT,jdbcType=VARCHAR},</if>
+			<if test="STAT != null ">STAT=#{STAT,jdbcType=CHAR},</if>
+			<if test="VALID_DAY != null and VALID_DAY!='' ">VALID_DAY=#{VALID_DAY,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="UPD_DATE != null ">UPD_DATE=#{UPD_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from CUST_APPLY where
+		USER_ID=#{USER_ID,jdbcType=VARCHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from CUST_APPLY
+		<where>
+			<if test="USER_ID != null and USER_ID != ''"> and USER_ID=#{USER_ID,jdbcType=VARCHAR}</if>
+			<if test="CUST_ID != null and CUST_ID != ''"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+	
+	<delete id="deleteGq">
+		delete from CUST_APPLY
+		<where>
+			<if test="CUST_ID != null and CUST_ID != ''"> and CUST_ID=#{CUST_ID,jdbcType=VARCHAR}</if>
+			<if test="newDate != null and newDate != ''"> <![CDATA[and CRT_DATE<=#{newDate,jdbcType=INTEGER}]]></if>
+		</where>
+	</delete>
+	
+</mapper>

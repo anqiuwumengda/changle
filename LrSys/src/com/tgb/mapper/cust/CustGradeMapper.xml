@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustGradeMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select CUST_ID,JL_TYPE,SYS_TYPE,CRT_DATE,MTN_DATE from cust_grade
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_grade
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="JL_TYPE != null ">JL_TYPE,</if>
+			<if test="SYS_TYPE != null ">SYS_TYPE,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},
+			</if>
+			<if test="JL_TYPE != null">#{JL_TYPE,jdbcType=VARCHAR},</if>
+			<if test="SYS_TYPE != null">#{SYS_TYPE,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_grade
+		<set>
+			<if test="JL_TYPE != null ">JL_TYPE=#{JL_TYPE,jdbcType=VARCHAR},</if>
+			<if test="SYS_TYPE != null ">SYS_TYPE=#{SYS_TYPE,jdbcType=VARCHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where CUST_ID=#{CUST_ID,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByPk">delete from cust_grade where
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER}</delete>
+	<delete id="delete">
+		delete from cust_grade
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+		</where>
+	</delete>
+</mapper>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>回访记录展示</title>
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/myscript.js"></script>
+<script src="../js/showPages.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<style >
+	th{
+		text-align: center;
+		height: 50px;
+	}
+	td{
+		text-align: center;
+		height: 80px;
+	}
+</style>
+</head>
+<body>
+	<div id="hf_state">
+		<button class="btn btn-md btn-danger" id="HG" onclick="getStateInfo(this)">合格</button>
+		<button class="btn btn-md btn-danger" id="DHS" onclick="getStateInfo(this)">待核实</button>
+		<button class="btn btn-md btn-danger" id="BHG" onclick="getStateInfo(this)">不合格</button>
+	</div>
+	<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >农资需求详情</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					
+					<p class=""  id="NZ_DETAILS"></p>
+				</div>
+							
+			</div>
+		</div>
+	</div>
+</div>
+	<div id="hfDiv" style="width:1500px;">
+		
+		<table class="table table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th width=150px;>机构</th>
+					<th width=80px;>姓名</th>
+					<th width=100px;>电话</th>
+					<th width=100px;>客户经理</th>
+					<th width=150px;>潜在需求</th>
+					<th width=100px;>贷款需求</br>额度(万元)</th>
+					<th width=150px;>贷款用途</th>
+					<th width=80px;>客户</br>满意度</th>
+					<th width=150px;>智e购</th>
+					<th width=80px;>农资需求</br>详情</th>
+					<th width=150px;>拜访时间</th>
+					<th width=100px;>回访结果</th>
+					<th width=150px;>回访备注</th>
+					<th width=150px;>回访时间</th>
+					<!-- <th width=150px;>回访人</th> -->
+					<th id="oper" width=80px;>操作</th>
+				</tr>
+			</thead>
+			<tbody id="tBody">		
+			</tbody>
+		</table>
+		<ul class="pagination pagination-sm" id="pagination">
+			<li class="prev"><a href="javascript:;">← 上一页</a></li>
+			<li class="active"><a href="javascript:;">1</a></li>
+			<li class="next"><a href="javascript:;">下一页 →</a></li>
+		</ul>
+	</div>
+	<script id="初始化">
+	localStorage.page = "1";
+	localStorage.num = "10";
+	hf_result = "1";//默认显示回访结果为合格的记录
+	</script>
+	<script >
+		function getHfInfo(currentPage,pageSize){
+			var data0 = {
+					"isPagination":"true",
+					 "currentPage":currentPage,
+					 "pageSize":pageSize
+			};
+			var data1 = {
+					"HF_RESULT":hf_result,
+					"STATE":"HF"
+			};
+			 $.extend(data1,data0);//合并参数，并赋值给data1
+			 $.ajax({
+					type:"post",
+					url:baseurl+"custfeedback/getHfInfo",
+					dataType:"json",
+					async:false,
+					contentType:"application/json",
+					data:JSON.stringify(data1),
+					success:function(data){
+						console.log("回访数据："+JSON.stringify(data));
+						if(data.code=="00"){
+							var result = data.result;
+							loadHfInfo(result);
+							$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'getHfInfo');
+							localStorage.page = currentPage;
+							localStorage.num = pageSize; 
+						}else if(data.code=="88"){
+							eval(data.reLoad);
+							$("#tBody").html('<tr><td align="center" height="200" colspan="9">暂时没有内容</td></tr>');
+						}
+					}
+				});
+		}
+		getHfInfo(1,10);
+		function loadHfInfo(info){
+			var ck = "查看";
+			var bj = "编辑";
+			var html = '';
+			for(var i=0;i<info.length;i++){
+				var result = info[i];
+				var XQ = [];
+				var YT = [];
+				var ZEG = [];
+				if(result.BANK_CD==1)XQ.push('借记卡');
+				if(result.DJ_DESC==1)XQ.push('贷记卡');
+				if(result.CK_DESC==1)XQ.push('存款');
+				if(result.LC_DESC==1)XQ.push('理财');
+				if(result.DZ_CD==1)XQ.push('电子银行');
+				if(result.POS_DESC==1)XQ.push('POS机');
+				if(result.WH_DESC==1)XQ.push('外汇');
+				if(result.DFGZ_DESC==1)XQ.push('代发工资');
+				if(result.JF_DESC==1)YT.push('建房');
+				if(result.ZZ_DESC==1)YT.push('种植');
+				if(result.YZ_DESC==1)YT.push('养殖');
+				if(result.JS_DESC==1)YT.push('经商');
+				if(result.GF_DESC==1)YT.push('购房');
+				if(result.GC_DESC==1)YT.push('购车');
+				if(result.ZX_DESC==1)YT.push('装修');
+				if(result.QT_DESC==1)YT.push('其他');
+				if(result.SCYH_DESC == 1) ZEG.push('商城用户');
+				if(result.SH_DESC == 1) ZEG.push('商户');
+				if(result.NZYH_DESC == 1) ZEG.push('农资用户');
+				html +='<tr>';
+				html += '<td>' + result.ORG_ABB + '</td>';
+				html += '<td>' + result.cust_name + '</td>';
+				html += '<td>' + result.tel_no + '</td>';
+				html += '<td>' + result.CUST_GRP_JLC + '</td>';
+				html += '<td>' + XQ.join(',') +'</td>';
+				html += '<td>'+ result.XQED +'</td>';
+				html+='<td>'+ YT.join('、') +'</td>';
+				html+='<td>'+ result.KHMYDC +'</td>';
+				html+='<td>'+ ZEG.join(',') +'</td>';
+				html+='<td>';
+				html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnSee" >'+ck+'</button>';
+				html+='</td>';
+				html += '<td>' + result.CRT_DATE + '</td>';
+				html += '<td>' + result.HFRESULTC + '</td>';
+				html += '<td>' + result.HUIFANGBEIZHU + '</td>';
+				html += '<td>' + result.HF_DATE + '</td>';
+				//html += '<td>' + result.OPER_CD + '</td>';
+				//
+				html+='<td>';
+				html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnEdit" >'+bj+'</button>';
+				html+='</td>';
+			}
+			$("#tBody").html(html);
+		}
+	</script>
+	<script id="事件监听">
+	Io.on("[name=btnSee]", "click", function() {
+		var crt_date = $(this).attr("crt")
+		var cust_id = $(this).attr("khid");
+		//alert("查看"+crt_date+","+cust_id);
+		var data1 = {
+			"CRT_DATE" : crt_date,
+			"CUST_ID" : cust_id
+		};
+		$.ajax({
+			type : "post",
+			url : baseurl + "custnzneed/query",
+			dataType : "json",
+			async : false,
+			contentType : "application/json",
+			data : JSON.stringify(data1),
+			success : function(data) {
+				if (data.code == "00") {
+					console.log("农资需求：" + JSON.stringify(data));
+					if (data.result != null && data.result.length) {
+						var html = "";
+						for (var i = 0; i < data.result.length; i++) {
+							var result = data.result[i];
+							//alert(JSON.stringify(result));
+							html += result.dic_name
+									+ ":&nbsp&nbsp&nbsp&nbsp数量:&nbsp&nbsp"
+									+ result.NUM + "吨/瓶，需求月份：  " + result.MONTH
+									+ "</br>";
+						}
+						$("#NZ_DETAILS").html(html);
+						$("#myModal2").modal({
+							backdrop : false
+						});
+					} else {
+						alert("此次拜访客户没有农资需求.");
+					}
+				}
+
+			}
+		});
+
+	});
+	Io.on("[name=btnEdit]","click",function(){
+		var cust_id = $(this).attr("khid");
+		location.href="kehuguanli_edit.html?cust_id="+cust_id;
+	});
+	function getStateInfo(obj){
+		/* 
+		 */
+		var paramId = obj.id;
+		//alert(paramId);
+		if(paramId == "HG"){
+			hf_result = "1";
+		}else if(paramId == "DHS"){
+			hf_result = "2";
+		}else if(paramId == "BHG"){
+			hf_result = "3";
+		} 
+		getHfInfo(1,10);
+	}
+	</script>
+</body>
+</html>

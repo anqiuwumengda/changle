@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.dic.LrdDicMapper">
+<!-- <cache 
+eviction="FIFO"  回收策略为先进先出
+flushInterval="60000" 自动刷新时间60s
+size="512" 最多缓存512个引用对象
+readOnly="true"/> 只读 -->
+<!-- <cache eviction="FIFO"  flushInterval="300000" size="102400" readOnly="true"/> -->
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		DIC_ID,DIC_NAME,DIC_PARENTID,DIC_DESC,DIC_ISENABLE,DIC_SORT,CRT_DATE,MTN_DATE
+		from lrd_dic
+		<where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="DIC_NAME != null"> and DIC_NAME=#{DIC_NAME,jdbcType=VARCHAR}</if>
+			<if test="DIC_ISENABLE != null"> and DIC_ISENABLE=#{DIC_ISENABLE,jdbcType=VARCHAR}</if>
+		</where>
+		ORDER BY DIC_SORT
+	</select>
+	<select id="queryMap" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		DIC_ID,DIC_NAME,DIC_PARENTID,DIC_DESC,DIC_ISENABLE,DIC_SORT,CRT_DATE,MTN_DATE
+		from lrd_dic
+		<where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+			<if test="DIC_NAME != null"> and DIC_NAME=#{DIC_NAME,jdbcType=VARCHAR}</if>
+			<if test="DIC_ISENABLE != null"> and DIC_ISENABLE=#{DIC_ISENABLE,jdbcType=VARCHAR}</if>
+		</where>
+		ORDER BY DIC_SORT
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into lrd_dic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="DIC_ID != null ">DIC_ID,</if>
+			<if test="DIC_NAME != null ">DIC_NAME,</if>
+			<if test="DIC_PARENTID != null ">DIC_PARENTID,</if>
+			<if test="DIC_DESC != null ">DIC_DESC,</if>
+			<if test="DIC_ISENABLE != null ">DIC_ISENABLE,</if>
+			<if test="DIC_SORT != null and DIC_SORT!='' ">DIC_SORT,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="DIC_ID != null">#{DIC_ID,jdbcType=VARCHAR},</if>
+			<if test="DIC_NAME != null">#{DIC_NAME,jdbcType=VARCHAR},</if>
+			<if test="DIC_PARENTID != null">#{DIC_PARENTID,jdbcType=VARCHAR},</if>
+			<if test="DIC_DESC != null">#{DIC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DIC_ISENABLE != null">#{DIC_ISENABLE,jdbcType=CHAR},</if>
+			<if test="DIC_SORT != null and DIC_SORT!=''">#{DIC_SORT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update lrd_dic
+		<set>
+			<if test="DIC_NAME != null ">DIC_NAME=#{DIC_NAME,jdbcType=VARCHAR},</if>
+			<if test="DIC_DESC != null ">DIC_DESC=#{DIC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DIC_ISENABLE != null ">DIC_ISENABLE=#{DIC_ISENABLE,jdbcType=CHAR},</if>
+			<if test="DIC_SORT != null and DIC_SORT!='' ">DIC_SORT=#{DIC_SORT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where DIC_ID=#{DIC_ID,jdbcType=VARCHAR} and
+		DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from lrd_dic where
+		DIC_ID=#{DIC_ID,jdbcType=VARCHAR} and
+		DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from lrd_dic
+		<where>
+			<if test="DIC_ID != null"> and DIC_ID=#{DIC_ID,jdbcType=VARCHAR}</if>
+			<if test="DIC_PARENTID != null"> and DIC_PARENTID=#{DIC_PARENTID,jdbcType=VARCHAR}</if>
+		</where>
+	</delete>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustFeedbackMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CUST_ID,CRT_DATE,BANK_CD,DJ_DESC,CK_DESC,LC_DESC,DZ_CD,POS_DESC,WH_DESC,DFGZ_DESC,JF_DESC,ZZ_DESC,YZ_DESC,JS_DESC,GF_DESC,GC_DESC,ZX_DESC,QT_DESC,XQED,KHMYD,OPER_CD,MTN_DATE,
+		STATE,SCYH_DESC,SH_DESC,NZYH_DESC,BEIZHU,HUIFANGBEIZHU,HFRESULT,ISHF,HF_DATE
+		from cust_feedback
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="CRT_DATE != null"> and CRT_DATE=#{CRT_DATE,jdbcType=CHAR}</if>
+			<if test="STATE != null and STATE != ''"> and STATE=#{STATE,jdbcType=CHAR}</if>
+			<if test="ISHF != null and ISHF != ''"> and ISHF=#{ISHF,jdbcType=CHAR}</if>
+			<if test="HF_DATE != null and HF_DATE != ''"> and HF_DATE=#{HF_DATE,jdbcType=CHAR}</if>
+		</where>
+		ORDER BY CRT_DATE desc
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_feedback
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="BANK_CD != null ">BANK_CD,</if>
+			<if test="DJ_DESC != null ">DJ_DESC,</if>
+			<if test="CK_DESC != null ">CK_DESC,</if>
+			<if test="LC_DESC != null ">LC_DESC,</if>
+			<if test="DZ_CD != null ">DZ_CD,</if>
+			<if test="POS_DESC != null ">POS_DESC,</if>
+			<if test="WH_DESC != null ">WH_DESC,</if>
+			<if test="DFGZ_DESC != null ">DFGZ_DESC,</if>
+			<if test="JF_DESC != null ">JF_DESC,</if>
+			<if test="ZZ_DESC != null ">ZZ_DESC,</if>
+			<if test="YZ_DESC != null ">YZ_DESC,</if>
+			<if test="JS_DESC != null ">JS_DESC,</if>
+			<if test="GF_DESC != null ">GF_DESC,</if>
+			<if test="GC_DESC != null ">GC_DESC,</if>
+			<if test="ZX_DESC != null ">ZX_DESC,</if>
+			<if test="QT_DESC != null ">QT_DESC,</if>
+			<if test="XQED != null and XQED!='' ">XQED,</if>
+			<if test="KHMYD != null ">KHMYD,</if>
+			<if test="OPER_CD != null ">OPER_CD,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="SCYH_DESC != null ">SCYH_DESC,</if>
+			<if test="SH_DESC != null ">SH_DESC,</if>
+			<if test="NZYH_DESC != null ">NZYH_DESC,</if>
+			<if test="NZYH_DETAILS != null ">NZYH_DETAILS,</if>
+			<if test="BEIZHU != null ">BEIZHU,</if>
+			<if test="HUIFANGBEIZHU != null ">HUIFANGBEIZHU,</if>
+			<if test="HFRESULT != null ">HFRESULT,</if>
+			<if test="STATE != null ">STATE,</if>
+			<if test="ISHF != null ">ISHF,</if>
+			<if test="HF_DATE != null ">HF_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},
+			</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=CHAR},</if>
+			<if test="BANK_CD != null">#{BANK_CD,jdbcType=VARCHAR},</if>
+			<if test="DJ_DESC != null">#{DJ_DESC,jdbcType=VARCHAR},</if>
+			<if test="CK_DESC != null">#{CK_DESC,jdbcType=VARCHAR},</if>
+			<if test="LC_DESC != null">#{LC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DZ_CD != null">#{DZ_CD,jdbcType=VARCHAR},</if>
+			<if test="POS_DESC != null">#{POS_DESC,jdbcType=VARCHAR},</if>
+			<if test="WH_DESC != null">#{WH_DESC,jdbcType=VARCHAR},</if>
+			<if test="DFGZ_DESC != null">#{DFGZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="JF_DESC != null">#{JF_DESC,jdbcType=VARCHAR},</if>
+			<if test="ZZ_DESC != null">#{ZZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="YZ_DESC != null">#{YZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="JS_DESC != null">#{JS_DESC,jdbcType=VARCHAR},</if>
+			<if test="GF_DESC != null">#{GF_DESC,jdbcType=VARCHAR},</if>
+			<if test="GC_DESC != null">#{GC_DESC,jdbcType=VARCHAR},</if>
+			<if test="ZX_DESC != null">#{ZX_DESC,jdbcType=VARCHAR},</if>
+			<if test="QT_DESC != null">#{QT_DESC,jdbcType=VARCHAR},</if>
+			<if test="XQED != null and XQED!=''">#{XQED,jdbcType=DECIMAL},</if>
+			<if test="KHMYD != null">#{KHMYD,jdbcType=VARCHAR},</if>
+			<if test="OPER_CD != null">#{OPER_CD,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="SCYH_DESC != null">#{SCYH_DESC,jdbcType=VARCHAR},</if>
+			<if test="SH_DESC != null">#{SH_DESC,jdbcType=VARCHAR},</if>
+			<if test="NZYH_DESC != null">#{NZYH_DESC,jdbcType=VARCHAR},</if>
+			<if test="SCYH_DETAILS != null">#{SCYH_DETAILS,jdbcType=VARCHAR},</if>
+			<if test="BEIZHU != null">#{BEIZHU,jdbcType=VARCHAR},</if>
+			<if test="HUIFANGBEIZHU != null">#{HUIFANGBEIZHU,jdbcType=VARCHAR},</if>
+			<if test="HFRESULT != null">#{HFRESULT,jdbcType=VARCHAR},</if>
+			<if test="STATE != null">#{STATE,jdbcType=VARCHAR},</if>
+			<if test="ISHF != null">#{ISHF,jdbcType=VARCHAR},</if>
+			<if test="HF_DATE != null">#{HF_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_feedback
+		<set>
+			<if test="BANK_CD != null ">BANK_CD=#{BANK_CD,jdbcType=VARCHAR},</if>
+			<if test="DJ_DESC != null ">DJ_DESC=#{DJ_DESC,jdbcType=VARCHAR},</if>
+			<if test="CK_DESC != null ">CK_DESC=#{CK_DESC,jdbcType=VARCHAR},</if>
+			<if test="LC_DESC != null ">LC_DESC=#{LC_DESC,jdbcType=VARCHAR},</if>
+			<if test="DZ_CD != null ">DZ_CD=#{DZ_CD,jdbcType=VARCHAR},</if>
+			<if test="POS_DESC != null ">POS_DESC=#{POS_DESC,jdbcType=VARCHAR},</if>
+			<if test="WH_DESC != null ">WH_DESC=#{WH_DESC,jdbcType=VARCHAR},</if>
+			<if test="DFGZ_DESC != null ">DFGZ_DESC=#{DFGZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="JF_DESC != null ">JF_DESC=#{JF_DESC,jdbcType=VARCHAR},</if>
+			<if test="ZZ_DESC != null ">ZZ_DESC=#{ZZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="YZ_DESC != null ">YZ_DESC=#{YZ_DESC,jdbcType=VARCHAR},</if>
+			<if test="JS_DESC != null ">JS_DESC=#{JS_DESC,jdbcType=VARCHAR},</if>
+			<if test="GF_DESC != null ">GF_DESC=#{GF_DESC,jdbcType=VARCHAR},</if>
+			<if test="GC_DESC != null ">GC_DESC=#{GC_DESC,jdbcType=VARCHAR},</if>
+			<if test="ZX_DESC != null ">ZX_DESC=#{ZX_DESC,jdbcType=VARCHAR},</if>
+			<if test="QT_DESC != null ">QT_DESC=#{QT_DESC,jdbcType=VARCHAR},</if>
+			<if test="XQED != null and XQED!='' ">XQED=#{XQED,jdbcType=DECIMAL},</if>
+			<if test="KHMYD != null ">KHMYD=#{KHMYD,jdbcType=VARCHAR},</if>
+			<if test="OPER_CD != null ">OPER_CD=#{OPER_CD,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+			<if test="SCYH_DESC != null">SCYH_DESC=#{SCYH_DESC,jdbcType=VARCHAR},</if>
+			<if test="SH_DESC != null">SH_DESC=#{SH_DESC,jdbcType=VARCHAR},</if>
+			<if test="NZYH_DESC != null">NZYH_DESC=#{NZYH_DESC,jdbcType=VARCHAR},</if>
+			<if test="SCYH_DETAILS != null">SCYH_DETAILS=#{SCYH_DETAILS,jdbcType=VARCHAR},</if>
+			<if test="BEIZHU != null and BEIZHU!=''">BEIZHU=#{BEIZHU,jdbcType=VARCHAR},</if>
+			<if test="HUIFANGBEIZHU != null and HUIFANGBEIZHU !=''">HUIFANGBEIZHU=#{HUIFANGBEIZHU,jdbcType=VARCHAR},</if>
+			<if test="HFRESULT != null and HFRESULT !=''">HFRESULT=#{HFRESULT,jdbcType=VARCHAR},</if>
+			<if test="STATE != null">STATE=#{STATE,jdbcType=VARCHAR},</if>
+			<if test="ISHF != null">ISHF=#{ISHF,jdbcType=VARCHAR},</if>
+			<if test="HF_DATE != null">HF_DATE=#{HF_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="CRT_DATE != null"> and CRT_DATE=#{CRT_DATE,jdbcType=CHAR}</if>
+			<if test="STATE != null"> and STATE=#{STATE,jdbcType=CHAR}</if>
+			<!-- <if test="ISHF != null"> and ISHF=#{ISHF,jdbcType=CHAR}</if> -->
+		</where>
+		<!-- where CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		CRT_DATE=#{CRT_DATE,jdbcType=CHAR} -->
+	</update>
+	<delete id="deleteByPk">delete from cust_feedback where
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		CRT_DATE=#{CRT_DATE,jdbcType=CHAR}</delete>
+	<delete id="delete">
+		delete from cust_feedback
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="CRT_DATE != null"> and CRT_DATE=#{CRT_DATE,jdbcType=CHAR}</if>
+		</where>
+	</delete>
+	<select id="queryList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select cb.cust_name,cb.tel_no,lrdu.USER_NAME as CUST_GRP_JLC ,lrd_org.ORG_ABB,cf.* from cust_base  cb
+		LEFT JOIN lrd_user lrdu on cb.CUST_GRP_JL=lrdu.USER_ID
+		LEFT JOIN cust_feedback cf on cb.CUST_ID = cf.CUST_ID  
+		LEFT JOIN lrd_org on lrdu.ORG_CD=lrd_org.ORG_CD where (cb.ISDEL !='1' or cb.ISDEL is null or cb.ISDEL ='' ) 
+		<!-- <where> -->
+			<!-- OrgCD -->
+			<if test="ZH_ID != null and ZH_ID != ''"><![CDATA[ and  lrdu.ORG_CD = #{ZH_ID,jdbcType=INTEGER}]]></if>
+			<!-- User_id -->
+			<if test="JL_ID != null and JL_ID != ''"> <![CDATA[ and  cb.CUST_GRP_JL = #{JL_ID,jdbcType=INTEGER}]]></if>
+			<if test="CUST_ID != null and CUST_ID != ''"> <![CDATA[ and  cb.CUST_ID = #{JL_ID,jdbcType=VARCHAR}]]></if>
+			<if test="STATE != null and STATE != ''"> <![CDATA[ and  cf.STATE = #{STATE,jdbcType=VARCHAR}]]></if>
+			<if test="HF_RESULT != null and HF_RESULT != ''"> <![CDATA[ and  cf.HFRESULT = #{HF_RESULT,jdbcType=VARCHAR}]]></if>
+		<!-- </where> -->
+ 		<![CDATA[ order by cb.MTN_DATE DESC,cb.CUST_ID DESC]]>
+	</select>
+</mapper>

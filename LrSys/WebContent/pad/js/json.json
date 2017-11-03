@@ -1,0 +1,50 @@
+{
+    "code": "00",
+    "result": [
+        {
+            "USER_AGE": 28,
+            "TEL_NO": "13144446666",
+            "ID_TYPE": "01",
+            "TEL_NO_BY": "13244436789",
+            "CUST_TYPE": "04",
+            "CUST_NAME": "",
+            "ID_NO": "130822198907218877",
+            "CUST_ID": "CUST02",
+            "USER_NAME": "李四",
+            "EDU_LEVEL": "01",
+            "VOCATION": "02",
+            "CUST_GRP_JL": "61794",
+            "BIRTH_DATE": "19890721",
+            "SEX": "0",
+            "MTN_DATE": "20160724"
+        },
+        {
+            "USER_AGE": 27,
+            "TEL_NO": "13144445555",
+            "ID_TYPE": "01",
+            "TEL_NO_BY": "13244436789",
+            "CUST_TYPE": "01",
+            "CUST_NAME": "",
+            "ID_NO": "130822198907218877",
+            "CUST_ID": "CUST01",
+            "USER_NAME": "张三",
+            "EDU_LEVEL": "01",
+            "VOCATION": "02",
+            "CUST_GRP_JL": "61794",
+            "BIRTH_DATE": "19890721",
+            "SEX": "0",
+            "MTN_DATE": "20160723"
+        }
+    ],
+    "page": {
+        "currentPage": 1,
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "pageEndRow": 2,
+        "pageSize": 30,
+        "pageStartRow": 0,
+        "pagination": true,
+        "totalPages": 1,
+        "totalRows": 2
+    }
+}

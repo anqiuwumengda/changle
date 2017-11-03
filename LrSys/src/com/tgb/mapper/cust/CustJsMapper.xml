@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.CustJsMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		CUST_ID,BIZ_HY,CUST_XZ,BIZ_XM,BIZ_DATE,BIZ_YEARS,OWN_FLAG,OWN_AREA,RENT_FLAG,RENT_AREA,WORKERS,INCOME_Y,PROFIT_Y,BX_CNT,CRT_DATE,MTN_DATE
+		from cust_js
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="BIZ_HY != null"> and BIZ_HY=#{BIZ_HY,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into cust_js
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="CUST_XZ != null ">CUST_XZ,</if>
+			<if test="BIZ_HY != null ">BIZ_HY,</if>
+			<if test="BIZ_XM != null ">BIZ_XM,</if>
+			<if test="BIZ_DATE != null ">BIZ_DATE,</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!='' ">BIZ_YEARS,</if>
+			<if test="OWN_FLAG != null ">OWN_FLAG,</if>
+			<if test="OWN_AREA != null and OWN_AREA!='' ">OWN_AREA,</if>
+			<if test="RENT_FLAG != null ">RENT_FLAG,</if>
+			<if test="RENT_AREA != null and RENT_AREA!='' ">RENT_AREA,</if>
+			<if test="WORKERS != null and WORKERS!='' ">WORKERS,</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y,</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!='' ">PROFIT_Y,</if>
+			<if test="BX_CNT != null and BX_CNT!='' ">BX_CNT,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},</if>
+			<if test="CUST_XZ != null">#{CUST_XZ,jdbcType=VARCHAR},</if>
+			<if test="BIZ_HY != null">#{BIZ_HY,jdbcType=VARCHAR},</if>
+			<if test="BIZ_XM != null">#{BIZ_XM,jdbcType=VARCHAR},</if>
+			<if test="BIZ_DATE != null">#{BIZ_DATE,jdbcType=VARCHAR},</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!=''">#{BIZ_YEARS,jdbcType=INTEGER},</if>
+			<if test="OWN_FLAG != null">#{OWN_FLAG,jdbcType=CHAR},</if>
+			<if test="OWN_AREA != null and OWN_AREA!=''">#{OWN_AREA,jdbcType=DECIMAL},</if>
+			<if test="RENT_FLAG != null">#{RENT_FLAG,jdbcType=CHAR},</if>
+			<if test="RENT_AREA != null and RENT_AREA!=''">#{RENT_AREA,jdbcType=DECIMAL},</if>
+			<if test="WORKERS != null and WORKERS!=''">#{WORKERS,jdbcType=INTEGER},</if>
+			<if test="INCOME_Y != null and INCOME_Y!=''">#{INCOME_Y,jdbcType=DECIMAL},</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!=''">#{PROFIT_Y,jdbcType=DECIMAL},</if>
+			<if test="BX_CNT != null and BX_CNT!=''">#{BX_CNT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update cust_js
+		<set>
+			<if test="CUST_XZ != null ">CUST_XZ=#{CUST_XZ,jdbcType=VARCHAR},</if>
+			<if test="BIZ_XM != null ">BIZ_XM=#{BIZ_XM,jdbcType=VARCHAR},</if>
+			<if test="BIZ_DATE != null ">BIZ_DATE=#{BIZ_DATE,jdbcType=VARCHAR},</if>
+			<if test="BIZ_YEARS != null and BIZ_YEARS!='' ">BIZ_YEARS=#{BIZ_YEARS,jdbcType=INTEGER},</if>
+			<if test="OWN_FLAG != null ">OWN_FLAG=#{OWN_FLAG,jdbcType=CHAR},</if>
+			<if test="OWN_AREA != null and OWN_AREA!='' ">OWN_AREA=#{OWN_AREA,jdbcType=DECIMAL},</if>
+			<if test="RENT_FLAG != null 	">RENT_FLAG=#{RENT_FLAG,jdbcType=CHAR},</if>
+			<if test="RENT_AREA != null and RENT_AREA!='' ">RENT_AREA=#{RENT_AREA,jdbcType=DECIMAL},</if>
+			<if test="WORKERS != null and WORKERS!='' ">WORKERS=#{WORKERS,jdbcType=INTEGER},</if>
+			<if test="INCOME_Y != null and INCOME_Y!='' ">INCOME_Y=#{INCOME_Y,jdbcType=DECIMAL},</if>
+			<if test="PROFIT_Y != null and PROFIT_Y!='' ">PROFIT_Y=#{PROFIT_Y,jdbcType=DECIMAL},</if>
+			<if test="BX_CNT != null and BX_CNT!='' ">BX_CNT=#{BX_CNT,jdbcType=INTEGER},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		BIZ_HY=#{BIZ_HY,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPk">delete from cust_js where
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		BIZ_HY=#{BIZ_HY,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+	<if test="CUST_ID != null and CUST_ID!='' and BIZ_HY != null and BIZ_HY != ''">	
+		delete from cust_js
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="BIZ_HY != null"> and BIZ_HY=#{BIZ_HY,jdbcType=VARCHAR}</if>
+		</where>
+		</if>
+	</delete>
+</mapper>

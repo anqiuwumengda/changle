@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>财务信息-客户管理</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label">采集数据日期：</label>
+			<div class="bs-sm-r">
+				<input type="text" class="form-control" id="datepicker" value="">
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<table class="table table-bordered bs_table">
+			<tr><th colspan="4" class="bg_gray text-center">家庭资产负债（万元）</th></tr>
+			<tr>
+				<td width="25%">现金及银行存款</td>
+				<td width="25%" class="contenteditable" subj_cd="A0001" id="XJJYHCK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="XJJYHCK"></i>
+				</td>
+				<td width="25%">应付账款</td>
+				<td width="25%" class="contenteditable" subj_cd="D0001" id="ZFZK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="ZFZK"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>应收账款</td>
+				<td class="contenteditable" subj_cd="A0002" id="YSZK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YSZK"></i>
+				</td>
+				<td>预收款项</td>
+				<td class="contenteditable" subj_cd="D0002" id="YSKX">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YSKX"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>预付款项</td>
+				<td class="contenteditable" subj_cd="A0003" id="YFCX">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="YFCX"></i>
+				</td>
+				<td>短期贷款</td>
+				<td class="contenteditable" subj_cd="D0003" id="DQDK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="DQDK"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>存货</td>
+				<td class="contenteditable" subj_cd="A0004" id="CK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="CK"></i>
+				</td>
+				<td class="bg_gray">短期负债</td>
+				<td id="DQFZ">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">流动资产</td>
+				<td id="LDZC">自动计算</td>
+				<td>长期贷款</td>
+				<td class="contenteditable" subj_cd="D0004" id="CQDK">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="CQDK"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>固定资产</td>
+				<td class="contenteditable" subj_cd="A0005" id="GDZC">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet2" zd="GDZC"></i>
+				</td>
+				<td>其他负债</td>
+				<td class="contenteditable" subj_cd="D0005" id="QTFZ">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="QTFZ"></i>
+				</td>
+			</tr>
+			<tr>
+				<td>其他资产</td>
+				<td class="contenteditable" subj_cd="A0006" id="QTJYZC">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="QTJYZC"></i>
+				</td>
+				<td class="bg_gray">总负债</td>
+				<td id="ZFZ">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">总资产</td>
+				<td id="ZZC">自动计算</td>
+				<td class="bg_gray">权益</td>
+				<td id="QY">自动计算</td>
+			</tr>
+			<tr>
+				<td class="bg_gray">速动比率</td>
+				<td id="SDBL">自动计算</td>
+				<td class="bg_gray">资产负债率</td>
+				<td id="ZCFZL">自动计算</td>
+			</tr>
+			<tr>
+				<td>家庭或有负债</td>
+				<td class="contenteditable" subj_cd="P0002" id="JTHYFZ">
+					<input type="text" class="itext">
+					<i class="glyphicon glyphicon-list-alt right" name="findet1" zd="JTHYFZ"></i>
+				</td>
+				<td> </td>
+				<td> </td>
+			</tr>
+		</table>
+		<table class="table table-bordered bs_table">
+		<thead>
+			<tr>
+				<th class="bg_gray">收入支出情况（万元）</th>
+				<th>一年前</th>
+				<th>二年前</th>
+				<th>三年前</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>家庭总收入</td>
+				<td class="pre">
+					<span id="SR_1Y"></span><button type="button" class="btn btn-xs btn-danger right" id="inCount">计算</button>
+				</td>
+				<td contenteditable="true" id="SR_2Y"></td>
+				<td contenteditable="true" id="SR_3Y"></td>
+			</tr>
+			<tr>
+				<td>家庭总支出</td>
+				<td contenteditable="true" id="ZC_1Y"></td>
+				<td contenteditable="true" id="ZC_2Y"></td>
+				<td contenteditable="true" id="ZC_3Y"></td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="clearfix text-center tab-footer">
+		<button class="btn btn-md btn-danger" type="button" id="btnSubmitSave">保存</button>
+		<button class="btn btn-md btn-danger" type="button" onclick="backkhgl();">返回</button>
+	</div>
+</form>
+<!-- 历史记录 -->
+<div class="col-xs-12">
+<table class="bs_table table_bg_blue">
+	<thead>
+		<tr>
+			<th width="130">录入日期</th>
+			<th>备注</th>
+			<th width="70"></th>
+		</tr>
+	</thead>
+	<tbody id="tbodyList">
+		
+	</tbody>
+</table>
+</div>
+<div id="loadgif" class="none" style=""><img alt="加载中..." src="../img/loading.gif" width="32" height="32"/></div>
+<!-- 弹窗modal1 -->
+<div id="myModal1" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel1">现金及银行存款明细</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<table class="bs_table table_bg_blue modal_table">
+					<thead>
+						<tr>
+							<th width="30%">类别</th>
+							<th width="15%">金额</th>
+							<th>备注</th>
+							<th width="56">
+								<button class="btn btn-xs" type="button" onclick="addrow1(this);">
+									<i class="glyphicon glyphicon-plus"></i> 新增
+								</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyJt1">
+						
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary findetsave" id="btnsave1">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 弹窗modal2 -->
+<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel2">固定资产</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<table class="bs_table table_bg_blue modal_table">
+					<thead>
+						<tr>
+							<th width="30%">类别</th>
+							<th>数量</th>
+							<th>金额</th>
+							<th>备注</th>
+							<th width="56">
+								<button class="btn btn-xs" type="button" onclick="addrow2(this);">
+									<i class="glyphicon glyphicon-plus"></i> 新增
+								</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyJt2">
+						
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave2">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<input type="hidden" id="cust_type">
+<script id="财务信息">
+$("#datepicker").datepicker("update",newDate); //更新日期
+var cust_id=getUrlParam("cust_id");//获取url中cust_id的值
+var date_id=$("#datepicker");//获取日期值
+Io.on("#datepicker","click",function(){
+	$("#datepicker").datepicker("update",date_id.val()); //更新日期
+})
+var XJJYHCK=$("#XJJYHCK"), //现金及银行存款
+	YSZK=$("#YSZK"),//应收账款
+	YFCX=$("#YFCX"),//预付款项
+	CK=$("#CK"),//存货
+	LDZC=$("#LDZC"),//流动资产
+	GDZC=$("#GDZC"),//固定资产
+	JTHYFZ=$("#JTHYFZ"),//家庭或有负债
+	QTJYZC=$("#QTJYZC"),//其他资产
+	ZZC=$("#ZZC"),//总资产
+	SDBL=$("#SDBL"),//速动比率
+	ZFZK=$("#ZFZK"),//应付账款
+	YSKX=$("#YSKX"),//预收款项
+	DQDK=$("#DQDK"),//短期贷款
+	DQFZ=$("#DQFZ"),//短期负债
+	CQDK=$("#CQDK"),//长期贷款
+	QTFZ=$("#QTFZ"),//其他负债
+	ZFZ=$("#ZFZ"),//总负债
+	QY=$("#QY"),//权益
+	ZCFZL=$("#ZCFZL"),//资产负债率
+	////////////////收入支出情况
+	SR_1Y=$("#SR_1Y"),//一年前家庭总收入
+	SR_2Y=$("#SR_2Y"),//二年前家庭总收入
+	SR_3Y=$("#SR_3Y"),//三年前家庭总收入
+	ZC_1Y=$("#ZC_1Y"),//一年前家庭总支出
+	ZC_2Y=$("#ZC_2Y"),//二年前家庭总支出
+	ZC_3Y=$("#ZC_3Y");//三年前家庭总支出
+$(".itext").on("keyup",function(){
+	var $this=$(this);
+	$this.val($this.val().replace(/[^\d\.]/g,""));
+});
+//查询财务信息
+function finrpt(){
+	var data1={
+			"CUST_ID":cust_id,
+			"DATE_ID":date_id.val(),
+			"DTL_TYPE":"1"
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"finrpt/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				//var htm='<i class="glyphicon glyphicon-list-alt right"></i>';
+				var htm="";
+				if(data.result!=null && data.result.length){
+					var result=data.result[0];
+					XJJYHCK.find("input").val(result.XJJYHCK+htm);
+					YSZK.find("input").val(result.YSZK+htm);
+					YFCX.find("input").val(result.YFCX+htm);
+					CK.find("input").val(result.CK+htm);
+					LDZC.html(result.LDZC);
+					GDZC.find("input").val(result.GDZC+htm);
+					JTHYFZ.find("input").val(result.JTHYFZ+htm);
+					QTJYZC.find("input").val(result.QTJYZC+htm);
+					ZZC.html(Math.round(result.ZZC*100)/100);
+					SDBL.html(Math.round(result.SDBL*100)/100+"%");
+					ZFZK.find("input").val(result.ZFZK);
+					YSKX.find("input").val(result.YSKX+htm);
+					DQDK.find("input").val(result.DQDK+htm);
+					DQFZ.html(result.DQFZ);
+					CQDK.find("input").val(result.CQDK+htm);
+					QTFZ.find("input").val(result.QTFZ+htm);
+					ZFZ.html(result.ZFZ);
+					QY.html(Math.round(result.QY*100)/100);
+					ZCFZL.html(Math.round(result.ZCFZL*100)/100+"%");
+					SR_1Y.text(result.SR_1Y);
+					SR_2Y.text(result.SR_2Y);
+					SR_3Y.text(result.SR_3Y);
+					ZC_1Y.text(result.ZC_1Y);
+					ZC_2Y.text(result.ZC_2Y);
+					ZC_3Y.text(result.ZC_3Y);
+				}else{
+					XJJYHCK.find("input").val(htm);
+					YSZK.find("input").val(htm);
+					YFCX.find("input").val(htm);
+					CK.find("input").val(htm);
+					LDZC.html("");
+					GDZC.find("input").val(htm);
+					JTHYFZ.find("input").val(htm);
+					QTJYZC.find("input").val(htm);
+					ZZC.html("");
+					SDBL.html("");
+					ZFZK.find("input").val(htm);
+					YSKX.find("input").val(htm);
+					DQDK.find("input").val(htm);
+					DQFZ.html("");
+					CQDK.find("input").val(htm);
+					QTFZ.find("input").val(htm);
+					ZFZ.html("");
+					QY.html("");
+					ZCFZL.html("");
+					SR_1Y.text("");
+					SR_2Y.text("");
+					SR_3Y.text("");
+					ZC_1Y.text("");
+					ZC_2Y.text("");
+					ZC_3Y.text("");
+				}
+			}else if(data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+date_id.on("blur",function(){
+	finrpt();
+})
+$("#btnSubmitSave").on("click",function(){
+	var itext=$(".itext");
+	var reg = new RegExp("^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$");
+	var valid=true;
+	itext.each(function(i,v){
+		var $this=$(v);
+		//console.log(reg.test($this.val()));
+		if(reg.test($this.val())||$this.val()==""){
+			valid=true;
+		}else{
+			valid=false;
+			return false;
+		}
+	})
+	if(valid){
+		var data1={
+				"CUST_ID":cust_id,
+				"DATE_ID":date_id.val(),
+				"RPT_TYPE":"1",
+				"SR_1Y":SR_1Y.text(),
+				"SR_2Y":SR_2Y.text(),
+				"SR_3Y":SR_3Y.text(),
+				"ZC_1Y":ZC_1Y.text(),
+				"ZC_2Y":ZC_2Y.text(),
+				"ZC_3Y":ZC_3Y.text(),
+				///////保存报表字段 
+				"XJJYHCK":XJJYHCK.find("input").val(),
+				"ZFZK":ZFZK.find("input").val(),
+				"YSKX":YSKX.find("input").val(),
+				"YSZK":YSZK.find("input").val(),
+				"YFCX":YFCX.find("input").val(),
+				"CK":CK.find("input").val(),
+				"GDZC":GDZC.find("input").val(),
+				"JTHYFZ":JTHYFZ.find("input").val(),
+				"DQDK":DQDK.find("input").val(),
+				"CQDK":CQDK.find("input").val(),
+				"GDZC":GDZC.find("input").val(),
+				"QTFZ":QTFZ.find("input").val(),
+				"QTJYZC":QTJYZC.find("input").val()
+		};
+		$.ajax({
+			beforeSend:function(){
+				if(true){$("#loadgif").fadeIn(200);};
+			},
+			type:"post",
+			url:baseurl+"finrpt/save",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				$("#loadgif").fadeOut(100);
+				if(data.code=="00"){
+					alert("保存成功");
+					finrptList();
+				}else if(data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+					$("#loadgif").fadeOut(100);
+				}
+			}
+		})
+	}else{
+		alert("录入格式不正确");
+	}
+})
+//查询财务历史列表 
+function finrptList(){
+	var data1={"CUST_ID":cust_id};
+	$.ajax({
+		type:"post",
+		url:baseurl+"finrpt/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(null!=data.result && data.result.length){
+					var html="";
+					var result=data.result;
+					var dateId=result[0].DATE_ID;
+					$("#datepicker").val(dateId);
+					finrpt();
+					for(var i=0;i<result.length;i++){
+						html+='<tr>'+
+							'<td>'+ result[i].DATE_ID +'</td>'+
+							'<td></td>'+
+							'<td date="'+ result[i].DATE_ID +'"><button class="btn btn-xs btn-danger" type="button" name="btnDel">'+
+							'<i class="glyphicon glyphicon-trash"></i></button> '+
+							'<button class="btn btn-xs btn-danger" type="button" name="btnSee">'+
+							'<i class="glyphicon glyphicon-eye-open"></i></button></td>'+
+							'</tr>';
+					}
+					$("#tbodyList").html(html);
+				}else{
+					finrpt();
+					$("#tbodyList").html("");
+				}
+			}else{
+				$("#tbodyList").html("");
+			}
+		}
+	})
+}
+finrptList();
+Io.on("[name=btnDel]","click",function(){
+	if(confirm("确定删除吗？")){
+		var date_id=$(this).parent().attr("date");
+		var data1={"CUST_ID":cust_id,"DATE_ID":date_id,"RPT_TYPE":1};
+		$.ajax({
+			type:"post",
+			url:baseurl+"finrpt/delete",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					finrptList();
+				}else{
+					alert(data.errMsg);
+				}
+			}
+		})
+	}
+});
+
+Io.on("[name=btnSee]","click",function(){ //查看
+	var date_id=$(this).parent().attr("date");
+	$("#datepicker").val(date_id);
+	finrpt();
+});
+//计算年收入
+var cust_type=$("#cust_type");
+var data0={"CUST_ID":cust_id};
+$.ajax({
+	type:"post",
+	url:baseurl+"custbase/queryList",
+	dataType:"json",
+	contentType:"application/json",
+	data:JSON.stringify(data0),
+	success:function(data){
+		if(data.code=="00"){
+			if(data.result!=null&&data.result.length){
+				var result=data.result[0];
+				cust_type.val(result.CUST_TYPE);
+				function querySR1Y(){
+					var data1={"CUST_ID":cust_id,"CUST_TYPE":cust_type.val()};
+					$.ajax({
+						type:"post",
+						url:baseurl+"rptdtl/querySR1Y",
+						dataType:"json",
+						contentType:"application/json",
+						data:JSON.stringify(data1),
+						success:function(data){
+							if(data.code=="00"){
+								$("#SR_1Y").text(data.result[0].SR_1Y);
+							}else{
+								alert(data.errMsg);
+							}
+						}
+					});
+				}
+				querySR1Y();
+				$("#inCount").on("click",function(){
+					querySR1Y();
+				})
+			}
+			
+		}else if(data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			console.log(data.errMsg);
+		}
+	}
+});
+
+</script>
+<script id="财务明细">
+//点击表格详细
+var myNum=0;
+function queryDetailList(cd){//cd为财务指标代码
+	var data1={"DATE_ID":date_id.val(),"CUST_ID":cust_id,"SUBJ_CD":cd};
+	var zd=$("#myModalLabel1").attr("zd");
+	$.ajax({
+		type:"post",
+		url:baseurl+"rptdtl/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;					
+					var html="";
+					for(var i=0;i<result.length;i++){
+						html+='<tr cid="'+ result[i].RPT_DTL_ID +'">'+
+							'<td><select id="my'+ cd + i +'" v="'+ result[i].SUBJ_TYPE +'" class="selectOne"></select></td>'+
+							'<td contenteditable="true">'+ result[i].SUBJ_VAL +'</td>'+
+							'<td contenteditable="true">'+ result[i].DTL_DESC +'</td>'+
+							'<td><button class="btn btn-xs btn-danger" type="button" dtl_seq="'+ result[i].DTL_SEQ +'" name="delrow">'+
+							'<i class="glyphicon glyphicon-trash"></i> 删除'+
+							'</button></td>'+ 
+							'</tr>';
+							
+					}
+					
+					$("#tbodyJt1").html(html);
+					$("#tbodyJt1").find("tr").find("select").each(function(i,v){
+						var $this=$(v);
+						var val=$this.attr("v");
+						var id = "my"+ cd + i ;
+						//findetSelect(key,zd); //字典枚举
+						var data1={"DIC_PARENTID":zd};
+						$.ajax({
+							type:"post",
+							url:baseurl+"lrddic/query",
+							dataType:"json",
+							contentType:"application/json",
+							data:JSON.stringify(data1),
+							success:function(data){
+								if(data.code=="00"){
+									var ids=$("#"+id);
+									if(data.result!=null && data.result.length){
+										var result=data.result;
+										var html="";
+										for(var i=0;i<result.length;i++){
+											html+='<option value="'+ result[i].DIC_ID + '" >'+ result[i].DIC_NAME +'</option>';
+										}
+										ids.html(html);
+										$this.val(val);
+									}
+								}
+							}
+						})
+						
+					});
+				}else{
+					$("#tbodyJt1").html("");
+					console.log(data.errMsg);
+				}
+			}else if(data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				$("#tbodyJt1").html("");
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+
+function queryDetailList2(cd){//cd为财务指标代码
+	var data1={"DATE_ID":date_id.val(),"CUST_ID":cust_id,"SUBJ_CD":cd};
+	var zd=$("#myModalLabel2").attr("zd");
+	$.ajax({
+		type:"post",
+		url:baseurl+"rptdtl/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;					
+					var html="";
+					for(var i=0;i<result.length;i++){
+						html+='<tr cid="'+ result[i].RPT_DTL_ID +'">'+
+							'<td><select id="my'+ cd + i +'" v="'+ result[i].SUBJ_TYPE +'" class="selectOne"><option value="'+ result[i].SUBJ_TYPE +'">'+ result[i].SUBJ_TYPE+'</option></select></td>'+
+							'<td contenteditable="true">'+ result[i].DTL_NUM +'</td>'+
+							'<td contenteditable="true">'+ result[i].SUBJ_VAL +'</td>'+
+							'<td contenteditable="true">'+ result[i].DTL_DESC +'</td>'+
+							'<td><button class="btn btn-xs btn-danger" type="button" dtl_seq="'+ result[i].DTL_SEQ +'" name="delrow">'+
+							'<i class="glyphicon glyphicon-trash"></i> 删除'+
+							'</button></td>'+ 
+							'</tr>';
+					}
+					$("#tbodyJt2").html(html);
+					$("#tbodyJt2").find("tr").find("select").each(function(i,v){
+						var $this=$(v);
+						var val=$this.attr("v");
+						var id = "my"+ cd + i ;
+						//findetSelect(key,zd); //字典枚举
+						var data1={"DIC_PARENTID":zd};
+						$.ajax({
+							type:"post",
+							url:baseurl+"lrddic/query",
+							dataType:"json",
+							contentType:"application/json",
+							data:JSON.stringify(data1),
+							success:function(data){
+								if(data.code=="00"){
+									var ids=$("#"+id);
+									if(data.result!=null && data.result.length){
+										var result=data.result;
+										var html="";
+										for(var i=0;i<result.length;i++){
+											html+='<option value="'+ result[i].DIC_ID + '" >'+ result[i].DIC_NAME +'</option>';
+										}
+										ids.html(html);
+										$this.val(val);
+									}
+								}
+							}
+						})
+						
+					});
+				}else{
+					$("#tbodyJt2").html("");
+					console.log(data.errMsg);
+				}
+			}else if(data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				$("#tbodyJt2").html("");
+				console.log(data.errMsg);
+			}
+		}
+	})
+}
+//点击弹出 
+/* $(".contenteditable").on("click focus",function(){
+	var $this=$(this);
+	var title=$this.prev().text();
+	var subj_cd=$this.attr("subj_cd")||"0";
+	$("#myModalLabel").text(title);
+	$("#myModal").find("#btnsave").attr("SUBJ_CD",subj_cd);
+	$("#myModal").modal({
+		backdrop:false
+	});
+	queryDetailList(subj_cd);
+}) */
+$("[name=findet1]").on("click",function(){
+	var $this=$(this);
+	var title=$this.parent().prev().text();
+	var subj_cd=$this.parent().attr("subj_cd")||"0";
+	var zd=$this.attr("zd");
+	$("#myModalLabel1").text(title).attr("zd",zd);
+	$("#myModal1").find("#btnsave1").attr("subj_cd",subj_cd);
+	$("#myModal1").modal({
+		backdrop:false
+	});
+	queryDetailList(subj_cd);
+});
+$("[name=findet2]").on("click",function(){
+	var $this=$(this);
+	var title=$this.parent().prev().text();
+	var subj_cd=$this.parent().attr("subj_cd")||"0";
+	var zd=$this.attr("zd");
+	$("#myModalLabel2").text(title).attr("zd",zd);
+	$("#myModal2").find("#btnsave2").attr("subj_cd",subj_cd);
+	$("#myModal2").modal({
+		backdrop:false
+	});
+	queryDetailList2(subj_cd);
+});
+//点击保存1
+Io.on("#btnsave1", "click", function(){
+	var subj_cd=$(this).attr("subj_cd");
+	var valid=true;
+	$("#tbodyJt1").find("tr").each(function(i,v){
+		var subj_type=$(v).find("td").eq(0).find("select").val();
+		var subj_val=$(v).find("td").eq(1).text();
+		var dtl_desc=$(v).find("td").eq(2).text();
+		var rpt_dtl_id=$(v).attr("cid")||""
+		var reg = new RegExp("^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$");
+		var gdziReg=new RegExp(/^([1-9]\d*|0)(\.\d{1})?$/);
+		if(subj_type==""){
+			alert("类别不能为空");
+			valid=false;
+		}else if(subj_val==""){
+			alert("金额不能为空");
+			valid=false;
+		}else if(!reg.test(subj_val)){
+			alert("金额格式不正确");
+			valid=false;
+		}else{
+			valid=true;
+		}
+		var data1={
+				"CUST_ID":cust_id,
+				"RPT_DTL_ID":rpt_dtl_id,
+				"DATE_ID":date_id.val(),
+				"SUBJ_CD":subj_cd,
+				"SUBJ_TYPE":subj_type,
+				"DTL_DESC":dtl_desc,
+				"SUBJ_VAL":subj_val,
+				"DTL_TYPE":"1"
+		};
+		if(valid){
+			$.ajax({
+				type:"post",
+				url:baseurl+"rptdtl/save",
+				dataType:"json",
+				contentType:"application/json",
+				data:JSON.stringify(data1),
+				success:function(data){
+					if(data.code=="00"){
+						$("#myModal1").modal("hide");
+						//finrpt();
+						//finrptList();
+					}else if(data.code=="88"){
+						eval(data.reLoad);
+					}else{
+						alert(data.errMsg);
+						valid=false;
+					}
+				}
+			})
+		}
+		
+	})
+});
+//点击保存2
+Io.on("#btnsave2", "click", function(){
+	var subj_cd=$(this).attr("subj_cd");
+	var valid=true;
+	$("#tbodyJt2").find("tr").each(function(i,v){
+		var subj_type=$(v).find("td").eq(0).find("select").val();
+		var dtl_num=$(v).find("td").eq(1).text();
+		var subj_val=$(v).find("td").eq(2).text();
+		var dtl_desc=$(v).find("td").eq(3).text();
+		var rpt_dtl_id=$(v).attr("cid")||""
+		var reg = new RegExp("^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$");
+		var gdziReg=new RegExp(/^([1-9]\d*|0)(\.\d{1})?$/);
+		debugger;
+		if(subj_type==""){
+			alert("类别不能为空");
+			valid=false;
+			return false;
+		}else if(dtl_num==""){
+			alert("数量不能为空");
+			valid=false;
+			return false;
+		}else if(subj_val==""){
+			alert("金额不能为空");
+			valid=false;
+			return false;
+		}else if(!reg.test(subj_val)){
+			alert("金额格式不正确");
+			valid=false;
+			return false;
+		}else{
+			valid=true;
+		}
+		var data1={
+				"CUST_ID":cust_id,
+				"RPT_DTL_ID":rpt_dtl_id,
+				"DTL_NUM":dtl_num,
+				"DATE_ID":date_id.val(),
+				"SUBJ_CD":subj_cd,
+				"SUBJ_TYPE":subj_type,
+				"DTL_DESC":dtl_desc,
+				"SUBJ_VAL":subj_val,
+				"DTL_TYPE":"1"
+		};
+		if(valid){
+			$.ajax({
+				type:"post",
+				url:baseurl+"rptdtl/save",
+				dataType:"json",
+				contentType:"application/json",
+				data:JSON.stringify(data1),
+				success:function(data){
+					if(data.code=="00"){
+						$("#myModal2").modal("hide");
+						//finrpt();
+						//finrptList();
+					}else if(data.code=="88"){
+						eval(data.reLoad);
+					}else{
+						alert(data.errMsg);
+						valid=false;
+					}
+				}
+			})
+		}
+		
+	})
+})
+//增加一行
+function addrow1(id){
+	var zd=$(id).parents(".modal").find("#myModalLabel1").attr("zd");
+	myNum++;
+	var html="";
+	var json={};
+	html='<tr><td><select id="my_zd'+myNum+'" style="width:100%"></select></td>'+
+	'<td contenteditable="true"></td>'+
+	'<td contenteditable="true"></td>'+
+	'<td><button class="btn btn-xs btn-danger" type="button" name="delrow">'+
+	'<i class="glyphicon glyphicon-trash"></i> 删除</button></td></tr>';
+	$("#tbodyJt1").append(html);
+	var key = "my_zd"+myNum;
+	json[key]=zd;
+	selectOnload({"json":json,"isDefault":true}); //字典枚举
+}
+function addrow2(id){
+	var zd=$(id).parents(".modal").find("#myModalLabel2").attr("zd");
+	myNum++;
+	var html="";
+	var json={};
+	html='<tr><td><select id="my_zd'+myNum+'" style="width:100%"></select></td>'+
+	'<td contenteditable="true"></td>'+
+	'<td contenteditable="true"></td>'+
+	'<td contenteditable="true"></td>'+
+	'<td><button class="btn btn-xs btn-danger" type="button" name="delrow">'+
+	'<i class="glyphicon glyphicon-trash"></i> 删除</button></td></tr>';
+	$("#tbodyJt2").append(html);
+	var key = "my_zd"+myNum;
+	json[key]=zd;
+	selectOnload({"json":json,"isDefault":true}); //字典枚举
+}
+Io.on("[name=delrow]","click",function(){
+	var $this=$(this);
+	var subj_cd=$this.parents(".modal").find(".findetsave").attr("subj_cd");//指标值
+	var rpt_dtl_id=$this.parent().parent().attr("cid");//明细ID
+	var dtl_desc=$this.parent().parent().find("td").eq(0).text();
+	var data1={
+			"CUST_ID":cust_id,
+			"RPT_DTL_ID":rpt_dtl_id,
+			"DATE_ID":date_id.val(),
+			"DTL_TYPE":"1",
+			"SUBJ_CD":subj_cd,
+			"DTL_DESC":dtl_desc
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"rptdtl/delete",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data1),
+		success:function(data){
+			if(data.code=="00"){
+				$this.parent().parent().remove();
+				//finrpt();
+				//finrptList();
+			}else{
+				alert(data.errMsg)
+			}
+		}
+	})
+})
+
+</script>
+</body>
+</html>

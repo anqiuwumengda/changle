@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>贷款审批-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="page-bg white-bg">
+<ul class="nav nav-tabs nav_mytabs">
+    <li class="active">
+        <a data-toggle="tab" href="#menu1">申请信息</a>
+    </li>
+    <li>
+        <a data-toggle="tab" href="#menu2">客户调查</a>
+    </li>
+    <li>
+        <a data-toggle="tab" href="#menu3">审批</a>
+    </li>
+</ul>
+<div class="tab-content">
+	<div id="menu1" class="none active">
+		<iframe id="myTabsFrame" name="myTabsFrame" src="../dksq/daikuanshenqing_see.html" onload="iFrameHeight('myTabsFrame')">正在加载</iframe>
+	</div>
+	<div id="menu2" class="none">
+		<iframe id="myFrames" name="myFrames" src="../khgl/kehuguanli_see.html" onload="iFrameHeight('myFrames')">正在加载</iframe>
+	</div>
+	<div id="menu3" class="widget none">
+		<div class="widget-content">
+			<div class="table_wrapper">
+				<table class="bs_table app_table1" id="example1" style="min-width:400px;">
+					<thead>
+						<tr>
+							<th width="95">日期</th>
+							<th width="61">审批人</th>
+							<th width="61">状态</th>
+							<th>备注</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>2016-12-21</td>
+							<td>张三丰</td>
+							<td>不同意</td>
+							<td>资料齐全，资质合格，允许通过!</td>
+						</tr>
+						<tr>
+							<td>2016-7-21</td>
+							<td>张三</td>
+							<td>同意</td>
+							<td>资料齐全，资质合格，允许通过!</td>
+						</tr>
+						<tr>
+							<td>2016-7-21</td>
+							<td>张三</td>
+							<td>同意</td>
+							<td>资料齐全，资质合格，允许通过!</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="none" id="isDeal">
+				<div class="h5">你的意见：</div>
+				<textarea class="form-control textarea" rows="5"></textarea>
+				<div class="clearfix mt10">
+					<button class="btn btn-primary" id="btnOk">
+						<i class="glyphicon glyphicon-ok"></i> 同意
+					</button>
+					<button class="btn btn-danger" id="btnRemove">
+						<i class="glyphicon glyphicon-remove"></i> 拒绝
+					</button>
+					<button class="btn btn-default">
+						<i class="glyphicon glyphicon-arrow-left"></i> 返回
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var isdeal=getUrlParam("isDeal");
+if(isdeal=='false'){
+	console.log(isdeal,"未处理的");
+	$("#isDeal").show();
+}else{
+	$("#isDeal").hide();
+}
+</script>
+</body>
+</html>

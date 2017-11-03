@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.RptDtlMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT RPT_DTL_ID,DATE_ID,CUST_ID,SUBJ_CD,DTL_SEQ,DTL_TYPE,SUBJ_TYPE,DTL_NUM,DTL_DESC,SUBJ_VAL,CRT_DATE,MTN_DATE
+		FROM `rpt_dtl`
+		<where>
+			<if test="DATE_ID != null"> and DATE_ID=#{DATE_ID,jdbcType=CHAR}</if>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="SUBJ_CD != null"> and SUBJ_CD=#{SUBJ_CD,jdbcType=VARCHAR}</if>
+			<if test="DTL_TYPE != null"> and DTL_TYPE=#{DTL_TYPE,jdbcType=CHAR}</if>
+			<if test="DTL_DESC != null"> and DTL_DESC=#{DTL_DESC,jdbcType=VARCHAR}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into rpt_dtl
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="DATE_ID != null ">DATE_ID,</if>
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="SUBJ_CD != null ">SUBJ_CD,</if>
+			<if test="DTL_SEQ != null and DTL_SEQ!='' ">DTL_SEQ,</if>
+			<if test="SUBJ_TYPE != null and SUBJ_TYPE!='' ">SUBJ_TYPE,</if>
+			<if test="DTL_TYPE != null ">DTL_TYPE,</if>
+			<if test="DTL_NUM != null ">DTL_NUM,</if>
+			<if test="DTL_DESC != null ">DTL_DESC,</if>
+			<if test="SUBJ_VAL != null and SUBJ_VAL!='' ">SUBJ_VAL,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+			<if test="RPT_DTL_ID != null">RPT_DTL_ID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">	
+			<if test="DATE_ID != null ">#{DATE_ID,jdbcType=CHAR},</if>
+			<if test="CUST_ID != null and CUST_ID!='' ">#{CUST_ID,jdbcType=CHAR},</if>
+			<if test="SUBJ_CD != null ">#{SUBJ_CD,jdbcType=CHAR},</if>
+			<if test="DTL_SEQ != null and DTL_SEQ!='' ">#{DTL_SEQ,jdbcType=CHAR},</if>
+			<if test="SUBJ_TYPE != null and SUBJ_TYPE!='' ">#{SUBJ_TYPE,jdbcType=CHAR},</if>
+			<if test="DTL_TYPE != null ">#{DTL_TYPE,jdbcType=CHAR},</if>
+			<if test="DTL_NUM != null ">#{DTL_NUM,jdbcType=CHAR},</if>
+			<if test="DTL_DESC != null ">#{DTL_DESC,jdbcType=CHAR},</if>
+			<if test="SUBJ_VAL != null and SUBJ_VAL!='' ">#{SUBJ_VAL,jdbcType=CHAR},</if>
+			<if test="CRT_DATE != null ">#{CRT_DATE,jdbcType=CHAR},</if>
+			<if test="MTN_DATE != null ">#{MTN_DATE,jdbcType=CHAR},</if>
+			<if test="RPT_DTL_ID != null">#{RPT_DTL_ID,jdbcType=CHAR},</if>
+		
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update rpt_dtl
+		<set>
+			<if test="DTL_SEQ != null and DTL_SEQ!='' ">DTL_SEQ=#{DTL_SEQ,jdbcType=CHAR},</if>
+			<if test="SUBJ_TYPE != null and SUBJ_TYPE!='' ">SUBJ_TYPE=#{SUBJ_TYPE,jdbcType=CHAR},</if>
+			<if test="DTL_TYPE != null ">DTL_TYPE=#{DTL_TYPE,jdbcType=CHAR},</if>
+			<if test="DTL_NUM != null ">DTL_NUM=#{DTL_NUM,jdbcType=CHAR},</if>
+			<if test="SUBJ_VAL != null and SUBJ_VAL!='' ">SUBJ_VAL=#{SUBJ_VAL,jdbcType=CHAR},</if>
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=CHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=CHAR},</if>
+		</set>
+		where RPT_DTL_ID=#{RPT_DTL_ID,jdbcType=VARCHAR};
+	</update>
+	<delete id="deleteByPk">delete from rpt_dtl where
+		DATE_ID=#{DATE_ID,jdbcType=CHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		SUBJ_CD=#{SUBJ_CD,jdbcType=VARCHAR} and
+		DTL_TYPE=#{DTL_TYPE,jdbcType=CHAR} and
+		DTL_DESC=#{DTL_DESC,jdbcType=VARCHAR}</delete>
+	<delete id="delete">
+		delete from rpt_dtl where RPT_DTL_ID=#{RPT_DTL_ID,jdbcType=VARCHAR}
+	</delete>
+	<select id="queryQtSR1Y" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT 
+		SUM(ifnull(zg.YEARAMT,0))+SUM(ifnull(js.INCOME_Y,0))+SUM(ifnull(zz.INCOME_Y,0))+SUM(ifnull(yz.INCOME_Y,0))+SUM(ifnull(dg.INCOME_Y,0)) FROM cust_base cb
+		LEFT JOIN `cust_zg` zg on cb.cust_id=zg.CUST_ID
+		left join cust_js js on cb.CUST_ID=js.CUST_ID
+		left join cust_zz zz on cb.CUST_ID=zz.CUST_ID
+		LEFT JOIN cust_yz yz on cb.CUST_ID=yz.CUST_ID
+		LEFT JOIN cust_dg dg on cb.CUST_ID=dg.CUST_ID
+		where cb.CUST_ID=#{CUST_ID,jdbcType=VARCHAR};
+	</select>
+	
+	
+	<select id="queryXVQYSR1Y" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT SUM(INCOME_Y) FROM `cust_rela`
+		where CUST_ID=#{CUST_ID,jdbcType=VARCHAR};
+	</select>
+	
+</mapper>

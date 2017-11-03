@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<title>银行交易信息-客户管理-乐融微贷管理系统</title>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/myscript.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+</head>
+<body class="white-bg">
+<form class="form-horizontal">
+	<div class="clearfix">
+		<div class="col-sm-6 clearfix bs-form-group">
+			<label class="bs-sm-l control-label" style="text-align: left;padding-left:8px;">行内信息：</label>
+			<div class="bs-sm-r">
+				<select id="information" class="form-control" name="information" >
+				<option value="">--请选择--</option>
+				<option value="01">近6个月</option>
+				<option value="02">近12个月</option>	
+				<option value="03">近24个月</option>								
+			</select>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="col-xs-12 table_wrapper">
+<!-- <form>
+<div class="clearfix col-md-12 col-xs-12 mb10">
+	<label class="control-label left">行内信息：</label>
+		<div class="">
+			<select id="information" class="left col-xs-6" name="information"style="max-width:200px" >
+				<option value="01">近6个月</option>
+				<option value="01">近12个月</option>	
+				<option value="01">近24个月</option>								
+			</select>
+		</div>
+</div>
+</form> -->
+<table class="table table-bordered" style="min-width:430px;">
+		<thead>
+			<tr>
+				<th>客户姓名</th>
+				<th>身份证号</th>
+				<th>日均存款</th>
+				<th>逾期信息</th>
+			</tr>
+		</thead>
+		<tbody id="infor">
+			
+		</tbody>
+	</table>
+</div>
+<p class="col-md-12 col-xs-12 ">合作银行信息</p>
+<div class="col-xs-12 table_wrapper">
+	<table class="table table-bordered" style="min-width:500px;">
+		<thead>
+			<tr>
+				<th>合作银行</th>
+				<th>业务类别</th>
+				<th>金额</th>
+				<th>备注</th>
+				<th width="70">
+					<button class="btn btn-xs" type="button" id="additem">
+						<i class="glyphicon glyphicon-plus"></i> 新增
+					</button>
+				</th>
+			</tr>
+		</thead>
+		<tbody id="yhjyxxlist">
+			<tr><td align="center" height="300" colspan="7">暂时没有内容</td></tr>
+		</tbody>
+	</table>
+</div>
+<div class="clear"></div>
+<div class="clearfix text-center tab-footer">
+	<button class="btn btn-md btn-danger" type="button" onclick="backkhgl()">返回</button>
+</div>
+<!-- 弹窗modal -->
+<div id="myModal" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" id="myModalLabel">银行交易信息</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<input type="hidden" name="SEQ_NO" id="SEQ_NO">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">合作银行：</label>
+					<div class="bs-sm-r">
+						<select id="bank" class="form-control">
+							<option value="" selected>-请选择-</option>
+						</select> 
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">业务类别：</label>
+					<div class="bs-sm-r">
+						<select id="TRANS_TYPE" class="form-control">
+							<option value="" selected>-请选择-</option>
+						</select> 
+						<!--  <input type="text" class="form-control" name="TRANS_TYPE" id="TRANS_TYPE"/>-->
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">金额：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" name="TRANS_AMT" id="TRANS_AMT" onkeyup="value=value.replace(/[^\d.]/g,'')"/>
+					</div>
+				</div>
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">备注：</label>
+					<div class="bs-sm-r">
+						<input type="text" class="form-control" name="note" id="note"/>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="btnsave">保存</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script id="列表模板">
+function all(){	
+var cust_id=getUrlParam("cust_id"); //获取url的cust_id
+
+function pagerList(){
+	var data2={"CUST_ID":cust_id};  
+	 $.ajax({
+		beforeSend:function(){
+			$("#yhjyxxlist").html("<tr><td colspan='7'>正在加载...</td></tr>");
+		},
+		url:baseurl+"fintrans/query",
+		type:"post",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data2),
+		success:function(data){
+			if(data.code=="00"){
+				var resultArr=data.result;
+				var html="";
+				for(var i=0;i<resultArr.length;i++){
+					var result = resultArr[i];
+					html+='<tr>';
+					html+='<td>' + result.BANK_NAMEC + '</td>';
+					html+='<td>' + result.TRANS_TYPEC + '</td>';
+					html+='<td>' + result.TRANS_AMT + '</td>';
+					html+='<td>' + result.TRANS_DESC + '</td>';
+					html+='<td>';
+					html+='<button class="btn btn-xs btn-danger" type="button" name="btnEdit" zt="'+result.SEQ_NO+'"><i class="glyphicon glyphicon-pencil"></i></button> ';
+					html+='<button class="btn btn-xs btn-danger" type="button" name="btnDel" zt="'+result.SEQ_NO+'"><i class="glyphicon glyphicon-trash"></i></button>';
+					html+='</td>';
+					html+='</tr>';
+				}
+				$("#yhjyxxlist").html(html);
+				if(resultArr.length>10){
+					$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'pagerList');
+				}				
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);	
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+}
+pagerList();
+
+//编辑
+Io.on("[name=btnEdit]","click",function(){
+	var zt = $(this).attr('zt');
+	var bank = $("#bank"),
+		note = $("#note"),
+		TRANS_TYPE = $("#TRANS_TYPE"),
+		TRANS_AMT = $("#TRANS_AMT"),
+		SEQ_NO = $("#SEQ_NO");
+		
+	$("#myModalLabel").text("编辑");
+	$("#myModal").modal({
+		backdrop:false
+	})
+	var data3={"SEQ_NO":zt};
+	$.ajax({
+		type:"post",
+		url:baseurl+"fintrans/query",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data3),
+		success:function(data){
+			if(data.code=="00"){
+				//显示客户信息
+				var result=data.result[0];
+				SEQ_NO.val(result.SEQ_NO);
+				bank.val(result.BANK_NAME);
+				note.val(result.TRANS_DESC);
+				TRANS_TYPE.val(result.TRANS_TYPE);
+				TRANS_AMT.val(result.TRANS_AMT);
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);	
+				console.log(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+})
+
+//删除
+Io.on("[name=btnDel]","click",function(){
+	if(confirm("确定删除？")){
+		console.log("点击了确定！")
+	}else{
+		return;
+	}
+	var zt = $(this).attr('zt');
+	var data3={"SEQ_NO":zt};
+	$.ajax({
+		type:"post",
+		url:baseurl+"fintrans/delete",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data3),
+		success:function(data){
+		if(data.code=="00"){
+				pagerList();
+				alert("删除成功！");
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+})
+
+
+//增加
+$("#additem").on("click",function(){
+	$("#myModalLabel").text("新增");
+	$("#myModal").modal({
+		"backdrop":false
+	});	
+	$("#note").val("");
+	$("#TRANS_TYPE").val("");
+	$("#TRANS_AMT").val("");
+	$("#SEQ_NO").val("");
+})
+//保存
+$("#btnsave").on("click",function(){
+	var SEQ_NO = $("#SEQ_NO").val(),
+		bank = $("#bank").val(),
+		note = $("#note").val(),
+		TRANS_TYPE = $("#TRANS_TYPE").val(),
+		TRANS_AMT = $("#TRANS_AMT").val();
+	var data4 = {"CUST_ID":cust_id,
+				 "SEQ_NO":SEQ_NO,
+			  	 "BANK_NAME":bank,
+			  	 "TRANS_DESC":note,
+			  	 "TRANS_TYPE":TRANS_TYPE,
+			  	 "TRANS_AMT":TRANS_AMT
+	  			};
+	$.ajax({
+		type:"post",
+		url:baseurl+"fintrans/save",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data4),
+		success:function(data){
+		if(data.code=="00"){
+			$("#myModal").modal('hide');
+			pagerList();
+			alert("保存成功！");
+		}else if (data.code=="88"){
+			eval(data.reLoad);
+		}else{
+			alert(data.errMsg);
+		}
+	},error:function(data){
+		console.log("错误");
+	}
+	})
+})
+}
+</script>
+<script id="行内信息">
+Io.on("#information","change",function(){
+	var month=$("#information").val();
+	var info='';
+	switch(month){
+	case '01':
+		info="6";
+		break;
+	case '02':
+		info="12";
+		break;
+	case '03':
+		info="24";
+		break;
+	default:
+		info="";
+} 
+		var data5 = {
+				"YF":info,
+				"CUST_ID":getUrlParam("cust_id")
+				};
+		if(data5.YF!=""){
+		$.ajax({
+			type:"post",
+			url:baseurl+"SCSP/queryHn",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data5),
+			success:function(data){
+			if(data.code=="00"){
+				if(data.result!=null && data.result.length){
+					var result=data.result;
+					var html="";
+						html+='<tr>';
+						html+='<td>' + result.CUST_NAME + '</td>';
+						html+='<td>' + result.ID_NO + '</td>';
+						html+='<td>' + result.BHVERDUETERM + '</td>';
+						html+='<td>' + result.BHVERDUENUM + '</td>';
+						html+='</tr>';
+					$("#infor").html(html);
+				}else{
+					$("#infor").html("<tr><td colspan='4' class='text-center'>暂无信息</td></tr>");
+				}
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+		})
+		}else{
+			alert("请选择具体时间段");
+		}
+	});
+</script>
+<script id="字典">
+var json={
+		"information":"BANK_INFORMATION",//行内信息
+		"bank":"BANK_NAME",//合作银行
+		"TRANS_TYPE":"BUSINESS_SORT"//业务类别
+		}
+selectOnload({"json":json,"func":all,"length":2,"isDefault":false});
+</script>
+</body>
+</html>

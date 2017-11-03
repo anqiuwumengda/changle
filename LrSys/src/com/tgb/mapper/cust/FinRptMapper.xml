@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tgb.mapper.cust.FinRptMapper">
+	<select id="query" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		DATE_ID,CUST_ID,RPT_TYPE,XJJYHCK,YSZK,YFCX,LDZC,CK,GDZC,QTJYZC,QTFJYZC,ZZC,ZFZK,YSKX,DQDK,DQFZ,CQDK,QTFZ,ZFZ,QY,JTHYFZ,ZYFCSL,SDBL,ZCFZL,SR_1Y,ZC_1Y,SR_2Y,ZC_2Y,SR_3Y,ZC_3Y,CRT_DATE,MTN_DATE
+		from fin_rpt
+		<where>
+			<if test="DATE_ID != null"> and DATE_ID=#{DATE_ID,jdbcType=CHAR}</if>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+			<if test="RPT_TYPE != null"> and RPT_TYPE=#{RPT_TYPE,jdbcType=CHAR}</if>
+		</where>
+	</select>
+	<select id="queryDistinct" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select
+		DISTINCT DATE_ID,CUST_ID
+		from fin_rpt
+		<where>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+		</where>
+	</select>
+	<insert id="save" parameterType="java.util.Map">
+		insert into fin_rpt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="DATE_ID != null ">DATE_ID,</if>
+			<if test="CUST_ID != null and CUST_ID!='' ">CUST_ID,</if>
+			<if test="RPT_TYPE != null ">RPT_TYPE,</if>
+			<if test="XJJYHCK != null and XJJYHCK!='' ">XJJYHCK,</if>
+			<if test="YSZK != null and YSZK!='' ">YSZK,</if>
+			<if test="YFCX != null and YFCX!='' ">YFCX,</if>
+			<if test="LDZC != null and LDZC!='' ">LDZC,</if>
+			<if test="CK != null and CK!='' ">CK,</if>
+			<if test="GDZC != null and GDZC!='' ">GDZC,</if>
+			<if test="QTJYZC != null and QTJYZC!='' ">QTJYZC,</if>
+			<if test="QTFJYZC != null and QTFJYZC!='' ">QTFJYZC,</if>
+			<if test="ZZC != null and ZZC!='' ">ZZC,</if>
+			<if test="ZFZK != null and ZFZK!='' ">ZFZK,</if>
+			<if test="YSKX != null and YSKX!='' ">YSKX,</if>
+			<if test="DQDK != null and DQDK!='' ">DQDK,</if>
+			<if test="DQFZ != null and DQFZ!='' ">DQFZ,</if>
+			<if test="CQDK != null and CQDK!='' ">CQDK,</if>
+			<if test="QTFZ != null and QTFZ!='' ">QTFZ,</if>
+			<if test="ZFZ != null and ZFZ!='' ">ZFZ,</if>
+			<if test="QY != null and QY!='' ">QY,</if>
+			<if test="JTHYFZ != null and JTHYFZ!='' ">JTHYFZ,</if>
+			<if test="ZYFCSL != null and ZYFCSL!='' ">ZYFCSL,</if>
+			<if test="ZCFZL != null and ZCFZL!='' ">ZCFZL,</if>
+			<if test="SDBL != null and SDBL!='' ">SDBL,</if>
+			<if test="SR_1Y != null and SR_1Y!='' ">SR_1Y,</if>
+			<if test="ZC_1Y != null and ZC_1Y!='' ">ZC_1Y,</if>
+			<if test="SR_2Y != null and SR_2Y!='' ">SR_2Y,</if>
+			<if test="ZC_2Y != null and ZC_2Y!='' ">ZC_2Y,</if>
+			<if test="SR_3Y != null and SR_3Y!='' ">SR_3Y,</if>
+			<if test="ZC_3Y != null and ZC_3Y!='' ">ZC_3Y,</if>
+			<if test="CRT_DATE != null ">CRT_DATE,</if>
+			<if test="MTN_DATE != null ">MTN_DATE,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="DATE_ID != null">#{DATE_ID,jdbcType=CHAR},</if>
+			<if test="CUST_ID != null and CUST_ID!=''">#{CUST_ID,jdbcType=INTEGER},
+			</if>
+			<if test="RPT_TYPE != null">#{RPT_TYPE,jdbcType=CHAR},</if>
+			<if test="XJJYHCK != null and XJJYHCK!=''">#{XJJYHCK,jdbcType=DECIMAL},
+			</if>
+			<if test="YSZK != null and YSZK!=''">#{YSZK,jdbcType=DECIMAL},
+			</if>
+			<if test="YFCX != null and YFCX!=''">#{YFCX,jdbcType=DECIMAL},
+			</if>
+			<if test="LDZC != null and LDZC!=''">#{LDZC,jdbcType=DECIMAL},
+			</if>
+			<if test="CK != null and CK!=''">#{CK,jdbcType=DECIMAL},</if>
+			<if test="GDZC != null and GDZC!=''">#{GDZC,jdbcType=DECIMAL},
+			</if>
+			<if test="QTJYZC != null and QTJYZC!=''">#{QTJYZC,jdbcType=DECIMAL},
+			</if>
+			<if test="QTFJYZC != null and QTFJYZC!=''">#{QTFJYZC,jdbcType=DECIMAL},
+			</if>
+			<if test="ZZC != null and ZZC!=''">#{ZZC,jdbcType=DECIMAL},</if>
+			<if test="ZFZK != null and ZFZK!=''">#{ZFZK,jdbcType=DECIMAL},
+			</if>
+			<if test="YSKX != null and YSKX!=''">#{YSKX,jdbcType=DECIMAL},
+			</if>
+			<if test="DQDK != null and DQDK!=''">#{DQDK,jdbcType=DECIMAL},
+			</if>
+			<if test="DQFZ != null and DQFZ!=''">#{DQFZ,jdbcType=DECIMAL},
+			</if>
+			<if test="CQDK != null and CQDK!=''">#{CQDK,jdbcType=DECIMAL},
+			</if>
+			<if test="QTFZ != null and QTFZ!=''">#{QTFZ,jdbcType=DECIMAL},
+			</if>
+			<if test="ZFZ != null and ZFZ!=''">#{ZFZ,jdbcType=DECIMAL},</if>
+			<if test="QY != null and QY!=''">#{QY,jdbcType=DECIMAL},</if>
+			<if test="JTHYFZ != null and JTHYFZ!=''">#{JTHYFZ,jdbcType=DECIMAL},
+			</if>
+			<if test="ZYFCSL != null and ZYFCSL!=''">#{ZYFCSL,jdbcType=INTEGER},
+			</if>
+			<if test="ZCFZL != null and ZCFZL!=''">#{ZCFZL,jdbcType=DECIMAL},
+			</if>
+			<if test="SDBL != null and SDBL!=''">#{SDBL,jdbcType=DECIMAL},
+			</if>
+			<if test="SR_1Y != null and SR_1Y!=''">#{SR_1Y,jdbcType=DECIMAL},
+			</if>
+			<if test="ZC_1Y != null and ZC_1Y!=''">#{ZC_1Y,jdbcType=DECIMAL},
+			</if>
+			<if test="SR_2Y != null and SR_2Y!=''">#{SR_2Y,jdbcType=DECIMAL},
+			</if>
+			<if test="ZC_2Y != null and ZC_2Y!=''">#{ZC_2Y,jdbcType=DECIMAL},
+			</if>
+			<if test="SR_3Y != null and SR_3Y!=''">#{SR_3Y,jdbcType=DECIMAL},
+			</if>
+			<if test="ZC_3Y != null and ZC_3Y!=''">#{ZC_3Y,jdbcType=DECIMAL},
+			</if>
+			
+			<!-- <if test="XJJYHCK == null or XJJYHCK==''">0,
+			</if>
+			<if test="YSZK == null or YSZK==''">0,
+			</if>
+			<if test="YFCX == null or YFCX==''">0,
+			</if>
+			<if test="LDZC == null or LDZC==''">0,
+			</if>
+			<if test="CK == null or CK==''">0,</if>
+			<if test="GDZC == null or GDZC==''">0,
+			</if>
+			<if test="QTJYZC == null or QTJYZC==''">0,
+			</if>
+			<if test="QTFJYZC == null or QTFJYZC==''">0,
+			</if>
+			<if test="ZZC == null or ZZC==''">0,</if>
+			<if test="ZFZK == null or ZFZK==''">0,
+			</if>
+			<if test="YSKX == null or YSKX==''">0,
+			</if>
+			<if test="DQDK == null or DQDK==''">0,
+			</if>
+			<if test="DQFZ == null or DQFZ==''">0,
+			</if>
+			<if test="CQDK == null or CQDK==''">0,
+			</if>
+			<if test="QTFZ == null or QTFZ==''">0,
+			</if>
+			<if test="ZFZ == null or ZFZ==''">0,</if>
+			<if test="QY == null or QY==''">0,</if>
+			<if test="JTHYFZ == null or JTHYFZ==''">0,
+			</if>
+			<if test="ZYFCSL == null or ZYFCSL==''">0,
+			</if>
+			<if test="ZCFZL == null or ZCFZL==''">0,
+			</if>
+			<if test="SDBL == null or SDBL==''">0,
+			</if>
+			<if test="SR_1Y == null or SR_1Y==''">0,
+			</if>
+			<if test="ZC_1Y == null or ZC_1Y==''">0,
+			</if>
+			<if test="SR_2Y == null or SR_2Y==''">0,
+			</if>
+			<if test="ZC_2Y == null or ZC_2Y==''">0,
+			</if>
+			<if test="SR_3Y == null or SR_3Y==''">0,
+			</if>
+			<if test="ZC_3Y == null or ZC_3Y==''">0,
+			</if> -->
+			
+			<if test="CRT_DATE != null">#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null">#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="java.util.Map">
+		update fin_rpt
+		<set>
+			<if test="XJJYHCK != null and XJJYHCK!='' ">XJJYHCK=#{XJJYHCK,jdbcType=DECIMAL},</if>
+			<if test="YSZK != null and YSZK!='' ">YSZK=#{YSZK,jdbcType=DECIMAL},</if>
+			<if test="YFCX != null and YFCX!='' ">YFCX=#{YFCX,jdbcType=DECIMAL},</if>
+			<if test="LDZC != null and LDZC!='' ">LDZC=#{LDZC,jdbcType=DECIMAL},</if>
+			<if test="CK != null and CK!='' ">CK=#{CK,jdbcType=DECIMAL},</if>
+			<if test="GDZC != null and GDZC!='' ">GDZC=#{GDZC,jdbcType=DECIMAL},</if>
+			<if test="QTJYZC != null and QTJYZC!='' ">QTJYZC=#{QTJYZC,jdbcType=DECIMAL},</if>
+			<if test="QTFJYZC != null and QTFJYZC!='' ">QTFJYZC=#{QTFJYZC,jdbcType=DECIMAL},</if>
+			<if test="ZZC != null and ZZC!='' ">ZZC=#{ZZC,jdbcType=DECIMAL},</if>
+			<if test="ZFZK != null and ZFZK!='' ">ZFZK=#{ZFZK,jdbcType=DECIMAL},</if>
+			<if test="YSKX != null and YSKX!='' ">YSKX=#{YSKX,jdbcType=DECIMAL},</if>
+			<if test="DQDK != null and DQDK!='' ">DQDK=#{DQDK,jdbcType=DECIMAL},</if>
+			<if test="DQFZ != null and DQFZ!='' ">DQFZ=#{DQFZ,jdbcType=DECIMAL},</if>
+			<if test="CQDK != null and CQDK!='' ">CQDK=#{CQDK,jdbcType=DECIMAL},</if>
+			<if test="QTFZ != null and QTFZ!='' ">QTFZ=#{QTFZ,jdbcType=DECIMAL},</if>
+			<if test="ZFZ != null and ZFZ!='' ">ZFZ=#{ZFZ,jdbcType=DECIMAL},</if>
+			<if test="QY != null and QY!='' ">QY=#{QY,jdbcType=DECIMAL},</if>
+			<if test="JTHYFZ != null and JTHYFZ!='' ">JTHYFZ=#{JTHYFZ,jdbcType=DECIMAL},</if>
+			<if test="ZYFCSL != null and ZYFCSL!='' ">ZYFCSL=#{ZYFCSL,jdbcType=INTEGER},</if>
+			<if test="ZCFZL != null and ZCFZL!='' ">ZCFZL=#{ZCFZL,jdbcType=DECIMAL},</if>
+			<if test="SDBL != null and SDBL!='' ">SDBL=#{SDBL,jdbcType=DECIMAL},</if>
+			<if test="SR_1Y != null and SR_1Y!='' ">SR_1Y=#{SR_1Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_1Y != null and ZC_1Y!='' ">ZC_1Y=#{ZC_1Y,jdbcType=DECIMAL},</if>
+			<if test="SR_2Y != null and SR_2Y!='' ">SR_2Y=#{SR_2Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_2Y != null and ZC_2Y!='' ">ZC_2Y=#{ZC_2Y,jdbcType=DECIMAL},</if>
+			<if test="SR_3Y != null and SR_3Y!='' ">SR_3Y=#{SR_3Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_3Y != null and ZC_3Y!='' ">ZC_3Y=#{ZC_3Y,jdbcType=DECIMAL},</if>
+			
+			<if test="XJJYHCK != null and XJJYHCK!='' ">XJJYHCK=#{XJJYHCK,jdbcType=DECIMAL},</if>
+			<if test="YSZK != null and YSZK!='' ">YSZK=#{YSZK,jdbcType=DECIMAL},</if>
+			<if test="YFCX != null and YFCX!='' ">YFCX=#{YFCX,jdbcType=DECIMAL},</if>
+			<if test="LDZC != null and LDZC!='' ">LDZC=#{LDZC,jdbcType=DECIMAL},</if>
+			<if test="CK != null and CK!='' ">CK=#{CK,jdbcType=DECIMAL},</if>
+			<if test="GDZC != null and GDZC!='' ">GDZC=#{GDZC,jdbcType=DECIMAL},</if>
+			<if test="QTJYZC != null and QTJYZC!='' ">QTJYZC=#{QTJYZC,jdbcType=DECIMAL},</if>
+			<if test="QTFJYZC != null and QTFJYZC!='' ">QTFJYZC=#{QTFJYZC,jdbcType=DECIMAL},</if>
+			<if test="ZZC != null and ZZC!='' ">ZZC=#{ZZC,jdbcType=DECIMAL},</if>
+			<if test="ZFZK != null and ZFZK!='' ">ZFZK=#{ZFZK,jdbcType=DECIMAL},</if>
+			<if test="YSKX != null and YSKX!='' ">YSKX=#{YSKX,jdbcType=DECIMAL},</if>
+			<if test="DQDK != null and DQDK!='' ">DQDK=#{DQDK,jdbcType=DECIMAL},</if>
+			<if test="DQFZ != null and DQFZ!='' ">DQFZ=#{DQFZ,jdbcType=DECIMAL},</if>
+			<if test="CQDK != null and CQDK!='' ">CQDK=#{CQDK,jdbcType=DECIMAL},</if>
+			<if test="QTFZ != null and QTFZ!='' ">QTFZ=#{QTFZ,jdbcType=DECIMAL},</if>
+			<if test="ZFZ != null and ZFZ!='' ">ZFZ=#{ZFZ,jdbcType=DECIMAL},</if>
+			<if test="QY != null and QY!='' ">QY=#{QY,jdbcType=DECIMAL},</if>
+			<if test="JTHYFZ != null and JTHYFZ!='' ">JTHYFZ=#{JTHYFZ,jdbcType=DECIMAL},</if>
+			<if test="ZYFCSL != null and ZYFCSL!='' ">ZYFCSL=#{ZYFCSL,jdbcType=INTEGER},</if>
+			<if test="ZCFZL != null and ZCFZL!='' ">ZCFZL=#{ZCFZL,jdbcType=DECIMAL},</if>
+			<if test="SDBL != null and SDBL!='' ">SDBL=#{SDBL,jdbcType=DECIMAL},</if>
+			<if test="SR_1Y != null and SR_1Y!='' ">SR_1Y=#{SR_1Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_1Y != null and ZC_1Y!='' ">ZC_1Y=#{ZC_1Y,jdbcType=DECIMAL},</if>
+			<if test="SR_2Y != null and SR_2Y!='' ">SR_2Y=#{SR_2Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_2Y != null and ZC_2Y!='' ">ZC_2Y=#{ZC_2Y,jdbcType=DECIMAL},</if>
+			<if test="SR_3Y != null and SR_3Y!='' ">SR_3Y=#{SR_3Y,jdbcType=DECIMAL},</if>
+			<if test="ZC_3Y != null and ZC_3Y!='' ">ZC_3Y=#{ZC_3Y,jdbcType=DECIMAL},</if>
+			
+			<if test="XJJYHCK == null or XJJYHCK=='' ">XJJYHCK=0,</if>
+			<if test="YSZK == null or YSZK=='' ">YSZK=0,</if>
+			<if test="YFCX == null or YFCX=='' ">YFCX=0,</if>
+			<if test="LDZC == null or LDZC=='' ">LDZC=0,</if>
+			<if test="CK == null or CK=='' ">CK=0,</if>
+			<if test="GDZC == null or GDZC=='' ">GDZC=0,</if>
+			<if test="QTJYZC == null or QTJYZC=='' ">QTJYZC=0,</if>
+			<if test="QTFJYZC == null or QTFJYZC=='' ">QTFJYZC=0,</if>
+			<if test="ZZC == null or ZZC=='' ">ZZC=0,</if>
+			<if test="ZFZK == null or ZFZK=='' ">ZFZK=0,</if>
+			<if test="YSKX == null or YSKX=='' ">YSKX=0,</if>
+			<if test="DQDK == null or DQDK=='' ">DQDK=0,</if>
+			<if test="DQFZ == null or DQFZ=='' ">DQFZ=0,</if>
+			<if test="CQDK == null or CQDK=='' ">CQDK=0,</if>
+			<if test="QTFZ == null or QTFZ=='' ">QTFZ=0,</if>
+			<if test="ZFZ == null or ZFZ=='' ">ZFZ=0,</if>
+			<if test="QY == null or QY=='' ">QY=0,</if>
+			<if test="JTHYFZ == null or JTHYFZ=='' ">JTHYFZ=0,</if>
+			<if test="ZYFCSL == null or ZYFCSL=='' ">ZYFCSL=0,</if>
+			<if test="ZCFZL == null or ZCFZL=='' ">ZCFZL=0,</if>
+			<if test="SDBL == null or SDBL=='' ">SDBL=0,</if>
+			<if test="SR_1Y == null or SR_1Y=='' ">SR_1Y=0,</if>
+			<if test="ZC_1Y == null or ZC_1Y=='' ">ZC_1Y=0,</if>
+			<if test="SR_2Y == null or SR_2Y=='' ">SR_2Y=0,</if>
+			<if test="ZC_2Y == null or ZC_2Y=='' ">ZC_2Y=0,</if>
+			<if test="SR_3Y == null or SR_3Y=='' ">SR_3Y=0,</if>
+			<if test="ZC_3Y == null or ZC_3Y=='' ">ZC_3Y=0,</if>
+			
+			<if test="CRT_DATE != null ">CRT_DATE=#{CRT_DATE,jdbcType=VARCHAR},</if>
+			<if test="MTN_DATE != null ">MTN_DATE=#{MTN_DATE,jdbcType=VARCHAR},</if>
+		</set>
+		where DATE_ID=#{DATE_ID,jdbcType=CHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		RPT_TYPE=#{RPT_TYPE,jdbcType=CHAR}
+	</update>
+	<delete id="deleteByPk">delete from fin_rpt where
+		DATE_ID=#{DATE_ID,jdbcType=CHAR} and
+		CUST_ID=#{CUST_ID,jdbcType=INTEGER} and
+		RPT_TYPE=#{RPT_TYPE,jdbcType=CHAR}</delete>
+	<delete id="delete">
+		delete from fin_rpt
+		<where>
+			<if test="DATE_ID != null"> and DATE_ID=#{DATE_ID,jdbcType=CHAR}</if>
+			<if test="CUST_ID != null and CUST_ID!=''"> and CUST_ID=#{CUST_ID,jdbcType=INTEGER}</if>
+		</where>
+	</delete>
+</mapper>

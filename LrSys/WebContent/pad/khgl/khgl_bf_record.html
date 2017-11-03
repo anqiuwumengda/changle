@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>拜访记录展示</title>
+<script src="../js/jquery.min.js"></script> 
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootstrapValidator.js"></script>
+<script src="../js/myscript.js"></script>
+<script src="../js/showPages.js"></script>
+<script src="../../js/jquery.ztree.core-3.5.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../../css/zTreeStyle/zTreeStyle.css">
+</head>
+<body>
+
+<div class="col-xs-12">
+<div >
+	<h3 id="title">拜访记录</h3>
+</div>
+<div>
+	<button class="btn btn-md btn-danger" id="unVisit">未回访</button>
+	<button class="btn btn-md btn-danger" id="visit">已回访</button>
+</div>
+<div id="myModal2" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >农资需求详情</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					
+					<p class=""  id="NZ_DETAILS"></p>
+				</div>
+							
+			</div>
+		</div>
+	</div>
+</div>
+<div id="myModal3" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal_content_sm">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h5 class="modal-title" >回访</h5>
+			</div>
+			<div class="modal-body clearfix">
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">回访满意度：</label>
+					<div class="bs-sm-r">
+						<select id="HFRESULT" class="form-control" name="HFRESULT" >							
+						</select>
+					</div>
+				</div>	
+				<div class="clearfix bs-form-group">
+					<label class="bs-sm-l control-label">回访备注：</label>
+					<div class="bs-sm-r">
+						<textarea id="HUIFANGBEIZHU" style="width: 100%" name="HUIFANGBEIZHU" ></textarea>							
+					</div>
+				</div>		
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" id="HfSave">提交</button>
+			    <button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
+</div>
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th width="130">潜在需求</th>
+			<th>贷款需求额度（万）</th>
+			<th>贷款用途</th>
+			<th>客户满意度</th>
+			<th >智e购</th>
+			<th >农资需求详情</th>
+			<th >录入时间</th>
+			<th >备注</th>
+			<th id="oper">操作</th>
+		</tr>
+	</thead>
+	<tbody id="tBody">		
+	</tbody>
+</table>
+</div>
+<ul class="pagination pagination-sm" id="pagination">
+	<li class="prev"><a href="javascript:;">← 上一页</a></li>
+	<li class="active"><a href="javascript:;">1</a></li>
+	<li class="next"><a href="javascript:;">下一页 →</a></li>
+</ul>
+<script id="初始化变量">
+	var HFRESULT = $("#HFRESULT"),//回访满意度
+		HUIFANGBEIZHU = $("#HUIFANGBEIZHU"),//回访备注
+		btnUnvisit = $("#unVisit"),//未回访按钮
+		btnVisit = $("#visit");//已回访按钮
+	var visitFlag = false;//默认显示未回访
+</script>
+<script >
+	cust_id=getUrlParam("cust_id")||"";	
+	var ROLE_FW = "";//当前登录用户权限
+	localStorage.page = "1";
+	localStorage.num = "5";
+	function getBfRecord(currentPage,pageSize){
+		//先获取当前操作员权限
+		getOperatorInfoFunc();
+		
+		var data0 = {
+				"isPagination":"true",
+				 "currentPage":currentPage,
+				 "pageSize":pageSize
+		};
+		var data1 = {};
+		if(visitFlag == false){
+			data1 = {
+					"CUST_ID":cust_id,
+					"STATE":"BF",
+					"ISHF":"0"
+			};
+		}else if(visitFlag == true){
+			data1 = {
+					"CUST_ID":cust_id,
+					"STATE":"BF",
+					"ISHF":"1"
+			};
+		}
+		
+		 $.extend(data1,data0);//合并参数，并赋值给data1
+		$.ajax({
+			type:"post",
+			url:baseurl+"custfeedback/query",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				//alert(JSON.stringify(data));
+				if(data.code == "00"){
+					//console.log("拜访记录："+JSON.stringify(data));
+					if(data.result!=null && data.result.length){
+						loadList(data.result);
+						$.showPages('pagination',data.page.totalRows,pageSize,currentPage,'getBfRecord');
+						localStorage.page = currentPage;
+						localStorage.num = pageSize;
+					}else{
+						$("#tBody").html('<tr><td align="center" height="200" colspan="9">暂时没有内容</td></tr>');
+					}
+				}
+			}
+		});
+	}
+	getBfRecord(localStorage.page,localStorage.num);
+	function loadList(obj){
+		var ck = "查看";
+		var hf = "回访";
+		var html = '';
+		for(var i=0;i<obj.length;i++){
+			var result = obj[i];
+			var XQ = [];
+			var YT = [];
+			var ZEG = [];
+			if(result.BANK_CD==1)XQ.push('借记卡');
+			if(result.DJ_DESC==1)XQ.push('贷记卡');
+			if(result.CK_DESC==1)XQ.push('存款');
+			if(result.LC_DESC==1)XQ.push('理财');
+			if(result.DZ_CD==1)XQ.push('电子银行');
+			if(result.POS_DESC==1)XQ.push('POS机');
+			if(result.WH_DESC==1)XQ.push('外汇');
+			if(result.DFGZ_DESC==1)XQ.push('代发工资');
+			if(result.JF_DESC==1)YT.push('建房');
+			if(result.ZZ_DESC==1)YT.push('种植');
+			if(result.YZ_DESC==1)YT.push('养殖');
+			if(result.JS_DESC==1)YT.push('经商');
+			if(result.GF_DESC==1)YT.push('购房');
+			if(result.GC_DESC==1)YT.push('购车');
+			if(result.ZX_DESC==1)YT.push('装修');
+			if(result.QT_DESC==1)YT.push('其他');
+			if(result.SCYH_DESC == 1) ZEG.push('商城用户');
+			if(result.SH_DESC == 1) ZEG.push('商户');
+			if(result.NZYH_DESC == 1) ZEG.push('农资用户');
+			html += '<tr>';
+			html += '<td>' + XQ.join(',') +'</td>';
+			html += '<td>'+ result.XQED +'</td>';
+			html+='<td>'+ YT.join('、') +'</td>';
+			html+='<td>'+ result.KHMYDC +'</td>';
+			html+='<td>'+ ZEG.join(',') +'</td>';
+			html+='<td>';
+			html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnSee" >'+ck+'</button>';
+			html+='</td>';
+			html+='<td>'+ result.CRT_DATE.replace(/-/g,'.') +'</td>';
+			html += '<td>'+ result.BEIZHU +'</td>';
+			if(ROLE_FW == "00"){
+				
+			}else{
+				html+='<td>';
+				html += '<button crt="'+result.CRT_DATE+'" khid="'+result.CUST_ID+'"  class="btn btn-danger btn-xs" type="button" name="btnHf" >'+hf+'</button>';
+				html+='</td>';
+			}
+			html+='</tr>';
+		}
+		$("#tBody").html(html);
+		
+	}
+	//获取当前登录用户信息
+	function getOperatorInfoFunc(){
+		var data1 = {};
+		$.ajax({
+			type:"post",
+			url:baseurl+"OperatorInfo/getUserInfo",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					var result = data.result;
+					if(result[0].ROLE_FW == "00"){
+						//客户经理不显示“回访”按钮
+						ROLE_FW = result[0].ROLE_FW;
+						$("#oper").hide();
+					}
+				}
+			}
+		});
+	}
+	
+</script>
+<script id="事件监听">
+	var crt_date_fh,cust_id_hf;
+	Io.on("[name=btnHf]","click",function(){
+		crt_date_fh = $(this).attr("crt");
+		cust_id_hf = $(this).attr("khid");
+		//alert("回访"+crt_date+","+cust_id);
+		$("#myModal3").modal({
+			backdrop:false
+		}); 
+		
+		
+	});
+	//回访提交
+	Io.on("#HfSave", "click", function() {
+		var data1 = {
+				"CUST_ID":cust_id_hf,
+				"CRT_DATE":crt_date_fh,
+				"HFRESULT":HFRESULT.val(),
+				"HUIFANGBEIZHU":HUIFANGBEIZHU.val()
+		};
+		if(HFRESULT.val() == ""){
+			alert("请选择结果");
+			return;
+		}
+		//alert(JSON.stringify(data1)); 
+		$.ajax({
+			type:"post",
+			url:baseurl+"custfeedback/huifang",
+			dataType:"json",
+			async:false,
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				//alert(JSON.stringify(data));
+				if(data.code == "00"){
+					$("#myModal3").modal("hide");
+					alert("提交成功");
+					getBfRecord(1,5);
+					//恢复
+					HUIFANGBEIZHU.val("");
+					HFRESULT.val("");
+				}
+			}
+		});
+	});
+	Io.on("[name=btnSee]", "click", function() {
+		var crt_date = $(this).attr("crt")
+		var cust_id = $(this).attr("khid");
+		//alert("查看"+crt_date+","+cust_id);
+		var data1 = {
+			"CRT_DATE" : crt_date,
+			"CUST_ID" : cust_id
+		};
+		$.ajax({
+			type : "post",
+			url : baseurl + "custnzneed/query",
+			dataType : "json",
+			async : false,
+			contentType : "application/json",
+			data : JSON.stringify(data1),
+			success : function(data) {
+				if (data.code == "00") {
+					console.log("农资需求：" + JSON.stringify(data));
+					if (data.result != null && data.result.length) {
+						var html = "";
+						for (var i = 0; i < data.result.length; i++) {
+							var result = data.result[i];
+							//alert(JSON.stringify(result));
+							html += result.dic_name
+									+ ":&nbsp&nbsp&nbsp&nbsp数量:&nbsp&nbsp"
+									+ result.NUM + "吨/瓶，需求月份：  " + result.MONTH
+									+ "</br>";
+						}
+						$("#NZ_DETAILS").html(html);
+						$("#myModal2").modal({
+							backdrop : false
+						});
+					} else {
+						alert("此次拜访客户没有农资需求.");
+					}
+				}
+
+			}
+		});
+
+	});
+	Io.on("#unVisit","click",function(){
+		visitFlag = false;
+		getBfRecord(1,5);
+		
+	});
+	Io.on("#visit","click",function(){
+		visitFlag = true;
+		getBfRecord(1,5);
+		
+	});
+</script>
+<script id="字典">
+var json={
+			"HFRESULT":"HF_RESULT"//回访结果
+		}
+selectOnload({"json":json,"isDefault":false,"isElse":false});
+</script>
+</body>
+</html>

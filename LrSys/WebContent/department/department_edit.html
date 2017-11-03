@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>机构管理</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/AdminLTE.min.css">
+<link rel="stylesheet" href="../css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../css/demo.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/app.min.js"></script>
+<script src="../js/jquery.ztree.core-3.5.min.js"></script>
+<script src="../js/common.js"></script>
+</head>
+<body class="pbody">
+	<div class="box">
+		<div class="box-header with-border">
+			<h3 class="box-title">修改机构</h3>
+		</div>
+		<form class="form-horizontal">
+			<div class="box-body pt-30">
+				<div class="clearfix">
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">法人行号:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="CORP_CD" disabled="disabled" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">机构代码:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="ORG_CD" disabled="disabled" />
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">机构名称:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="ORG_NAME" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">上级机构:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="ORG_PCD" disabled="disabled" />
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">成立日期:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="CRT_DATE" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">撤销日期:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="MTN_DATE" />
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">状　　态:</label>
+						<div class="col-md-8 no-padding">
+							<select class="form-control" id="ORG_FLAG">							
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">是否虚设:</label>
+						<div class="col-md-8 no-padding">
+							<select class="form-control" id="ORG_VFLAG">							
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">机构简称:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="ORG_ABB" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<label class="col-md-4 control-label">说　　明:</label>
+						<div class="col-md-8 no-padding">
+							<input class="form-control" type="text" id="ORG_DESC" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+							<label class="col-md-4 control-label">网点代码:</label>
+							<div class="col-md-8 no-padding">
+								<input class="form-control" type="text" id="WD_ID" />
+							</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix text-center btn-footr">
+				<button id="btnSave" class="btn btn-danger" type="button">保　存</button>
+				<button id="btnBack" class="btn btn-primary" type="button">返回</button>
+			</div>
+		</form>
+	</div>
+<script>
+var sysId = getUrlParam("s")||"",
+	fcpId = getUrlParam("i")||"";
+var CORP_CD = $("#CORP_CD"),
+	ORG_CD = $("#ORG_CD"),
+	ORG_NAME = $("#ORG_NAME"),
+	ORG_PCD = $("#ORG_PCD"),
+	CRT_DATE = $("#CRT_DATE"),
+	MTN_DATE = $("#MTN_DATE"),
+	ORG_FLAG = $("#ORG_FLAG"),
+	ORG_VFLAG = $("#ORG_VFLAG"),
+	ORG_ABB = $("#ORG_ABB"),
+	WD_ID= $("#WD_ID"),//网点代码
+	ORG_DESC = $("#ORG_DESC");
+
+function bCall(){
+	if(fcpId!=""&&fcpId!=null){
+		var data1 = {"ORG_CD":fcpId};
+		$.ajax({
+			type:"post",
+			url:baseurl+"lrdorg/queryupdate",
+			dataType:"json",
+			contentType:"application/json",
+			data:JSON.stringify(data1),
+			success:function(data){
+				if(data.code=="00"){
+					if(data.result!=null && data.result.length){
+						var result=data.result[0];
+						CORP_CD.val(result.CORP_CD);
+						ORG_CD.val(result.ORG_CD);
+						ORG_NAME.val(result.ORG_NAME);
+						ORG_PCD.val(result.ORG_PCD);
+						CRT_DATE.val(result.CRT_DATE);
+						MTN_DATE.val(result.MTN_DATE);
+						ORG_FLAG.val(result.ORG_FLAG);
+						ORG_VFLAG.val(result.ORG_VFLAG);
+						ORG_ABB.val(result.ORG_ABB);	
+						ORG_DESC.val(result.ORG_DESC);
+						WD_ID.val(result.WD_ID);
+					}
+				}else if (data.code=="88"){
+					eval(data.reLoad);
+				}else{
+					alert(data.errMsg);
+				}
+			},error:function(data){
+				console.log("错误");
+			}
+		})
+	}
+}
+Io.on("#btnSave","click",function(){
+	var data0 = {
+			"CORP_CD":CORP_CD.val(),
+			"ORG_CD":ORG_CD.val(),
+			"ORG_NAME":ORG_NAME.val(),
+			"ORG_PCD":ORG_PCD.val(),
+			"CRT_DATE":CRT_DATE.val(),
+			"MTN_DATE":MTN_DATE.val(),
+			"ORG_FLAG":ORG_FLAG.val(),
+			"ORG_VFLAG":ORG_VFLAG.val(),
+			"ORG_ABB":ORG_ABB.val(),
+			"ORG_DESC":ORG_DESC.val(),
+			"WD_ID":WD_ID.val(),
+			"ORG_RELA_TYPE":sysId
+	};
+	$.ajax({
+		type:"post",
+		url:baseurl+"lrdorg/update",
+		dataType:"json",
+		contentType:"application/json",
+		data:JSON.stringify(data0),
+		success:function(data){
+			if(data.code=="00"){
+				location.href="department.jsp?s="+sysId+"&i="+ORG_CD.val();
+			}else if (data.code=="88"){
+				eval(data.reLoad);
+			}else{
+				alert(data.errMsg);
+			}
+		},error:function(data){
+			console.log("错误");
+		}
+	})
+});
+$("#CRT_DATE,#MTN_DATE").datepicker({format:"yyyymmdd"});
+Io.on("#btnBack","click",function(){
+	location.href="department.jsp?s="+sysId+"&i="+fcpId;
+});
+</script>
+<script id="字典">
+var json={"ORG_FLAG":"SYS_ORG_FLAG","ORG_VFLAG":"SYS_ORG_VFLAG"};
+selectOnload({"json":json,"func":bCall,"length":2});
+</script>
+</body>
+</html>
