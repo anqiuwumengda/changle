@@ -130,7 +130,7 @@ $(function() {
 						 style="width:48%;float:left;">							
 					</div>
 				</div>
-				<div class="clearfix bs-form-group">
+				<div class="clearfix bs-form-group" id="HF_DIV">
 					<label class="bs-sm-l control-label">回访：</label>
 					<div class="bs-sm-r">
 						<select id="ISHF" class="form-control" name="ISHF" style="width:35%;float:left;">							
@@ -141,7 +141,7 @@ $(function() {
 					</div>
 					
 				</div>
-				<div class="clearfix bs-form-group">
+				<div class="clearfix bs-form-group" id="HF_DATE_DIV">
 					<label class="bs-sm-l control-label">回访日期区间：</label>
 					<div class="bs-sm-r">
 						<input type="text" id="HF_DATE_START" class="form-control" 
@@ -1013,6 +1013,9 @@ selectOnload({"json":json,"isDefault":false,"isElse":false});
 						//客户经理不显示“所属机构”和“客户经理”筛选
 						$("#ORG_CD_SELECT_DIV").hide();
 						$("#USER_ID_SELECT_DIV").hide();
+						//客户经理不显示回访
+						$("#HF_DIV").hide();
+						$("#HF_DATE_DIV").hide(); 
 					}
 				}
 			}
@@ -1037,7 +1040,7 @@ selectOnload({"json":json,"isDefault":false,"isElse":false});
 					sel.add(new Option("-请选择-",""));
 					for(var i=0;i<result.length;i++){
 						if(result[i].pId != ""){
-							sel.add(new Option(result[i].name,result[i].id));
+							sel.add(new Option(result[i].ORG_ABB,result[i].id));
 						}
 					}
 				}else if(data.code=="88"){

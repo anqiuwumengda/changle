@@ -23,14 +23,7 @@
 
 	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->
 	<mvc:default-servlet-handler />
-	<!-- <mvc:resources mapping="/img/**" location="/img/" /> <mvc:resources 
-		mapping="/js/**" location="/js/" /> <mvc:resources mapping="/css/**" location="/css/" 
-		/> <mvc:resources mapping="/html/**" location="/html/" /> <mvc:resources 
-		mapping="/dksp/**" location="/dksp/" /> <mvc:resources mapping="/dksq/**" 
-		location="/dksq/" /> <mvc:resources mapping="/fonts/**" location="/fonts/" 
-		/> <mvc:resources mapping="/khgl/**" location="/khgl/" /> <mvc:resources 
-		mapping="/*.html" location="/*.html" /> <mvc:resources mapping="/khgl/*.html" 
-		location="/khgl/*.html" /> -->
+	
 	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -45,9 +38,7 @@
 		<property name="maxUploadSize" value="1046666000" />
 	</bean>
 	<!-- 配置拦截器 -->
-	<!-- <mvc:interceptors>
-		<bean class="com.tgb.interceptor.SystemInterceptor" />
-	</mvc:interceptors> -->
+	
 	<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>

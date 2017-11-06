@@ -11,19 +11,11 @@
 		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 1. 数据源 : DriverManagerDataSource -->
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://10.9.100.73:3306/mybatis" /> <property name="username" 
-		value="root" /> <property name="password" value="iss123456" /> </bean> -->
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /><!-- 
-			driverClassName="com.ibm.db2.jcc.DB2Driver" -->
-			<!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/lrd?characterEncoding=utf-8" /> -->
-		<!-- <property name="url" value="jdbc:mysql://67.39.0.125:3306/lrd?characterEncoding=utf-8" /> --><!-- 
-			jdbc:db2://192.168.0.2:50000/zfvims -->
-			<!-- //10.16.141.97 -->
-			<property name="url" value="jdbc:mysql://localhost:3306/lrd?characterEncoding=utf-8" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/lrd?characterEncoding=utf-8" />
 		<property name="username" value="root" />
 		<property name="password" value="123456" />
 		<!-- 连接初始值，连接池启动时创建的连接数量的初始值 -->
@@ -50,10 +42,7 @@
 			</bean>
 			
 		</property>
-		<!-- <property name="plugins">
-			<bean class="com.tgb.interceptor.UpdateInterceptor">
-			</bean>
-		</property> -->
+		
 		
 	</bean>
 
