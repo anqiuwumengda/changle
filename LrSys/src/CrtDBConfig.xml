@@ -18,8 +18,8 @@
       0 NONE;2 READ_COMMITTED; 1 READ_UNCOMMITTED; 4 REPEATABLE_READ; 8 SERIALIZABLE
       <dbCharset>utf-8</dbCharset>
       <fileEncoding>utf-8</fileEncoding>
-      <user>lrd</user> 用户名
-      <password>lrd</password> 密码
+      <user>root</user> 用户名
+      <password>123456</password> 密码
    </db>
    
 </root>

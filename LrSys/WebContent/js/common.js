@@ -15,10 +15,11 @@ function isPC() {
 }
 var baseurl="http://67.39.0.122:9000/LrSys/";
 if(isPC()){
+	//baseurl="http://47.93.251.118:8080/LrSys/"; //电脑登录ip
 	baseurl="http://127.0.0.1:8080/LrSys/"; //电脑登录ip
 }else{
 	//baseurl="http://172.17.64.70:9000/LrSys/"; //pad登录ip
-	baseurl="http://192.168.0.157:8080/LrSys/"; //pad登录ip
+	baseurl="http://192.168.116.132:8080/LrSys/"; //pad登录ip
 }
 getUrlParam = function(name)
 {
